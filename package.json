@@ -1,0 +1,24 @@
+{
+  "name": "sport-challenge-vk",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@vkontakte/vk-bridge": "^2.13.0",
+    "@vkontakte/vkui": "^6.2.0",
+    "@vkontakte/vk-miniapps-router": "^1.0.0",
+    "@supabase/supabase-js": "^2.39.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "date-fns": "^2.30.0"
+  },
+  "scripts": {
+    "start": "vite",
+    "build": "vite build",
+    "deploy": "vk-miniapps-deploy"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.0.0",
+    "@vkontakte/vk-miniapps-deploy": "^1.0.0",
+    "vite": "^4.0.0"
+  }
+}
