@@ -1,9 +1,9 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { ConfigProvider, AdaptivityProvider, AppRoot } from '@vkontakte/vkui';
-import { RouterProvider } from '@vkontakte/vk-miniapps-router';
 import bridge from '@vkontakte/vk-bridge';
 import App from './App';
+import '@vkontakte/vkui/dist/vkui.css';
 
 bridge.send('VKWebAppInit');
 
@@ -14,9 +14,7 @@ root.render(
   <ConfigProvider>
     <AdaptivityProvider>
       <AppRoot>
-        <RouterProvider>
-          <App />
-        </RouterProvider>
+        <App />
       </AppRoot>
     </AdaptivityProvider>
   </ConfigProvider>
