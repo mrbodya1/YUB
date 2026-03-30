@@ -247,7 +247,7 @@
     // Supabase подключение
     const SUPABASE_URL = 'https://ohaspovkdvtihosvzpli.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9oYXNwb3ZrZHZ0aWhvc3Z6cGxpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1NjI1ODEsImV4cCI6MjA5MDEzODU4MX0.5OvphjjVlBP8hXvLMIALsD6pZn5453mkSEpCeOl8280';
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     // Состояния
     let activeTab = 'rating';
@@ -284,7 +284,7 @@
     const loadData = async () => {
       renderLoading();
       try {
-        const { data: participantsData, error } = await supabase
+        const { data: participantsData, error } = await supabaseClient
           .from('participants')
           .select('*')
           .eq('status', 'active');
@@ -406,8 +406,8 @@
               <p>Спортивный челлендж 2026</p>
             </header>
             <div class="tabs">
-              <button class="active" onclick="window.setTab('rating')">🏆 Рейтинг</button>
-              <button onclick="window.setTab('nominations')">🎯 Номинации</button>
+              <button class="active" onclick="setTab('rating')">🏆 Рейтинг</button>
+              <button onclick="setTab('nominations')">🎯 Номинации</button>
             </div>
             <div class="filters">
               <select id="sortBySelect">
@@ -423,10 +423,10 @@
               </select>
             </div>
             <div class="sort-row">
-              <button class="${sortBy === 'total_km' ? 'active' : ''}" onclick="window.handleSort('total_km')">Км ${sortBy === 'total_km' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}</button>
-              <button class="${sortBy === 'total_workouts' ? 'active' : ''}" onclick="window.handleSort('total_workouts')">Тренировки ${sortBy === 'total_workouts' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}</button>
-              <button class="${sortBy === 'total_min' ? 'active' : ''}" onclick="window.handleSort('total_min')">Время ${sortBy === 'total_min' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}</button>
-              <button class="${sortBy === 'avg_pace' ? 'active' : ''}" onclick="window.handleSort('avg_pace')">Темп ${sortBy === 'avg_pace' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}</button>
+              <button class="${sortBy === 'total_km' ? 'active' : ''}" onclick="handleSort('total_km')">Км ${sortBy === 'total_km' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}</button>
+              <button class="${sortBy === 'total_workouts' ? 'active' : ''}" onclick="handleSort('total_workouts')">Тренировки ${sortBy === 'total_workouts' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}</button>
+              <button class="${sortBy === 'total_min' ? 'active' : ''}" onclick="handleSort('total_min')">Время ${sortBy === 'total_min' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}</button>
+              <button class="${sortBy === 'avg_pace' ? 'active' : ''}" onclick="handleSort('avg_pace')">Темп ${sortBy === 'avg_pace' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}</button>
             </div>
             <div class="list">
               ${filteredParticipants.length === 0 ? '<div class="empty">Нет участников</div>' : 
@@ -460,8 +460,8 @@
               <p>Спортивный челлендж 2026</p>
             </header>
             <div class="tabs">
-              <button onclick="window.setTab('rating')">🏆 Рейтинг</button>
-              <button class="active" onclick="window.setTab('nominations')">🎯 Номинации</button>
+              <button onclick="setTab('rating')">🏆 Рейтинг</button>
+              <button class="active" onclick="setTab('nominations')">🎯 Номинации</button>
             </div>
             <div class="list">
               ${nominations.map(nom => `
