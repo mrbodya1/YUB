@@ -4,10 +4,493 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
   <title>Королевская битва — Рейтинг</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: #f2f2f7;
+      color: #1c1c1e;
+    }
+
+    .app {
+      max-width: 600px;
+      margin: 0 auto;
+      padding-bottom: 20px;
+    }
+
+    header {
+      background: linear-gradient(135deg, #5E5CE0 0%, #3A3A9E 100%);
+      color: white;
+      padding: 32px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 28px;
+      margin-bottom: 6px;
+    }
+
+    header p {
+      font-size: 14px;
+      opacity: 0.85;
+    }
+
+    .tabs {
+      display: flex;
+      background: white;
+      margin: 16px;
+      border-radius: 12px;
+      padding: 4px;
+      gap: 4px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .tabs button {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      background: transparent;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      color: #8e8e93;
+    }
+
+    .tabs button.active {
+      background: #5E5CE0;
+      color: white;
+      box-shadow: 0 2px 4px rgba(94,92,224,0.3);
+    }
+
+    .filters {
+      display: flex;
+      gap: 12px;
+      margin: 16px;
+    }
+
+    .filters select {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid #e5e5ea;
+      border-radius: 12px;
+      background: white;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .sort-row {
+      display: flex;
+      gap: 8px;
+      margin: 0 16px 16px;
+      flex-wrap: wrap;
+    }
+
+    .sort-row button {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #e5e5ea;
+      background: white;
+      border-radius: 20px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .sort-row button.active {
+      background: #5E5CE0;
+      color: white;
+      border-color: #5E5CE0;
+    }
+
+    .list {
+      margin: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .rank {
+      font-size: 22px;
+      font-weight: 700;
+      width: 44px;
+      text-align: center;
+      color: #5E5CE0;
+    }
+
+    .info {
+      flex: 1;
+    }
+
+    .name {
+      font-weight: 600;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 12px;
+      color: #8e8e93;
+    }
+
+    .km {
+      font-weight: 700;
+      font-size: 18px;
+      color: #5E5CE0;
+    }
+
+    .nom-card {
+      background: white;
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .nom-icon {
+      font-size: 40px;
+      width: 56px;
+      text-align: center;
+    }
+
+    .nom-info {
+      flex: 1;
+    }
+
+    .nom-name {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .nom-desc {
+      font-size: 12px;
+      color: #8e8e93;
+    }
+
+    .nom-value {
+      text-align: right;
+    }
+
+    .nom-value div:first-child {
+      font-weight: 700;
+      color: #5E5CE0;
+    }
+
+    .nom-winner {
+      font-size: 12px;
+      color: #8e8e93;
+      margin-top: 4px;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 48px;
+      color: #8e8e93;
+    }
+
+    .loading, .error {
+      text-align: center;
+      padding: 60px;
+    }
+
+    .spinner {
+      width: 44px;
+      height: 44px;
+      border: 4px solid #e5e5ea;
+      border-top-color: #5E5CE0;
+      border-radius: 50%;
+      margin: 0 auto 16px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .error button {
+      margin-top: 16px;
+      padding: 10px 24px;
+      background: #5E5CE0;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
   <div id="root"></div>
-  <script type="module" src="main.jsx"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // Supabase подключение
+    const SUPABASE_URL = 'https://ohaspovkdvtihosvzpli.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9oYXNwb3ZrZHZ0aWhvc3Z6cGxpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1NjI1ODEsImV4cCI6MjA5MDEzODU4MX0.5OvphjjVlBP8hXvLMIALsD6pZn5453mkSEpCeOl8280';
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // Состояния
+    let activeTab = 'rating';
+    let participants = [];
+    let filteredParticipants = [];
+    let nominations = [];
+    let sortBy = 'total_km';
+    let sortOrder = 'desc';
+    let filterGender = 'all';
+
+    // DOM элементы
+    const root = document.getElementById('root');
+
+    // Функции форматирования
+    const formatKm = (km) => `${km?.toFixed(1) || 0} км`;
+    const formatTime = (min) => {
+      if (!min || min === 0) return '0 мин';
+      if (min < 60) return `${min} мин`;
+      return `${Math.floor(min / 60)} ч ${min % 60} мин`;
+    };
+    const formatPace = (totalKm, totalMin) => {
+      if (!totalKm || totalKm === 0) return '—';
+      const pace = totalMin / totalKm;
+      return `${Math.floor(pace)}:${Math.round((pace % 1) * 60).toString().padStart(2, '0')}`;
+    };
+    const getMedal = (idx) => {
+      if (idx === 0) return '🥇';
+      if (idx === 1) return '🥈';
+      if (idx === 2) return '🥉';
+      return `${idx + 1}`;
+    };
+
+    // Загрузка данных
+    const loadData = async () => {
+      renderLoading();
+      try {
+        const { data: participantsData, error } = await supabase
+          .from('participants')
+          .select('*')
+          .eq('status', 'active');
+        
+        if (error) throw error;
+        
+        participants = participantsData.map(p => {
+          let avg_pace = 0;
+          if (p.total_km > 0 && p.total_min > 0) {
+            avg_pace = p.total_min / p.total_km;
+          }
+          return { ...p, avg_pace: parseFloat(avg_pace.toFixed(2)) };
+        });
+        
+        calculateNominations();
+        applyFiltersAndSort();
+        render();
+      } catch (err) {
+        renderError(err.message);
+      }
+    };
+
+    // Расчёт номинаций
+    const calculateNominations = () => {
+      let longestDistance = { value: 0, name: '' };
+      let bestPace = { value: Infinity, name: '' };
+      let mostWorkouts = { value: 0, name: '' };
+      let mostSnowflakes = { value: 0, name: '' };
+      
+      participants.forEach(p => {
+        if (p.total_workouts > mostWorkouts.value) {
+          mostWorkouts = { value: p.total_workouts, name: `${p.first_name} ${p.last_name}` };
+        }
+        if (p.total_km > longestDistance.value) {
+          longestDistance = { value: p.total_km, name: `${p.first_name} ${p.last_name}` };
+        }
+        if (p.avg_pace > 0 && p.avg_pace < bestPace.value) {
+          bestPace = { value: p.avg_pace, name: `${p.first_name} ${p.last_name}` };
+        }
+        if ((p.snowflake_balance || 0) > mostSnowflakes.value) {
+          mostSnowflakes = { value: p.snowflake_balance || 0, name: `${p.first_name} ${p.last_name}` };
+        }
+      });
+      
+      const formatPaceDisplay = (pace) => {
+        if (pace === Infinity) return '—';
+        const mins = Math.floor(pace);
+        const secs = Math.round((pace - mins) * 60);
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+      };
+      
+      nominations = [
+        { name: 'Дальний удар', winner: longestDistance.name, value: `${longestDistance.value} км`, icon: '📏', desc: 'Общий километраж' },
+        { name: 'Ракета', winner: bestPace.name, value: formatPaceDisplay(bestPace.value), icon: '⚡️', desc: 'Лучший средний темп' },
+        { name: 'Трудоголик', winner: mostWorkouts.name, value: `${mostWorkouts.value} тренировок`, icon: '🔄', desc: 'Больше всего тренировок' },
+        { name: 'Снежинки', winner: mostSnowflakes.name, value: `${mostSnowflakes.value} ❄️`, icon: '❄️', desc: 'Больше всего снежинок' }
+      ];
+    };
+
+    // Фильтрация и сортировка
+    const applyFiltersAndSort = () => {
+      let result = [...participants];
+      if (filterGender !== 'all') {
+        result = result.filter(p => p.gender === filterGender);
+      }
+      result.sort((a, b) => {
+        let aVal = a[sortBy] || 0;
+        let bVal = b[sortBy] || 0;
+        return sortOrder === 'desc' ? bVal - aVal : aVal - bVal;
+      });
+      filteredParticipants = result;
+    };
+
+    // Обработчики
+    const setTab = (tab) => {
+      activeTab = tab;
+      render();
+    };
+
+    const handleSort = (field) => {
+      if (sortBy === field) {
+        sortOrder = sortOrder === 'desc' ? 'asc' : 'desc';
+      } else {
+        sortBy = field;
+        sortOrder = 'desc';
+      }
+      applyFiltersAndSort();
+      render();
+    };
+
+    const handleFilterGender = (value) => {
+      filterGender = value;
+      applyFiltersAndSort();
+      render();
+    };
+
+    const handleSortBy = (value) => {
+      sortBy = value;
+      sortOrder = 'desc';
+      applyFiltersAndSort();
+      render();
+    };
+
+    // Рендер
+    const renderLoading = () => {
+      root.innerHTML = `<div class="loading"><div class="spinner"></div><p>Загрузка...</p></div>`;
+    };
+
+    const renderError = (msg) => {
+      root.innerHTML = `<div class="error"><p>⚠️ ${msg}</p><button onclick="location.reload()">Повторить</button></div>`;
+    };
+
+    const render = () => {
+      if (activeTab === 'rating') {
+        root.innerHTML = `
+          <div class="app">
+            <header>
+              <h1>🏔️ Королевская битва</h1>
+              <p>Спортивный челлендж 2026</p>
+            </header>
+            <div class="tabs">
+              <button class="active" onclick="window.setTab('rating')">🏆 Рейтинг</button>
+              <button onclick="window.setTab('nominations')">🎯 Номинации</button>
+            </div>
+            <div class="filters">
+              <select id="sortBySelect">
+                <option value="total_km" ${sortBy === 'total_km' ? 'selected' : ''}>📏 По километрам</option>
+                <option value="total_workouts" ${sortBy === 'total_workouts' ? 'selected' : ''}>🏋️ По тренировкам</option>
+                <option value="total_min" ${sortBy === 'total_min' ? 'selected' : ''}>⏱️ По времени</option>
+                <option value="avg_pace" ${sortBy === 'avg_pace' ? 'selected' : ''}>⚡ По темпу</option>
+              </select>
+              <select id="genderFilter">
+                <option value="all" ${filterGender === 'all' ? 'selected' : ''}>👥 Все</option>
+                <option value="М" ${filterGender === 'М' ? 'selected' : ''}>👨 Мужчины</option>
+                <option value="Ж" ${filterGender === 'Ж' ? 'selected' : ''}>👩 Женщины</option>
+              </select>
+            </div>
+            <div class="sort-row">
+              <button class="${sortBy === 'total_km' ? 'active' : ''}" onclick="window.handleSort('total_km')">Км ${sortBy === 'total_km' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}</button>
+              <button class="${sortBy === 'total_workouts' ? 'active' : ''}" onclick="window.handleSort('total_workouts')">Тренировки ${sortBy === 'total_workouts' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}</button>
+              <button class="${sortBy === 'total_min' ? 'active' : ''}" onclick="window.handleSort('total_min')">Время ${sortBy === 'total_min' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}</button>
+              <button class="${sortBy === 'avg_pace' ? 'active' : ''}" onclick="window.handleSort('avg_pace')">Темп ${sortBy === 'avg_pace' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}</button>
+            </div>
+            <div class="list">
+              ${filteredParticipants.length === 0 ? '<div class="empty">Нет участников</div>' : 
+                filteredParticipants.map((p, idx) => `
+                  <div class="card">
+                    <div class="rank">${getMedal(idx)}</div>
+                    <div class="info">
+                      <div class="name">${p.first_name} ${p.last_name} <span>${p.gender === 'Ж' ? '👩' : '👨'}</span></div>
+                      <div class="stats">
+                        <span>🏋️ ${p.total_workouts || 0}</span>
+                        <span>⏱️ ${formatTime(p.total_min)}</span>
+                        <span>⚡ ${formatPace(p.total_km, p.total_min)}/км</span>
+                        <span>❄️ ${p.snowflake_balance || 0}</span>
+                      </div>
+                    </div>
+                    <div class="km">${formatKm(p.total_km)}</div>
+                  </div>
+                `).join('')
+              }
+            </div>
+          </div>
+        `;
+        
+        document.getElementById('sortBySelect')?.addEventListener('change', (e) => handleSortBy(e.target.value));
+        document.getElementById('genderFilter')?.addEventListener('change', (e) => handleFilterGender(e.target.value));
+      } else {
+        root.innerHTML = `
+          <div class="app">
+            <header>
+              <h1>🏔️ Королевская битва</h1>
+              <p>Спортивный челлендж 2026</p>
+            </header>
+            <div class="tabs">
+              <button onclick="window.setTab('rating')">🏆 Рейтинг</button>
+              <button class="active" onclick="window.setTab('nominations')">🎯 Номинации</button>
+            </div>
+            <div class="list">
+              ${nominations.map(nom => `
+                <div class="nom-card">
+                  <div class="nom-icon">${nom.icon}</div>
+                  <div class="nom-info">
+                    <div class="nom-name">${nom.name}</div>
+                    <div class="nom-desc">${nom.desc}</div>
+                  </div>
+                  <div class="nom-value">
+                    <div>${nom.value}</div>
+                    <div class="nom-winner">${nom.winner}</div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+    };
+
+    // Экспорт функций в глобальную область
+    window.setTab = setTab;
+    window.handleSort = handleSort;
+    window.handleFilterGender = handleFilterGender;
+    window.handleSortBy = handleSortBy;
+
+    // Запуск
+    loadData();
+  </script>
 </body>
 </html>
