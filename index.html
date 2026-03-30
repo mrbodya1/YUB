@@ -60,7 +60,6 @@
       border-radius: 10px;
       cursor: pointer;
       color: #8e8e93;
-      transition: all 0.2s;
     }
 
     .tabs button.active {
@@ -69,42 +68,20 @@
       box-shadow: 0 2px 4px rgba(94,92,224,0.3);
     }
 
-    /* Стилизованный select */
-    .custom-select {
-      position: relative;
-      flex: 1;
-    }
-
-    .custom-select select {
-      width: 100%;
-      padding: 12px 16px;
-      font-size: 15px;
-      font-weight: 500;
-      border: 1px solid #e5e5ea;
-      border-radius: 12px;
-      background: white;
-      cursor: pointer;
-      appearance: none;
-      -webkit-appearance: none;
-      color: #1c1c1e;
-      font-family: inherit;
-    }
-
-    .custom-select::after {
-      content: '▼';
-      font-size: 10px;
-      color: #8e8e93;
-      position: absolute;
-      right: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-      pointer-events: none;
-    }
-
     .filters {
       display: flex;
       gap: 12px;
       margin: 16px;
+    }
+
+    .filters select {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid #e5e5ea;
+      border-radius: 12px;
+      background: white;
+      font-size: 14px;
+      cursor: pointer;
     }
 
     .sort-row {
@@ -121,10 +98,7 @@
       background: white;
       border-radius: 20px;
       font-size: 13px;
-      font-weight: 500;
       cursor: pointer;
-      transition: all 0.2s;
-      color: #1c1c1e;
     }
 
     .sort-row button.active {
@@ -286,20 +260,18 @@
 
     const root = document.getElementById('root');
 
+    // Форматирование
     const formatKm = (km) => `${km?.toFixed(1) || 0} км`;
     const formatTime = (min) => {
       if (!min || min === 0) return '0 мин';
       if (min < 60) return `${min} мин`;
       return `${Math.floor(min / 60)} ч ${min % 60} мин`;
     };
-    
     const formatPace = (totalKm, totalMin) => {
-      if (!totalKm || totalKm === 0 || totalMin === 0) return '—';
+      if (!totalKm || totalKm === 0) return '—';
       const pace = totalMin / totalKm;
-      if (pace === 0 || !isFinite(pace)) return '—';
       return `${Math.floor(pace)}:${Math.round((pace % 1) * 60).toString().padStart(2, '0')}`;
     };
-
     const getMedal = (idx) => {
       if (idx === 0) return '🥇';
       if (idx === 1) return '🥈';
@@ -307,6 +279,7 @@
       return `${idx + 1}`;
     };
 
+    // Загрузка данных
     const loadData = async () => {
       renderLoading();
       try {
@@ -333,6 +306,7 @@
       }
     };
 
+    // Расчёт номинаций
     const calculateNominations = () => {
       let longestDistance = { value: 0, name: '' };
       let bestPace = { value: Infinity, name: '' };
@@ -369,31 +343,35 @@
       ];
     };
 
+    // Фильтрация и сортировка
     const applyFiltersAndSort = () => {
       let result = [...participants];
+      
+      // Фильтр по полу
       if (filterGender !== 'all') {
         result = result.filter(p => p.gender === filterGender);
       }
       
+      // Сортировка
       result.sort((a, b) => {
         let aVal = a[sortBy] || 0;
         let bVal = b[sortBy] || 0;
         
-        // Для темпа: меньше = лучше
+        // Для темпа: 0 не участвует в сортировке (ставим в конец)
         if (sortBy === 'avg_pace') {
-          // У кого 0 — отправляем в конец
-          if (aVal === 0 && bVal !== 0) return 1;
-          if (aVal !== 0 && bVal === 0) return -1;
+          if (aVal === 0 && bVal === 0) return 0;
+          if (aVal === 0) return 1;
+          if (bVal === 0) return -1;
           return sortOrder === 'desc' ? bVal - aVal : aVal - bVal;
         }
         
-        // Для остальных: больше = лучше
         return sortOrder === 'desc' ? bVal - aVal : aVal - bVal;
       });
       
       filteredParticipants = result;
     };
 
+    // Обработчики
     const setTab = (tab) => {
       activeTab = tab;
       render();
@@ -416,6 +394,7 @@
       render();
     };
 
+    // Рендер
     const renderLoading = () => {
       root.innerHTML = `<div class="loading"><div class="spinner"></div><p>Загрузка...</p></div>`;
     };
@@ -437,24 +416,16 @@
               <button onclick="setTab('nominations')">🎯 Номинации</button>
             </div>
             <div class="filters">
-              <div class="custom-select">
-                <select id="sortBySelect">
-                  <option value="total_km" ${sortBy === 'total_km' ? 'selected' : ''}>📏 По километрам</option>
-                  <option value="total_workouts" ${sortBy === 'total_workouts' ? 'selected' : ''}>🏋️ По тренировкам</option>
-                  <option value="avg_pace" ${sortBy === 'avg_pace' ? 'selected' : ''}>⚡ По темпу</option>
-                </select>
-              </div>
-              <div class="custom-select">
-                <select id="genderFilter">
-                  <option value="all" ${filterGender === 'all' ? 'selected' : ''}>👥 Все</option>
-                  <option value="М" ${filterGender === 'М' ? 'selected' : ''}>👨 Мужчины</option>
-                  <option value="Ж" ${filterGender === 'Ж' ? 'selected' : ''}>👩 Женщины</option>
-                </select>
-              </div>
+              <select id="genderFilter">
+                <option value="all" ${filterGender === 'all' ? 'selected' : ''}>👥 Все участники</option>
+                <option value="М" ${filterGender === 'М' ? 'selected' : ''}>👨 Мужчины</option>
+                <option value="Ж" ${filterGender === 'Ж' ? 'selected' : ''}>👩 Женщины</option>
+              </select>
             </div>
             <div class="sort-row">
               <button class="${sortBy === 'total_km' ? 'active' : ''}" onclick="handleSort('total_km')">📏 Км ${sortBy === 'total_km' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}</button>
               <button class="${sortBy === 'total_workouts' ? 'active' : ''}" onclick="handleSort('total_workouts')">🏋️ Тренировки ${sortBy === 'total_workouts' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}</button>
+              <button class="${sortBy === 'total_min' ? 'active' : ''}" onclick="handleSort('total_min')">⏱️ Время ${sortBy === 'total_min' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}</button>
               <button class="${sortBy === 'avg_pace' ? 'active' : ''}" onclick="handleSort('avg_pace')">⚡ Темп ${sortBy === 'avg_pace' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}</button>
             </div>
             <div class="list">
@@ -479,12 +450,6 @@
           </div>
         `;
         
-        document.getElementById('sortBySelect')?.addEventListener('change', (e) => {
-          sortBy = e.target.value;
-          sortOrder = 'desc';
-          applyFiltersAndSort();
-          render();
-        });
         document.getElementById('genderFilter')?.addEventListener('change', (e) => handleFilterGender(e.target.value));
       } else {
         root.innerHTML = `
@@ -517,10 +482,12 @@
       }
     };
 
+    // Экспорт функций
     window.setTab = setTab;
     window.handleSort = handleSort;
     window.handleFilterGender = handleFilterGender;
 
+    // Запуск
     loadData();
   </script>
 </body>
