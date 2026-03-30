@@ -40,6 +40,19 @@
       opacity: 0.85;
     }
 
+    .search-box {
+      margin: 16px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #e5e5ea;
+      border-radius: 12px;
+      font-size: 16px;
+      background: white;
+    }
+
     .tabs {
       display: flex;
       background: white;
@@ -84,24 +97,6 @@
       cursor: pointer;
     }
 
-    .search-box {
-      margin: 0 16px 16px;
-    }
-
-    .search-box input {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #e5e5ea;
-      border-radius: 12px;
-      background: white;
-      font-size: 14px;
-      outline: none;
-    }
-
-    .search-box input:focus {
-      border-color: #5E5CE0;
-    }
-
     .sort-row {
       display: flex;
       gap: 8px;
@@ -136,14 +131,10 @@
       background: white;
       border-radius: 16px;
       padding: 16px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    }
-
-    .card-header {
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-bottom: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
 
     .rank {
@@ -181,29 +172,26 @@
       color: #5E5CE0;
     }
 
-    .details {
-      margin-top: 10px;
-      padding-top: 10px;
-      border-top: 1px solid #e5e5ea;
-      font-size: 12px;
-      color: #8e8e93;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
+    .nom-section {
+      margin: 16px;
+    }
+
+    .nom-title {
+      font-weight: 700;
+      margin: 16px 0 8px;
+      font-size: 16px;
+      color: #1c1c1e;
     }
 
     .nom-card {
       background: white;
       border-radius: 16px;
-      padding: 16px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    }
-
-    .nom-header {
+      padding: 12px 16px;
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
     }
 
     .nom-icon {
@@ -212,46 +200,39 @@
       text-align: center;
     }
 
+    .nom-info {
+      flex: 1;
+    }
+
     .nom-name {
       font-weight: 600;
-      font-size: 18px;
+      font-size: 14px;
     }
 
     .nom-desc {
-      font-size: 12px;
+      font-size: 11px;
       color: #8e8e93;
-      margin-top: 4px;
-    }
-
-    .nom-podium {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .nom-place {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 8px 12px;
-      background: #f8f8fc;
-      border-radius: 12px;
-    }
-
-    .nom-medal {
-      font-size: 20px;
-      width: 36px;
-    }
-
-    .nom-winner {
-      flex: 1;
-      font-weight: 500;
     }
 
     .nom-value {
-      font-weight: 600;
-      color: #5E5CE0;
+      text-align: right;
     }
+
+    .nom-value div:first-child {
+      font-weight: 700;
+      color: #5E5CE0;
+      font-size: 14px;
+    }
+
+    .nom-winner {
+      font-size: 11px;
+      color: #8e8e93;
+      margin-top: 2px;
+    }
+
+    .medal-1 { background: linear-gradient(135deg, #FFD700, #FFA500); }
+    .medal-2 { background: linear-gradient(135deg, #C0C0C0, #A8A8A8); }
+    .medal-3 { background: linear-gradient(135deg, #CD7F32, #B87333); }
 
     .empty {
       text-align: center;
@@ -287,6 +268,18 @@
       border-radius: 12px;
       cursor: pointer;
     }
+
+    @media (max-width: 480px) {
+      .stats span {
+        font-size: 11px;
+      }
+      .name {
+        font-size: 14px;
+      }
+      .km {
+        font-size: 16px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -309,10 +302,12 @@
     let filterGender = 'all';
     let searchQuery = '';
 
+    // DOM элементы
     const root = document.getElementById('root');
 
     // Функции форматирования
     const formatKm = (km) => `${km?.toFixed(1) || 0} км`;
+    const formatOriginalKm = (km) => `${km?.toFixed(1) || 0} км (исх.)`;
     const formatTime = (min) => {
       if (!min || min === 0) return '0 мин';
       if (min < 60) return `${min} мин`;
@@ -334,22 +329,47 @@
     const loadData = async () => {
       renderLoading();
       try {
-        const { data: participantsData, error } = await supabaseClient
+        // Загружаем участников
+        const { data: participantsData, error: participantsError } = await supabaseClient
           .from('participants')
           .select('*')
           .eq('status', 'active');
         
-        if (error) throw error;
+        if (participantsError) throw participantsError;
         
-        participants = participantsData.map(p => {
+        // Загружаем тренировки для каждого участника (для original_km и атак)
+        const participantsWithDetails = await Promise.all(participantsData.map(async (p) => {
+          const { data: workouts } = await supabaseClient
+            .from('workouts')
+            .select('original_km, mod_pos, mod_neg')
+            .eq('participant_id', p.id);
+          
+          // Сумма original_km (без учёта способностей и гендера)
+          const totalOriginalKm = workouts?.reduce((sum, w) => sum + (w.original_km || 0), 0) || 0;
+          
+          // Количество атак (способности, применённые на других)
+          const { data: abilities } = await supabaseClient
+            .from('abilities_usage')
+            .select('id')
+            .eq('initiator_id', p.id);
+          const attacksCount = abilities?.length || 0;
+          
           let avg_pace = 0;
           if (p.total_km > 0 && p.total_min > 0) {
             avg_pace = p.total_min / p.total_km;
           }
-          return { ...p, avg_pace: parseFloat(avg_pace.toFixed(2)) };
-        });
+          
+          return { 
+            ...p, 
+            avg_pace: parseFloat(avg_pace.toFixed(2)),
+            total_original_km: totalOriginalKm,
+            attacks: attacksCount
+          };
+        }));
         
-        await calculateNominations();
+        participants = participantsWithDetails;
+        
+        calculateNominations();
         applyFiltersAndSort();
         render();
       } catch (err) {
@@ -357,66 +377,71 @@
       }
     };
 
-    // Расчёт номинаций (топ-3)
-    const calculateNominations = async () => {
-      // Дальний удар (по общему км)
-      const byKm = [...participants].sort((a, b) => b.total_km - a.total_km).slice(0, 3);
-      // Трудоголик (по тренировкам)
-      const byWorkouts = [...participants].sort((a, b) => b.total_workouts - a.total_workouts).slice(0, 3);
-      // Ракета (по темпу, только у кого есть км)
-      const byPace = [...participants]
-        .filter(p => p.total_km > 0 && p.avg_pace > 0)
-        .sort((a, b) => a.avg_pace - b.avg_pace).slice(0, 3);
-      // Снежинки
-      const bySnow = [...participants].sort((a, b) => (b.snowflake_balance || 0) - (a.snowflake_balance || 0)).slice(0, 3);
+    // Расчёт номинаций (топ-3 в каждой)
+    const calculateNominations = () => {
+      // Копируем участников для сортировки
+      const byKm = [...participants].sort((a, b) => b.total_km - a.total_km);
+      const byPace = [...participants].filter(p => p.avg_pace > 0).sort((a, b) => a.avg_pace - b.avg_pace);
+      const byWorkouts = [...participants].sort((a, b) => b.total_workouts - a.total_workouts);
+      const byAttacks = [...participants].sort((a, b) => b.attacks - a.attacks);
       
-      // Получаем количество атак для каждого участника
-      let attacksCount = {};
-      const { data: abilitiesData } = await supabaseClient
-        .from('abilities_usage')
-        .select('target_id');
-      
-      if (abilitiesData) {
-        abilitiesData.forEach(a => {
-          attacksCount[a.target_id] = (attacksCount[a.target_id] || 0) + 1;
-        });
-      }
-      
-      // Хищник (по атакам)
-      const byAttacks = [...participants]
-        .map(p => ({ ...p, attacks: attacksCount[p.id] || 0 }))
-        .sort((a, b) => b.attacks - a.attacks).slice(0, 3);
+      const formatPaceDisplay = (pace) => {
+        if (!pace || pace === Infinity) return '—';
+        const mins = Math.floor(pace);
+        const secs = Math.round((pace - mins) * 60);
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+      };
       
       nominations = [
-        { 
-          name: '📏 Дальний удар', 
-          icon: '📏', 
+        {
+          name: '📏 Дальний удар',
+          icon: '📏',
           desc: 'Общий километраж',
-          winners: byKm.map((p, i) => ({ name: `${p.first_name} ${p.last_name}`, value: `${p.total_km} км`, medal: i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉' }))
+          winners: byKm.slice(0, 3).map((p, i) => ({
+            name: `${p.first_name} ${p.last_name}`,
+            value: `${p.total_km} км`,
+            medal: i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉'
+          }))
         },
-        { 
-          name: '🔄 Трудоголик', 
-          icon: '🔄', 
-          desc: 'Больше всего тренировок',
-          winners: byWorkouts.map((p, i) => ({ name: `${p.first_name} ${p.last_name}`, value: `${p.total_workouts} тренировок`, medal: i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉' }))
-        },
-        { 
-          name: '⚡️ Ракета', 
-          icon: '⚡️', 
+        {
+          name: '⚡️ Ракета',
+          icon: '⚡️',
           desc: 'Лучший средний темп',
-          winners: byPace.map((p, i) => ({ name: `${p.first_name} ${p.last_name}`, value: formatPace(p.total_km, p.total_min), medal: i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉' }))
+          winners: byPace.slice(0, 3).map((p, i) => ({
+            name: `${p.first_name} ${p.last_name}`,
+            value: formatPaceDisplay(p.avg_pace),
+            medal: i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉'
+          }))
         },
-        { 
-          name: '❄️ Снежинки', 
-          icon: '❄️', 
-          desc: 'Больше всего снежинок',
-          winners: bySnow.map((p, i) => ({ name: `${p.first_name} ${p.last_name}`, value: `${p.snowflake_balance || 0} ❄️`, medal: i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉' }))
+        {
+          name: '🔄 Трудоголик',
+          icon: '🔄',
+          desc: 'Больше всего тренировок',
+          winners: byWorkouts.slice(0, 3).map((p, i) => ({
+            name: `${p.first_name} ${p.last_name}`,
+            value: `${p.total_workouts} тренировок`,
+            medal: i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉'
+          }))
         },
-        { 
-          name: '⚔️ Хищник', 
-          icon: '⚔️', 
+        {
+          name: '⚔️ Хищник',
+          icon: '⚔️',
           desc: 'Больше всего атак',
-          winners: byAttacks.map((p, i) => ({ name: `${p.first_name} ${p.last_name}`, value: `${p.attacks} атак`, medal: i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉' }))
+          winners: byAttacks.slice(0, 3).map((p, i) => ({
+            name: `${p.first_name} ${p.last_name}`,
+            value: `${p.attacks} атак`,
+            medal: i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉'
+          }))
+        },
+        {
+          name: '❄️ Снежинки',
+          icon: '❄️',
+          desc: 'Больше всего снежинок',
+          winners: [...participants].sort((a, b) => b.snowflake_balance - a.snowflake_balance).slice(0, 3).map((p, i) => ({
+            name: `${p.first_name} ${p.last_name}`,
+            value: `${p.snowflake_balance || 0} ❄️`,
+            medal: i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉'
+          }))
         }
       ];
     };
@@ -425,7 +450,12 @@
     const applyFiltersAndSort = () => {
       let result = [...participants];
       
-      // Поиск
+      // Фильтр по полу
+      if (filterGender !== 'all') {
+        result = result.filter(p => p.gender === filterGender);
+      }
+      
+      // Поиск по имени
       if (searchQuery) {
         const query = searchQuery.toLowerCase();
         result = result.filter(p => 
@@ -434,22 +464,18 @@
         );
       }
       
-      // Фильтр по полу
-      if (filterGender !== 'all') {
-        result = result.filter(p => p.gender === filterGender);
-      }
-      
-      // Сортировка (для темпа: чем меньше, тем лучше)
+      // Сортировка
       result.sort((a, b) => {
         let aVal = a[sortBy] || 0;
         let bVal = b[sortBy] || 0;
         
-        // Для темпа исключаем нулевые значения в конец
+        // Для темпа: меньше = лучше, сортируем по возрастанию
         if (sortBy === 'avg_pace') {
+          // Исключаем нулевые значения (нет тренировок)
           if (aVal === 0 && bVal === 0) return 0;
           if (aVal === 0) return 1;
           if (bVal === 0) return -1;
-          return sortOrder === 'desc' ? bVal - aVal : aVal - bVal;
+          return sortOrder === 'asc' ? aVal - bVal : bVal - aVal;
         }
         
         return sortOrder === 'desc' ? bVal - aVal : aVal - bVal;
@@ -469,7 +495,7 @@
         sortOrder = sortOrder === 'desc' ? 'asc' : 'desc';
       } else {
         sortBy = field;
-        sortOrder = 'desc';
+        sortOrder = field === 'avg_pace' ? 'asc' : 'desc';
       }
       applyFiltersAndSort();
       render();
@@ -487,6 +513,7 @@
       render();
     };
 
+    // Рендер
     const renderLoading = () => {
       root.innerHTML = `<div class="loading"><div class="spinner"></div><p>Загрузка...</p></div>`;
     };
@@ -503,9 +530,8 @@
               <h1>🏔️ Королевская битва</h1>
               <p>Спортивный челлендж 2026</p>
             </header>
-            <div class="tabs">
-              <button class="active" onclick="setTab('rating')">🏆 Рейтинг</button>
-              <button onclick="setTab('nominations')">🎯 Номинации</button>
+            <div class="search-box">
+              <input type="text" id="searchInput" placeholder="🔍 Поиск по имени..." value="${searchQuery.replace(/"/g, '&quot;')}">
             </div>
             <div class="filters">
               <select id="genderFilter">
@@ -514,40 +540,31 @@
                 <option value="Ж" ${filterGender === 'Ж' ? 'selected' : ''}>👩 Женщины</option>
               </select>
             </div>
-            <div class="search-box">
-              <input type="text" id="searchInput" placeholder="🔍 Поиск по имени..." value="${searchQuery.replace(/"/g, '&quot;')}">
-            </div>
             <div class="sort-row">
-              <button class="${sortBy === 'total_km' ? 'active' : ''}" onclick="handleSort('total_km')">Км ${sortBy === 'total_km' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}</button>
-              <button class="${sortBy === 'total_workouts' ? 'active' : ''}" onclick="handleSort('total_workouts')">Тренировки ${sortBy === 'total_workouts' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}</button>
-              <button class="${sortBy === 'total_min' ? 'active' : ''}" onclick="handleSort('total_min')">Время ${sortBy === 'total_min' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}</button>
-              <button class="${sortBy === 'avg_pace' ? 'active' : ''}" onclick="handleSort('avg_pace')">Темп ${sortBy === 'avg_pace' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}</button>
+              <button class="${sortBy === 'total_km' ? 'active' : ''}" onclick="handleSort('total_km')">📏 Км ${sortBy === 'total_km' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}</button>
+              <button class="${sortBy === 'total_workouts' ? 'active' : ''}" onclick="handleSort('total_workouts')">🏋️ Тренировки ${sortBy === 'total_workouts' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}</button>
+              <button class="${sortBy === 'total_min' ? 'active' : ''}" onclick="handleSort('total_min')">⏱️ Время ${sortBy === 'total_min' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}</button>
+              <button class="${sortBy === 'avg_pace' ? 'active' : ''}" onclick="handleSort('avg_pace')">⚡ Темп ${sortBy === 'avg_pace' ? (sortOrder === 'asc' ? '↑ (лучше)' : '↓ (хуже)') : ''}</button>
             </div>
             <div class="list">
               ${filteredParticipants.length === 0 ? '<div class="empty">Нет участников</div>' : 
-                filteredParticipants.map((p, idx) => {
-                  const avgPace = p.total_km > 0 && p.total_min > 0 ? formatPace(p.total_km, p.total_min) : '—';
-                  return `
+                filteredParticipants.map((p, idx) => `
                   <div class="card">
-                    <div class="card-header">
-                      <div class="rank">${getMedal(idx)}</div>
-                      <div class="info">
-                        <div class="name">${p.first_name} ${p.last_name} <span>${p.gender === 'Ж' ? '👩' : '👨'}</span></div>
-                        <div class="stats">
-                          <span>🏋️ ${p.total_workouts || 0}</span>
-                          <span>⏱️ ${formatTime(p.total_min)}</span>
-                          <span>⚡ ${avgPace}/км</span>
-                        </div>
+                    <div class="rank">${getMedal(idx)}</div>
+                    <div class="info">
+                      <div class="name">${p.first_name} ${p.last_name} <span>${p.gender === 'Ж' ? '👩' : '👨'}</span></div>
+                      <div class="stats">
+                        <span>🏋️ ${p.total_workouts || 0}</span>
+                        <span>⏱️ ${formatTime(p.total_min)}</span>
+                        <span>⚡ ${formatPace(p.total_km, p.total_min)}/км</span>
+                        <span>❄️ ${p.snowflake_balance || 0}</span>
+                        <span>⚔️ ${p.attacks || 0}</span>
+                        <span title="Исходный километраж без учёта способностей и гендера">📏 ${formatOriginalKm(p.total_original_km)}</span>
                       </div>
-                      <div class="km">${formatKm(p.total_km)}</div>
                     </div>
-                    <div class="details">
-                      <span>❄️ ${p.snowflake_balance || 0} снежинок</span>
-                      <span>📊 Исходные км: ${p.total_km || 0} км</span>
-                      <span>⚔️ Атак: ${p.attacks || 0}</span>
-                    </div>
+                    <div class="km">${formatKm(p.total_km)}</div>
                   </div>
-                `}).join('')
+                `).join('')
               }
             </div>
           </div>
@@ -566,26 +583,21 @@
               <button onclick="setTab('rating')">🏆 Рейтинг</button>
               <button class="active" onclick="setTab('nominations')">🎯 Номинации</button>
             </div>
-            <div class="list">
+            <div class="nom-section">
               ${nominations.map(nom => `
-                <div class="nom-card">
-                  <div class="nom-header">
-                    <div class="nom-icon">${nom.icon}</div>
-                    <div>
-                      <div class="nom-name">${nom.name}</div>
+                <div class="nom-title">${nom.icon} ${nom.name}</div>
+                ${nom.winners.map(winner => `
+                  <div class="nom-card">
+                    <div class="nom-icon">${winner.medal}</div>
+                    <div class="nom-info">
+                      <div class="nom-name">${winner.name}</div>
                       <div class="nom-desc">${nom.desc}</div>
                     </div>
+                    <div class="nom-value">
+                      <div>${winner.value}</div>
+                    </div>
                   </div>
-                  <div class="nom-podium">
-                    ${nom.winners.map(w => `
-                      <div class="nom-place">
-                        <div class="nom-medal">${w.medal}</div>
-                        <div class="nom-winner">${w.name}</div>
-                        <div class="nom-value">${w.value}</div>
-                      </div>
-                    `).join('')}
-                  </div>
-                </div>
+                `).join('')}
               `).join('')}
             </div>
           </div>
