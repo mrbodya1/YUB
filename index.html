@@ -40,19 +40,6 @@
       opacity: 0.85;
     }
 
-    .search-box {
-      margin: 16px;
-    }
-
-    .search-box input {
-      width: 100%;
-      padding: 12px 16px;
-      border: 1px solid #e5e5ea;
-      border-radius: 12px;
-      font-size: 16px;
-      background: white;
-    }
-
     .tabs {
       display: flex;
       background: white;
@@ -79,6 +66,24 @@
       background: #5E5CE0;
       color: white;
       box-shadow: 0 2px 4px rgba(94,92,224,0.3);
+    }
+
+    .search-box {
+      margin: 16px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #e5e5ea;
+      border-radius: 12px;
+      font-size: 16px;
+      background: white;
+      outline: none;
+    }
+
+    .search-box input:focus {
+      border-color: #5E5CE0;
     }
 
     .filters {
@@ -135,6 +140,12 @@
       align-items: center;
       gap: 12px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+
+    .card:active {
+      transform: scale(0.99);
     }
 
     .rank {
@@ -172,56 +183,121 @@
       color: #5E5CE0;
     }
 
-    .nom-section {
-      margin: 16px;
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
     }
 
-    .nom-title {
-      font-weight: 700;
-      margin: 16px 0 8px;
-      font-size: 16px;
-      color: #1c1c1e;
+    .modal-content {
+      background: white;
+      border-radius: 20px;
+      margin: 20px;
+      max-width: 500px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      padding: 20px;
+      border-bottom: 1px solid #e5e5ea;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 {
+      font-size: 20px;
+    }
+
+    .modal-close {
+      font-size: 28px;
+      cursor: pointer;
+      color: #8e8e93;
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #e5e5ea;
+    }
+
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+
+    .detail-label {
+      color: #8e8e93;
+    }
+
+    .detail-value {
+      font-weight: 600;
     }
 
     .nom-card {
       background: white;
       border-radius: 16px;
-      padding: 12px 16px;
+      padding: 16px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .nom-header {
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-bottom: 8px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e5e5ea;
     }
 
     .nom-icon {
       font-size: 32px;
-      width: 48px;
-      text-align: center;
     }
 
-    .nom-info {
-      flex: 1;
+    .nom-title {
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .nom-podium {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .nom-place {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 0;
+    }
+
+    .nom-medal {
+      font-size: 20px;
+      width: 40px;
     }
 
     .nom-name {
-      font-weight: 600;
-      font-size: 14px;
-    }
-
-    .nom-desc {
-      font-size: 11px;
-      color: #8e8e93;
+      flex: 1;
     }
 
     .nom-value {
-      text-align: right;
-    }
-
-    .nom-value div:first-child {
-      font-weight: 700;
+      font-weight: 600;
       color: #5E5CE0;
-      font-size: 14px;
     }
 
     .empty {
@@ -258,18 +334,6 @@
       border-radius: 12px;
       cursor: pointer;
     }
-
-    @media (max-width: 480px) {
-      .stats span {
-        font-size: 11px;
-      }
-      .name {
-        font-size: 14px;
-      }
-      .km {
-        font-size: 16px;
-      }
-    }
   </style>
 </head>
 <body>
@@ -291,13 +355,13 @@
     let sortOrder = 'desc';
     let filterGender = 'all';
     let searchQuery = '';
+    let selectedParticipant = null;
+    let attacksData = {};
 
-    // DOM элементы
     const root = document.getElementById('root');
 
     // Функции форматирования
     const formatKm = (km) => `${km?.toFixed(1) || 0} км`;
-    const formatOriginalKm = (km) => `${km?.toFixed(1) || 0} км`;
     const formatTime = (min) => {
       if (!min || min === 0) return '0 мин';
       if (min < 60) return `${min} мин`;
@@ -315,135 +379,80 @@
       return `${idx + 1}`;
     };
 
+    // Загрузка атак
+    const loadAttacks = async () => {
+      const { data } = await supabaseClient.from('abilities_usage').select('target_id');
+      if (data) {
+        data.forEach(a => {
+          attacksData[a.target_id] = (attacksData[a.target_id] || 0) + 1;
+        });
+      }
+    };
+
+    // Загрузка исходных км
+    const loadOriginalKm = async () => {
+      const { data } = await supabaseClient.from('workouts').select('participant_id, original_km');
+      if (data) {
+        const kmMap = {};
+        data.forEach(w => {
+          kmMap[w.participant_id] = (kmMap[w.participant_id] || 0) + (w.original_km || 0);
+        });
+        return kmMap;
+      }
+      return {};
+    };
+
     // Загрузка данных
     const loadData = async () => {
       renderLoading();
       try {
-        // 1. Загружаем участников
-        const { data: participantsData, error: participantsError } = await supabaseClient
+        await loadAttacks();
+        const originalKmMap = await loadOriginalKm();
+        
+        const { data: participantsData, error } = await supabaseClient
           .from('participants')
           .select('*')
           .eq('status', 'active');
         
-        if (participantsError) throw participantsError;
+        if (error) throw error;
         
-        // 2. Загружаем тренировки для каждого участника (для original_km и атак)
-        const participantsWithDetails = await Promise.all(participantsData.map(async (p) => {
-          // Загружаем тренировки участника
-          const { data: workouts, error: workoutsError } = await supabaseClient
-            .from('workouts')
-            .select('original_km, mod_pos, mod_neg')
-            .eq('participant_id', p.id);
-          
-          if (workoutsError) {
-            console.error('Ошибка загрузки тренировок для', p.id, workoutsError);
-          }
-          
-          // Сумма original_km (исходный километраж без учёта способностей)
-          const totalOriginalKm = workouts?.reduce((sum, w) => sum + (w.original_km || 0), 0) || 0;
-          
-          // Количество атак (способности, применённые на других)
-          const { data: abilities, error: abilitiesError } = await supabaseClient
-            .from('abilities_usage')
-            .select('id')
-            .eq('initiator_id', p.id);
-          
-          if (abilitiesError) {
-            console.error('Ошибка загрузки атак для', p.id, abilitiesError);
-          }
-          const attacksCount = abilities?.length || 0;
-          
-          // Средний темп
+        participants = participantsData.map(p => {
           let avg_pace = 0;
           if (p.total_km > 0 && p.total_min > 0) {
             avg_pace = p.total_min / p.total_km;
           }
-          
-          return { 
-            ...p, 
+          return {
+            ...p,
             avg_pace: parseFloat(avg_pace.toFixed(2)),
-            total_original_km: totalOriginalKm,
-            attacks: attacksCount
+            attacks: attacksData[p.id] || 0,
+            original_km: originalKmMap[p.id] || 0
           };
-        }));
-        
-        participants = participantsWithDetails;
+        });
         
         calculateNominations();
         applyFiltersAndSort();
         render();
       } catch (err) {
-        console.error('Ошибка:', err);
         renderError(err.message);
       }
     };
 
-    // Расчёт номинаций (топ-3 в каждой)
+    // Расчёт номинаций (топ-3)
     const calculateNominations = () => {
-      const byKm = [...participants].sort((a, b) => b.total_km - a.total_km);
+      // Дальний удар (по исходным км из тренировок)
+      const byOriginalKm = [...participants].sort((a, b) => b.original_km - a.original_km);
+      // Ракета (лучший темп — меньше = лучше, исключаем 0)
       const byPace = [...participants].filter(p => p.avg_pace > 0).sort((a, b) => a.avg_pace - b.avg_pace);
+      // Трудоголик (по тренировкам)
       const byWorkouts = [...participants].sort((a, b) => b.total_workouts - a.total_workouts);
+      // Хищник (по атакам)
       const byAttacks = [...participants].sort((a, b) => b.attacks - a.attacks);
-      const bySnowflakes = [...participants].sort((a, b) => b.snowflake_balance - a.snowflake_balance);
-      
-      const formatPaceDisplay = (pace) => {
-        if (!pace || pace === Infinity) return '—';
-        const mins = Math.floor(pace);
-        const secs = Math.round((pace - mins) * 60);
-        return `${mins}:${secs.toString().padStart(2, '0')}`;
-      };
       
       nominations = [
-        {
-          name: '📏 Дальний удар',
-          icon: '📏',
-          desc: 'Общий километраж',
-          winners: byKm.slice(0, 3).map((p, i) => ({
-            name: `${p.first_name} ${p.last_name}`,
-            value: `${p.total_km} км`,
-            medal: i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉'
-          }))
-        },
-        {
-          name: '⚡️ Ракета',
-          icon: '⚡️',
-          desc: 'Лучший средний темп',
-          winners: byPace.slice(0, 3).map((p, i) => ({
-            name: `${p.first_name} ${p.last_name}`,
-            value: formatPaceDisplay(p.avg_pace),
-            medal: i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉'
-          }))
-        },
-        {
-          name: '🔄 Трудоголик',
-          icon: '🔄',
-          desc: 'Больше всего тренировок',
-          winners: byWorkouts.slice(0, 3).map((p, i) => ({
-            name: `${p.first_name} ${p.last_name}`,
-            value: `${p.total_workouts} тренировок`,
-            medal: i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉'
-          }))
-        },
-        {
-          name: '⚔️ Хищник',
-          icon: '⚔️',
-          desc: 'Больше всего атак',
-          winners: byAttacks.slice(0, 3).map((p, i) => ({
-            name: `${p.first_name} ${p.last_name}`,
-            value: `${p.attacks} атак`,
-            medal: i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉'
-          }))
-        },
-        {
-          name: '❄️ Снежинки',
-          icon: '❄️',
-          desc: 'Больше всего снежинок',
-          winners: bySnowflakes.slice(0, 3).map((p, i) => ({
-            name: `${p.first_name} ${p.last_name}`,
-            value: `${p.snowflake_balance || 0} ❄️`,
-            medal: i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉'
-          }))
-        }
+        { name: '📏 Дальний удар', icon: '📏', desc: 'Самый большой километраж (исходный)', items: byOriginalKm.slice(0, 3).map((p, i) => ({ name: `${p.first_name} ${p.last_name}`, value: `${p.original_km} км`, medal: i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉' })) },
+        { name: '⚡️ Ракета', icon: '⚡️', desc: 'Лучший темп (мин/км)', items: byPace.slice(0, 3).map((p, i) => ({ name: `${p.first_name} ${p.last_name}`, value: formatPace(p.total_km, p.total_min), medal: i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉' })) },
+        { name: '🔄 Трудоголик', icon: '🔄', desc: 'Больше всего тренировок', items: byWorkouts.slice(0, 3).map((p, i) => ({ name: `${p.first_name} ${p.last_name}`, value: `${p.total_workouts} тренировок`, medal: i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉' })) },
+        { name: '⚔️ Хищник', icon: '⚔️', desc: 'Больше всего атак', items: byAttacks.slice(0, 3).map((p, i) => ({ name: `${p.first_name} ${p.last_name}`, value: `${p.attacks} атак`, medal: i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉' })) }
       ];
     };
 
@@ -451,12 +460,7 @@
     const applyFiltersAndSort = () => {
       let result = [...participants];
       
-      // Фильтр по полу
-      if (filterGender !== 'all') {
-        result = result.filter(p => p.gender === filterGender);
-      }
-      
-      // Поиск по имени
+      // Поиск
       if (searchQuery) {
         const query = searchQuery.toLowerCase();
         result = result.filter(p => 
@@ -465,18 +469,22 @@
         );
       }
       
+      // Фильтр по полу
+      if (filterGender !== 'all') {
+        result = result.filter(p => p.gender === filterGender);
+      }
+      
       // Сортировка
       result.sort((a, b) => {
         let aVal = a[sortBy] || 0;
         let bVal = b[sortBy] || 0;
-        
         if (sortBy === 'avg_pace') {
+          // Для темпа: 0 исключаем, меньше = лучше
           if (aVal === 0 && bVal === 0) return 0;
           if (aVal === 0) return 1;
           if (bVal === 0) return -1;
-          return sortOrder === 'asc' ? aVal - bVal : bVal - aVal;
+          return sortOrder === 'desc' ? bVal - aVal : aVal - bVal;
         }
-        
         return sortOrder === 'desc' ? bVal - aVal : aVal - bVal;
       });
       
@@ -494,7 +502,7 @@
         sortOrder = sortOrder === 'desc' ? 'asc' : 'desc';
       } else {
         sortBy = field;
-        sortOrder = field === 'avg_pace' ? 'asc' : 'desc';
+        sortOrder = 'desc';
       }
       applyFiltersAndSort();
       render();
@@ -509,6 +517,16 @@
     const handleSearch = (value) => {
       searchQuery = value;
       applyFiltersAndSort();
+      render();
+    };
+
+    const openParticipantModal = (participant) => {
+      selectedParticipant = participant;
+      render();
+    };
+
+    const closeModal = () => {
+      selectedParticipant = null;
       render();
     };
 
@@ -529,8 +547,12 @@
               <h1>🏔️ Королевская битва</h1>
               <p>Спортивный челлендж 2026</p>
             </header>
+            <div class="tabs">
+              <button class="active" onclick="setTab('rating')">🏆 Рейтинг</button>
+              <button onclick="setTab('nominations')">🎯 Номинации</button>
+            </div>
             <div class="search-box">
-              <input type="text" id="searchInput" placeholder="🔍 Поиск по имени..." value="${searchQuery.replace(/"/g, '&quot;')}">
+              <input type="text" id="searchInput" placeholder="🔍 Поиск по имени..." value="${searchQuery}">
             </div>
             <div class="filters">
               <select id="genderFilter">
@@ -543,12 +565,12 @@
               <button class="${sortBy === 'total_km' ? 'active' : ''}" onclick="handleSort('total_km')">📏 Км ${sortBy === 'total_km' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}</button>
               <button class="${sortBy === 'total_workouts' ? 'active' : ''}" onclick="handleSort('total_workouts')">🏋️ Тренировки ${sortBy === 'total_workouts' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}</button>
               <button class="${sortBy === 'total_min' ? 'active' : ''}" onclick="handleSort('total_min')">⏱️ Время ${sortBy === 'total_min' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}</button>
-              <button class="${sortBy === 'avg_pace' ? 'active' : ''}" onclick="handleSort('avg_pace')">⚡ Темп ${sortBy === 'avg_pace' ? (sortOrder === 'asc' ? '↑ (лучше)' : '↓ (хуже)') : ''}</button>
+              <button class="${sortBy === 'avg_pace' ? 'active' : ''}" onclick="handleSort('avg_pace')">⚡ Темп ${sortBy === 'avg_pace' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}</button>
             </div>
             <div class="list">
               ${filteredParticipants.length === 0 ? '<div class="empty">Нет участников</div>' : 
                 filteredParticipants.map((p, idx) => `
-                  <div class="card">
+                  <div class="card" onclick="openParticipantModal(${JSON.stringify(p).replace(/"/g, '&quot;')})">
                     <div class="rank">${getMedal(idx)}</div>
                     <div class="info">
                       <div class="name">${p.first_name} ${p.last_name} <span>${p.gender === 'Ж' ? '👩' : '👨'}</span></div>
@@ -557,8 +579,6 @@
                         <span>⏱️ ${formatTime(p.total_min)}</span>
                         <span>⚡ ${formatPace(p.total_km, p.total_min)}/км</span>
                         <span>❄️ ${p.snowflake_balance || 0}</span>
-                        <span>⚔️ ${p.attacks || 0}</span>
-                        <span>📏 исх: ${formatOriginalKm(p.total_original_km)}</span>
                       </div>
                     </div>
                     <div class="km">${formatKm(p.total_km)}</div>
@@ -566,11 +586,55 @@
                 `).join('')
               }
             </div>
+            ${selectedParticipant ? `
+              <div class="modal" onclick="closeModal()">
+                <div class="modal-content" onclick="event.stopPropagation()">
+                  <div class="modal-header">
+                    <h3>${selectedParticipant.first_name} ${selectedParticipant.last_name}</h3>
+                    <span class="modal-close" onclick="closeModal()">×</span>
+                  </div>
+                  <div class="modal-body">
+                    <div class="detail-row">
+                      <span class="detail-label">👫 Пол</span>
+                      <span class="detail-value">${selectedParticipant.gender === 'Ж' ? 'Женский' : 'Мужской'}</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">❄️ Снежинок</span>
+                      <span class="detail-value">${selectedParticipant.snowflake_balance || 0}</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">🏋️ Всего тренировок</span>
+                      <span class="detail-value">${selectedParticipant.total_workouts || 0}</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">📏 Исходный километраж</span>
+                      <span class="detail-value">${selectedParticipant.original_km || 0} км</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">🏁 Итоговый километраж</span>
+                      <span class="detail-value">${selectedParticipant.total_km || 0} км</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">⏱️ Общее время</span>
+                      <span class="detail-value">${formatTime(selectedParticipant.total_min)}</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">⚡ Средний темп</span>
+                      <span class="detail-value">${formatPace(selectedParticipant.total_km, selectedParticipant.total_min)}/км</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">⚔️ Совершено атак</span>
+                      <span class="detail-value">${selectedParticipant.attacks || 0}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ` : ''}
           </div>
         `;
         
-        document.getElementById('genderFilter')?.addEventListener('change', (e) => handleFilterGender(e.target.value));
         document.getElementById('searchInput')?.addEventListener('input', (e) => handleSearch(e.target.value));
+        document.getElementById('genderFilter')?.addEventListener('change', (e) => handleFilterGender(e.target.value));
       } else {
         root.innerHTML = `
           <div class="app">
@@ -582,21 +646,24 @@
               <button onclick="setTab('rating')">🏆 Рейтинг</button>
               <button class="active" onclick="setTab('nominations')">🎯 Номинации</button>
             </div>
-            <div class="nom-section">
+            <div class="list">
               ${nominations.map(nom => `
-                <div class="nom-title">${nom.icon} ${nom.name}</div>
-                ${nom.winners.map(winner => `
-                  <div class="nom-card">
-                    <div class="nom-icon">${winner.medal}</div>
-                    <div class="nom-info">
-                      <div class="nom-name">${winner.name}</div>
-                      <div class="nom-desc">${nom.desc}</div>
-                    </div>
-                    <div class="nom-value">
-                      <div>${winner.value}</div>
-                    </div>
+                <div class="nom-card">
+                  <div class="nom-header">
+                    <div class="nom-icon">${nom.icon}</div>
+                    <div class="nom-title">${nom.name}</div>
                   </div>
-                `).join('')}
+                  <div class="nom-desc" style="font-size: 12px; color: #8e8e93; margin-bottom: 12px;">${nom.desc}</div>
+                  <div class="nom-podium">
+                    ${nom.items.map(item => `
+                      <div class="nom-place">
+                        <div class="nom-medal">${item.medal}</div>
+                        <div class="nom-name">${item.name}</div>
+                        <div class="nom-value">${item.value}</div>
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>
               `).join('')}
             </div>
           </div>
@@ -609,6 +676,8 @@
     window.handleSort = handleSort;
     window.handleFilterGender = handleFilterGender;
     window.handleSearch = handleSearch;
+    window.openParticipantModal = openParticipantModal;
+    window.closeModal = closeModal;
 
     // Запуск
     loadData();
