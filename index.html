@@ -224,16 +224,6 @@
       font-size: 14px;
     }
 
-    .nom-winner {
-      font-size: 11px;
-      color: #8e8e93;
-      margin-top: 2px;
-    }
-
-    .medal-1 { background: linear-gradient(135deg, #FFD700, #FFA500); }
-    .medal-2 { background: linear-gradient(135deg, #C0C0C0, #A8A8A8); }
-    .medal-3 { background: linear-gradient(135deg, #CD7F32, #B87333); }
-
     .empty {
       text-align: center;
       padding: 48px;
@@ -307,7 +297,7 @@
 
     // Функции форматирования
     const formatKm = (km) => `${km?.toFixed(1) || 0} км`;
-    const formatOriginalKm = (km) => `${km?.toFixed(1) || 0} км (исх.)`;
+    const formatOriginalKm = (km) => `${km?.toFixed(1) || 0} км`;
     const formatTime = (min) => {
       if (!min || min === 0) return '0 мин';
       if (min < 60) return `${min} мин`;
@@ -329,7 +319,7 @@
     const loadData = async () => {
       renderLoading();
       try {
-        // Загружаем участников
+        // 1. Загружаем участников
         const { data: participantsData, error: participantsError } = await supabaseClient
           .from('participants')
           .select('*')
@@ -337,23 +327,33 @@
         
         if (participantsError) throw participantsError;
         
-        // Загружаем тренировки для каждого участника (для original_km и атак)
+        // 2. Загружаем тренировки для каждого участника (для original_km и атак)
         const participantsWithDetails = await Promise.all(participantsData.map(async (p) => {
-          const { data: workouts } = await supabaseClient
+          // Загружаем тренировки участника
+          const { data: workouts, error: workoutsError } = await supabaseClient
             .from('workouts')
             .select('original_km, mod_pos, mod_neg')
             .eq('participant_id', p.id);
           
-          // Сумма original_km (без учёта способностей и гендера)
+          if (workoutsError) {
+            console.error('Ошибка загрузки тренировок для', p.id, workoutsError);
+          }
+          
+          // Сумма original_km (исходный километраж без учёта способностей)
           const totalOriginalKm = workouts?.reduce((sum, w) => sum + (w.original_km || 0), 0) || 0;
           
           // Количество атак (способности, применённые на других)
-          const { data: abilities } = await supabaseClient
+          const { data: abilities, error: abilitiesError } = await supabaseClient
             .from('abilities_usage')
             .select('id')
             .eq('initiator_id', p.id);
+          
+          if (abilitiesError) {
+            console.error('Ошибка загрузки атак для', p.id, abilitiesError);
+          }
           const attacksCount = abilities?.length || 0;
           
+          // Средний темп
           let avg_pace = 0;
           if (p.total_km > 0 && p.total_min > 0) {
             avg_pace = p.total_min / p.total_km;
@@ -373,17 +373,18 @@
         applyFiltersAndSort();
         render();
       } catch (err) {
+        console.error('Ошибка:', err);
         renderError(err.message);
       }
     };
 
     // Расчёт номинаций (топ-3 в каждой)
     const calculateNominations = () => {
-      // Копируем участников для сортировки
       const byKm = [...participants].sort((a, b) => b.total_km - a.total_km);
       const byPace = [...participants].filter(p => p.avg_pace > 0).sort((a, b) => a.avg_pace - b.avg_pace);
       const byWorkouts = [...participants].sort((a, b) => b.total_workouts - a.total_workouts);
       const byAttacks = [...participants].sort((a, b) => b.attacks - a.attacks);
+      const bySnowflakes = [...participants].sort((a, b) => b.snowflake_balance - a.snowflake_balance);
       
       const formatPaceDisplay = (pace) => {
         if (!pace || pace === Infinity) return '—';
@@ -437,7 +438,7 @@
           name: '❄️ Снежинки',
           icon: '❄️',
           desc: 'Больше всего снежинок',
-          winners: [...participants].sort((a, b) => b.snowflake_balance - a.snowflake_balance).slice(0, 3).map((p, i) => ({
+          winners: bySnowflakes.slice(0, 3).map((p, i) => ({
             name: `${p.first_name} ${p.last_name}`,
             value: `${p.snowflake_balance || 0} ❄️`,
             medal: i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉'
@@ -469,9 +470,7 @@
         let aVal = a[sortBy] || 0;
         let bVal = b[sortBy] || 0;
         
-        // Для темпа: меньше = лучше, сортируем по возрастанию
         if (sortBy === 'avg_pace') {
-          // Исключаем нулевые значения (нет тренировок)
           if (aVal === 0 && bVal === 0) return 0;
           if (aVal === 0) return 1;
           if (bVal === 0) return -1;
@@ -559,7 +558,7 @@
                         <span>⚡ ${formatPace(p.total_km, p.total_min)}/км</span>
                         <span>❄️ ${p.snowflake_balance || 0}</span>
                         <span>⚔️ ${p.attacks || 0}</span>
-                        <span title="Исходный километраж без учёта способностей и гендера">📏 ${formatOriginalKm(p.total_original_km)}</span>
+                        <span>📏 исх: ${formatOriginalKm(p.total_original_km)}</span>
                       </div>
                     </div>
                     <div class="km">${formatKm(p.total_km)}</div>
