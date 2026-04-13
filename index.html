@@ -45,49 +45,53 @@
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 16px;
         }
 
+        /* Header - уменьшенный */
         .header {
             background: linear-gradient(135deg, #5E5CE0 0%, #3A3A9E 100%);
             color: white;
-            padding: 32px 20px;
-            border-radius: 24px;
-            margin-bottom: 24px;
+            padding: 20px 16px;
+            border-radius: 20px;
+            margin-bottom: 16px;
         }
 
         .header h1 {
-            font-size: 28px;
+            font-size: 22px;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
 
         .header p {
-            font-size: 14px;
+            font-size: 12px;
             opacity: 0.85;
         }
 
+        /* Tabs - компактные */
         .tabs {
             display: flex;
-            gap: 8px;
-            margin-bottom: 24px;
+            gap: 6px;
+            margin-bottom: 16px;
             background: var(--bg-secondary);
-            padding: 6px;
-            border-radius: 16px;
+            padding: 4px;
+            border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            flex-wrap: wrap;
         }
 
         .tab {
             flex: 1;
-            padding: 12px;
+            padding: 8px 12px;
             border: none;
             background: transparent;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 600;
-            border-radius: 12px;
+            border-radius: 10px;
             cursor: pointer;
             color: var(--text-secondary);
             transition: all 0.2s;
+            white-space: nowrap;
         }
 
         .tab.active {
@@ -96,11 +100,12 @@
             box-shadow: 0 2px 4px rgba(94,92,224,0.3);
         }
 
+        /* Фильтры - компактные */
         .filters {
             background: var(--bg-secondary);
-            border-radius: 20px;
-            padding: 16px;
-            margin-bottom: 20px;
+            border-radius: 16px;
+            padding: 12px;
+            margin-bottom: 16px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
@@ -112,50 +117,77 @@
 
         .filter-group {
             flex: 1;
-            min-width: 150px;
+            min-width: 120px;
         }
 
         .filter-group label {
             display: block;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             color: var(--text-secondary);
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        select, .search-input {
+        .search-input {
             width: 100%;
-            padding: 12px;
+            padding: 8px 12px;
             border: 1px solid var(--border);
-            border-radius: 12px;
+            border-radius: 10px;
             background: var(--bg-primary);
             color: var(--text-primary);
-            font-size: 14px;
-            cursor: pointer;
-        }
-
-        .search-input {
+            font-size: 13px;
             cursor: text;
         }
 
+        /* Stats summary - компактная в строку */
+        .stats-summary {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 10px 16px;
+            flex: 1;
+            min-width: 80px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .stat-card .value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .stat-card .label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        /* Таблица */
         .table-container {
             overflow-x: auto;
             background: var(--bg-secondary);
-            border-radius: 20px;
+            border-radius: 16px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         th {
-            padding: 16px 12px;
-            text-align: left;
+            padding: 12px 8px;
+            text-align: center;
             font-weight: 600;
             color: var(--text-secondary);
             border-bottom: 1px solid var(--border);
@@ -164,14 +196,37 @@
             white-space: nowrap;
         }
 
-        th:hover {
-            background: var(--accent-light);
+        th:first-child {
+            text-align: center;
+        }
+
+        th:nth-child(2) {
+            text-align: left;
         }
 
         td {
-            padding: 16px 12px;
+            padding: 12px 8px;
             border-bottom: 1px solid var(--border);
             white-space: nowrap;
+        }
+
+        td:first-child {
+            text-align: center;
+        }
+
+        td:nth-child(2) {
+            text-align: left;
+        }
+
+        td:nth-child(3),
+        td:nth-child(4),
+        td:nth-child(5),
+        td:nth-child(6),
+        td:nth-child(7),
+        td:nth-child(8),
+        td:nth-child(9),
+        td:nth-child(10) {
+            text-align: center;
         }
 
         tr:hover {
@@ -180,7 +235,7 @@
 
         .medal {
             font-size: 18px;
-            width: 32px;
+            width: 28px;
             display: inline-block;
         }
 
@@ -189,7 +244,7 @@
         .medal-3 { color: var(--bronze); }
 
         .sort-icon {
-            margin-left: 6px;
+            margin-left: 4px;
             font-size: 10px;
             opacity: 0.6;
         }
@@ -200,9 +255,9 @@
 
         .badge {
             display: inline-block;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 16px;
+            font-size: 11px;
             font-weight: 600;
         }
 
@@ -218,32 +273,33 @@
 
         .weekly-points {
             display: flex;
-            gap: 6px;
+            gap: 4px;
             flex-wrap: wrap;
+            justify-content: center;
         }
 
         .week-point {
             background: var(--accent-light);
-            padding: 4px 8px;
-            border-radius: 8px;
-            font-size: 12px;
+            padding: 3px 6px;
+            border-radius: 6px;
+            font-size: 11px;
             font-weight: 600;
             text-align: center;
-            min-width: 40px;
+            min-width: 32px;
         }
 
         .loading {
             text-align: center;
-            padding: 60px;
+            padding: 40px;
         }
 
         .spinner {
-            width: 44px;
-            height: 44px;
-            border: 4px solid var(--border);
+            width: 32px;
+            height: 32px;
+            border: 3px solid var(--border);
             border-top-color: var(--accent);
             border-radius: 50%;
-            margin: 0 auto 16px;
+            margin: 0 auto 12px;
             animation: spin 1s linear infinite;
         }
 
@@ -253,55 +309,66 @@
 
         .empty {
             text-align: center;
-            padding: 60px;
+            padding: 40px;
             color: var(--text-secondary);
         }
 
+        /* Мобильная адаптация */
         @media (max-width: 768px) {
             .container {
-                padding: 12px;
+                padding: 10px;
             }
+            
             th, td {
-                padding: 12px 8px;
+                padding: 8px 4px;
+                font-size: 11px;
+            }
+            
+            .week-point {
+                font-size: 9px;
+                padding: 2px 4px;
+                min-width: 26px;
+            }
+            
+            .badge {
+                font-size: 9px;
+                padding: 2px 6px;
+            }
+            
+            .stat-card .value {
+                font-size: 16px;
+            }
+            
+            .stat-card .label {
+                font-size: 10px;
+            }
+            
+            .tab {
+                font-size: 12px;
+                padding: 6px 8px;
+            }
+            
+            .header h1 {
+                font-size: 18px;
+            }
+            
+            .medal {
+                font-size: 14px;
+                width: 22px;
+            }
+        }
+
+        /* Планшеты */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            th, td {
+                padding: 10px 6px;
                 font-size: 12px;
             }
+            
             .week-point {
                 font-size: 10px;
-                padding: 2px 6px;
-                min-width: 32px;
+                min-width: 30px;
             }
-            .filters-row {
-                flex-direction: column;
-            }
-        }
-
-        .stats-summary {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .stat-card {
-            background: var(--bg-secondary);
-            border-radius: 16px;
-            padding: 16px 20px;
-            flex: 1;
-            min-width: 120px;
-            text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-
-        .stat-card .value {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--accent);
-        }
-
-        .stat-card .label {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-top: 4px;
         }
     </style>
 </head>
@@ -313,12 +380,12 @@
         </div>
 
         <div class="tabs">
-            <button class="tab active" onclick="setFilter('all')">🏆 Абсолютный зачёт</button>
+            <button class="tab active" onclick="setFilter('all')">🏆 Абсолют</button>
             <button class="tab" onclick="setFilter('М')">👨 Мужчины</button>
             <button class="tab" onclick="setFilter('Ж')">👩 Женщины</button>
         </div>
 
-        <div class="stats-summary" id="statsSummary">
+        <div class="stats-summary">
             <div class="stat-card">
                 <div class="value" id="totalParticipants">0</div>
                 <div class="label">Участников</div>
@@ -350,10 +417,10 @@
                         <th onclick="sortBy('name')">Участник <span class="sort-icon">⇅</span></th>
                         <th onclick="sortBy('gender')">Пол <span class="sort-icon">⇅</span></th>
                         <th onclick="sortBy('workouts')">Тренировки <span class="sort-icon">⇅</span></th>
-                        <th onclick="sortBy('km')">Километры <span class="sort-icon">⇅</span></th>
+                        <th onclick="sortBy('km')">КМ <span class="sort-icon">⇅</span></th>
                         <th onclick="sortBy('time')">Время <span class="sort-icon">⇅</span></th>
                         <th onclick="sortBy('pace')">Темп <span class="sort-icon">⇅</span></th>
-                        <th onclick="sortBy('snowflakes')">Снежинки <span class="sort-icon">⇅</span></th>
+                        <th onclick="sortBy('snowflakes')">❄️ <span class="sort-icon">⇅</span></th>
                         <th>Очки по неделям</th>
                         <th onclick="sortBy('totalPoints')">Всего очков <span class="sort-icon">⇅</span></th>
                     </tr>
@@ -367,12 +434,10 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Supabase подключение
         const SUPABASE_URL = 'https://ohaspovkdvtihosvzpli.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9oYXNwb3ZrZHZ0aWhvc3Z6cGxpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1NjI1ODEsImV4cCI6MjA5MDEzODU4MX0.5OvphjjVlBP8hXvLMIALsD6pZn5453mkSEpCeOl8280';
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // Состояния
         let participants = [];
         let filteredParticipants = [];
         let currentFilter = 'all';
@@ -380,14 +445,13 @@
         let sortDirection = 'desc';
         let searchQuery = '';
 
-        // Функции форматирования
-        const formatKm = (km) => `${km?.toFixed(1) || 0} км`;
+        const formatKm = (km) => `${km?.toFixed(1) || 0}`;
         const formatTime = (min) => {
-            if (!min || min === 0) return '0 мин';
-            if (min < 60) return `${min} мин`;
+            if (!min || min === 0) return '0';
+            if (min < 60) return `${min}`;
             const hours = Math.floor(min / 60);
             const mins = min % 60;
-            return `${hours} ч ${mins} мин`;
+            return `${hours}ч ${mins}м`;
         };
         const formatPace = (totalKm, totalMin) => {
             if (!totalKm || totalKm === 0) return '—';
@@ -405,15 +469,13 @@
         };
 
         const getGenderBadge = (gender) => {
-            if (gender === 'М') return '<span class="badge badge-men">👨 Мужчина</span>';
-            if (gender === 'Ж') return '<span class="badge badge-women">👩 Женщина</span>';
-            return '<span class="badge">—</span>';
+            if (gender === 'М') return '<span class="badge badge-men">М</span>';
+            if (gender === 'Ж') return '<span class="badge badge-women">Ж</span>';
+            return '—';
         };
 
-        // Загрузка данных
         async function loadData() {
             try {
-                // Загружаем участников
                 const { data: participantsData, error: participantsError } = await supabaseClient
                     .from('participants')
                     .select('*')
@@ -421,14 +483,12 @@
                 
                 if (participantsError) throw participantsError;
                 
-                // Загружаем недельные очки
                 const { data: scoresData, error: scoresError } = await supabaseClient
                     .from('weekly_scores')
                     .select('*');
                 
                 if (scoresError) throw scoresError;
                 
-                // Группируем очки по участникам
                 const scoresByParticipant = {};
                 for (const score of scoresData) {
                     if (!scoresByParticipant[score.participant_id]) {
@@ -441,7 +501,6 @@
                     scoresByParticipant[score.participant_id].total += score.total_points;
                 }
                 
-                // Рассчитываем темп и очки для каждого участника
                 participants = participantsData.map(p => {
                     let avg_pace = 0;
                     if (p.total_km > 0 && p.total_min > 0) {
@@ -466,10 +525,7 @@
                     };
                 });
                 
-                // Обновляем статистику
                 updateStatsSummary();
-                
-                // Применяем фильтры и сортировку
                 applyFiltersAndSort();
                 
             } catch (error) {
@@ -551,16 +607,16 @@
                         <td>${formatKm(p.total_km)}</td>
                         <td>${formatTime(p.total_min)}</td>
                         <td>${formatPace(p.total_km, p.total_min)}</td>
-                        <td>❄️ ${p.snowflake_balance}</td>
+                        <td>${p.snowflake_balance}</td>
                         <td>
                             <div class="weekly-points">
-                                <div class="week-point">1н: ${p.week1_points}</div>
-                                <div class="week-point">2н: ${p.week2_points}</div>
-                                <div class="week-point">3н: ${p.week3_points}</div>
-                                <div class="week-point">4н: ${p.week4_points}</div>
+                                <div class="week-point">${p.week1_points}</div>
+                                <div class="week-point">${p.week2_points}</div>
+                                <div class="week-point">${p.week3_points}</div>
+                                <div class="week-point">${p.week4_points}</div>
                             </div>
                         </td>
-                        <td><strong style="font-size: 18px; color: var(--accent);">${p.total_points}</strong></td>
+                        <td><strong style="font-size: 16px; color: var(--accent);">${p.total_points}</strong></td>
                     </tr>
                 `;
             });
@@ -601,16 +657,13 @@
             applyFiltersAndSort();
         }
         
-        // Поиск
         document.getElementById('searchInput').addEventListener('input', (e) => {
             searchQuery = e.target.value;
             applyFiltersAndSort();
         });
         
-        // Запуск
         loadData();
         
-        // Делаем функции глобальными для onclick
         window.setFilter = setFilter;
         window.sortBy = sortBy;
     </script>
