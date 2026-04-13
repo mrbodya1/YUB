@@ -48,7 +48,6 @@
             padding: 20px;
         }
 
-        /* Header */
         .header {
             background: linear-gradient(135deg, #5E5CE0 0%, #3A3A9E 100%);
             color: white;
@@ -68,7 +67,6 @@
             opacity: 0.85;
         }
 
-        /* Tabs */
         .tabs {
             display: flex;
             gap: 8px;
@@ -98,7 +96,6 @@
             box-shadow: 0 2px 4px rgba(94,92,224,0.3);
         }
 
-        /* Filters */
         .filters {
             background: var(--bg-secondary);
             border-radius: 20px;
@@ -143,7 +140,6 @@
             cursor: text;
         }
 
-        /* Table */
         .table-container {
             overflow-x: auto;
             background: var(--bg-secondary);
@@ -182,7 +178,6 @@
             background: var(--accent-light);
         }
 
-        /* Medals */
         .medal {
             font-size: 18px;
             width: 32px;
@@ -193,7 +188,6 @@
         .medal-2 { color: var(--silver); }
         .medal-3 { color: var(--bronze); }
 
-        /* Sort icon */
         .sort-icon {
             margin-left: 6px;
             font-size: 10px;
@@ -204,7 +198,6 @@
             opacity: 1;
         }
 
-        /* Badges */
         .badge {
             display: inline-block;
             padding: 4px 10px;
@@ -223,7 +216,6 @@
             color: #FF2D55;
         }
 
-        /* Weekly points */
         .weekly-points {
             display: flex;
             gap: 6px;
@@ -240,7 +232,6 @@
             min-width: 40px;
         }
 
-        /* Loading */
         .loading {
             text-align: center;
             padding: 60px;
@@ -260,36 +251,30 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Empty state */
         .empty {
             text-align: center;
             padding: 60px;
             color: var(--text-secondary);
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
             .container {
                 padding: 12px;
             }
-            
             th, td {
                 padding: 12px 8px;
                 font-size: 12px;
             }
-            
             .week-point {
                 font-size: 10px;
                 padding: 2px 6px;
                 min-width: 32px;
             }
-            
             .filters-row {
                 flex-direction: column;
             }
         }
 
-        /* Stats summary */
         .stats-summary {
             display: flex;
             gap: 16px;
@@ -385,18 +370,15 @@
         // Supabase подключение
         const SUPABASE_URL = 'https://ohaspovkdvtihosvzpli.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9oYXNwb3ZrZHZ0aWhvc3Z6cGxpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1NjI1ODEsImV4cCI6MjA5MDEzODU4MX0.5OvphjjVlBP8hXvLMIALsD6pZn5453mkSEpCeOl8280';
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // Состояния
         let participants = [];
         let filteredParticipants = [];
-        let currentFilter = 'all'; // all, М, Ж
+        let currentFilter = 'all';
         let sortField = 'totalPoints';
         let sortDirection = 'desc';
         let searchQuery = '';
-
-        // Очки по неделям (будет заполнено из БД)
-        let weeklyScores = {};
 
         // Функции форматирования
         const formatKm = (km) => `${km?.toFixed(1) || 0} км`;
@@ -432,7 +414,7 @@
         async function loadData() {
             try {
                 // Загружаем участников
-                const { data: participantsData, error: participantsError } = await supabase
+                const { data: participantsData, error: participantsError } = await supabaseClient
                     .from('participants')
                     .select('*')
                     .eq('status', 'active');
@@ -440,7 +422,7 @@
                 if (participantsError) throw participantsError;
                 
                 // Загружаем недельные очки
-                const { data: scoresData, error: scoresError } = await supabase
+                const { data: scoresData, error: scoresError } = await supabaseClient
                     .from('weekly_scores')
                     .select('*');
                 
@@ -507,15 +489,12 @@
         }
         
         function applyFiltersAndSort() {
-            // Фильтрация
             let result = [...participants];
             
-            // По полу
             if (currentFilter !== 'all') {
                 result = result.filter(p => p.gender === currentFilter);
             }
             
-            // Поиск
             if (searchQuery) {
                 const query = searchQuery.toLowerCase();
                 result = result.filter(p => 
@@ -524,7 +503,6 @@
                 );
             }
             
-            // Сортировка
             result.sort((a, b) => {
                 let aVal = a[sortField];
                 let bVal = b[sortField];
@@ -592,7 +570,6 @@
         
         function setFilter(filter) {
             currentFilter = filter;
-            // Обновляем активный таб
             document.querySelectorAll('.tab').forEach((tab, i) => {
                 if ((filter === 'all' && i === 0) || (filter === 'М' && i === 1) || (filter === 'Ж' && i === 2)) {
                     tab.classList.add('active');
@@ -611,10 +588,7 @@
                 sortDirection = 'desc';
             }
             
-            // Обновляем стрелки в заголовках
-            document.querySelectorAll('th').forEach(th => {
-                th.classList.remove('active');
-            });
+            document.querySelectorAll('th').forEach(th => th.classList.remove('active'));
             const ths = document.querySelectorAll('th');
             const fieldIndex = {
                 'place': 0, 'name': 1, 'gender': 2, 'workouts': 3,
@@ -635,6 +609,10 @@
         
         // Запуск
         loadData();
+        
+        // Делаем функции глобальными для onclick
+        window.setFilter = setFilter;
+        window.sortBy = sortBy;
     </script>
 </body>
 </html>
