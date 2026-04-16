@@ -2,13 +2,27 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, shrink-to-fit=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Королевская Битва — Правила</title>
     <style>
+        /* Reset с учетом старых браузеров */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+        
+        html {
+            -webkit-text-size-adjust: 100%;
+            -moz-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+            -webkit-tap-highlight-color: transparent;
+            tap-highlight-color: transparent;
         }
         
         body {
@@ -19,17 +33,23 @@
             line-height: 1.4;
             padding: 12px 8px;
             font-size: 14px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
         
+        /* Контейнер с fallback для старых браузеров */
         .container {
             max-width: 600px;
             margin: 0 auto;
             background: #ffffff;
             border-radius: 16px;
             padding: 20px 16px;
+            -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e5e7eb;
         }
         
+        /* Типографика с fallback */
         h1 {
             font-size: 1.8rem;
             font-weight: 700;
@@ -37,6 +57,8 @@
             margin-bottom: 6px;
             color: #1a1a1a;
             letter-spacing: -0.5px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
         
         .subtitle {
@@ -74,10 +96,20 @@
         p {
             margin-bottom: 10px;
             color: #374151;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
         
+        /* Карточки с fallback для старых браузеров */
         .card-grid {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
             display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -webkit-flex-direction: column;
+            -ms-flex-direction: column;
             flex-direction: column;
             gap: 10px;
             margin: 12px 0;
@@ -99,14 +131,23 @@
             font-size: 1.1rem;
             font-weight: 600;
             margin-bottom: 8px;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
             display: flex;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            -ms-flex-align: center;
             align-items: center;
             gap: 6px;
+            -webkit-flex-wrap: wrap;
+            -ms-flex-wrap: wrap;
             flex-wrap: wrap;
         }
         
         .card-icon {
             font-size: 1.3rem;
+            display: inline-block;
         }
         
         .price-tag {
@@ -117,8 +158,10 @@
             font-size: 0.8rem;
             font-weight: 600;
             margin-left: 4px;
+            display: inline-block;
         }
         
+        /* Примеры */
         .example-box {
             background: #f3f4f6;
             border-radius: 10px;
@@ -140,6 +183,7 @@
             font-weight: 500;
         }
         
+        /* Списки с улучшенной сенсорной областью */
         ul, ol {
             margin-left: 20px;
             margin-bottom: 14px;
@@ -148,6 +192,26 @@
         
         li {
             margin-bottom: 4px;
+            padding: 2px 0;
+        }
+        
+        /* Таблицы с улучшенной прокруткой */
+        .table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 12px -4px;
+            padding: 0 4px;
+            -ms-overflow-style: -ms-autohiding-scrollbar;
+        }
+        
+        .table-wrapper::-webkit-scrollbar {
+            -webkit-appearance: none;
+            height: 4px;
+        }
+        
+        .table-wrapper::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
         }
         
         table {
@@ -159,12 +223,16 @@
             overflow: hidden;
             font-size: 0.8rem;
             border: 1px solid #e5e7eb;
+            min-width: -webkit-min-content;
+            min-width: -moz-min-content;
+            min-width: min-content;
         }
         
         th, td {
             padding: 8px 6px;
             text-align: left;
             border-bottom: 1px solid #e5e7eb;
+            vertical-align: top;
         }
         
         th {
@@ -172,6 +240,7 @@
             color: #1a1a1a;
             font-weight: 600;
             font-size: 0.8rem;
+            white-space: nowrap;
         }
         
         tr:last-child td {
@@ -182,6 +251,7 @@
             background: #ffffff;
         }
         
+        /* Заметки */
         .note {
             background: #fef3c7;
             border-radius: 10px;
@@ -197,6 +267,7 @@
             margin-bottom: 6px;
         }
         
+        /* Оглавление */
         .toc {
             background: #f9fafb;
             border-radius: 12px;
@@ -213,24 +284,90 @@
         }
         
         .toc-list {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
             display: flex;
+            -webkit-flex-wrap: wrap;
+            -ms-flex-wrap: wrap;
             flex-wrap: wrap;
             gap: 6px 12px;
             list-style: none;
             margin-left: 0;
         }
         
+        .toc-list li {
+            padding: 0;
+        }
+        
         .toc-list a {
             color: #4b5563;
             text-decoration: none;
             font-size: 0.85rem;
+            -webkit-transition: color 0.15s;
             transition: color 0.15s;
+            padding: 4px 0;
+            display: inline-block;
+            -webkit-tap-highlight-color: rgba(245, 175, 25, 0.2);
+            tap-highlight-color: rgba(245, 175, 25, 0.2);
         }
         
-        .toc-list a:hover {
+        .toc-list a:active {
             color: #d97706;
         }
         
+        /* Details/Summary с улучшенной сенсорной областью */
+        details {
+            margin: 8px 0;
+        }
+        
+        summary {
+            font-weight: 600;
+            color: #d97706;
+            cursor: pointer;
+            padding: 10px 8px;
+            -webkit-tap-highlight-color: rgba(245, 175, 25, 0.2);
+            tap-highlight-color: rgba(245, 175, 25, 0.2);
+            border-radius: 6px;
+            -webkit-transition: background 0.15s;
+            transition: background 0.15s;
+            outline: none;
+            list-style: none;
+        }
+        
+        summary::-webkit-details-marker {
+            display: none;
+        }
+        
+        summary::before {
+            content: '▶';
+            display: inline-block;
+            margin-right: 8px;
+            font-size: 0.7rem;
+            -webkit-transition: -webkit-transform 0.2s;
+            transition: transform 0.2s;
+            color: #d97706;
+        }
+        
+        details[open] summary::before {
+            -webkit-transform: rotate(90deg);
+            -ms-transform: rotate(90deg);
+            transform: rotate(90deg);
+        }
+        
+        summary:active {
+            background: rgba(245, 175, 25, 0.1);
+        }
+        
+        summary:focus {
+            background: rgba(245, 175, 25, 0.05);
+        }
+        
+        summary:focus:not(:focus-visible) {
+            background: transparent;
+        }
+        
+        /* Бейджи */
         .badge {
             display: inline-block;
             padding: 2px 8px;
@@ -260,6 +397,7 @@
             color: white;
         }
         
+        /* Футер */
         .footer {
             text-align: center;
             margin-top: 32px;
@@ -272,9 +410,46 @@
         .footer a {
             color: #d97706;
             text-decoration: none;
+            padding: 4px;
+            -webkit-tap-highlight-color: rgba(245, 175, 25, 0.2);
+            tap-highlight-color: rgba(245, 175, 25, 0.2);
         }
         
-        /* Компактные таблицы для мобильных */
+        /* Улучшенные сенсорные области для всех кликабельных элементов */
+        a, button, [role="button"], summary {
+            min-height: 44px;
+            min-width: 44px;
+            display: -webkit-inline-box;
+            display: -webkit-inline-flex;
+            display: -ms-inline-flexbox;
+            display: inline-flex;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            -ms-flex-align: center;
+            align-items: center;
+        }
+        
+        .toc-list a {
+            min-height: 36px;
+            min-width: auto;
+        }
+        
+        /* Предотвращение выезда за экран */
+        .break-word {
+            word-break: break-word;
+            overflow-wrap: break-word;
+            -webkit-hyphens: auto;
+            -moz-hyphens: auto;
+            -ms-hyphens: auto;
+            hyphens: auto;
+        }
+        
+        img, svg, video, canvas {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        /* Медиа-запросы с префиксами */
         @media (max-width: 480px) {
             body {
                 padding: 8px 4px;
@@ -320,27 +495,60 @@
             }
         }
         
-        /* Предотвращение выезда за экран */
-        .table-wrapper {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            margin: 12px -4px;
-            padding: 0 4px;
+        /* Поддержка старых iOS */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                padding-bottom: env(safe-area-inset-bottom, 12px);
+            }
+            
+            .container {
+                padding-left: max(16px, env(safe-area-inset-left));
+                padding-right: max(16px, env(safe-area-inset-right));
+            }
         }
         
-        .table-wrapper table {
-            min-width: 100%;
-            margin: 0;
+        /* Поддержка Samsung Internet и старых Android */
+        @media screen and (-webkit-min-device-pixel-ratio: 0) {
+            .table-wrapper {
+                -webkit-overflow-scrolling: touch;
+            }
         }
         
-        .break-word {
-            word-break: break-word;
-            overflow-wrap: break-word;
+        /* Fallback для браузеров без поддержки gap */
+        @supports not (gap: 10px) {
+            .card-grid > * + * {
+                margin-top: 10px;
+            }
+            
+            .toc-list > * {
+                margin-right: 12px;
+                margin-bottom: 6px;
+            }
+            
+            .card-title > * + * {
+                margin-left: 6px;
+            }
         }
         
-        img, svg {
-            max-width: 100%;
-            height: auto;
+        /* Улучшенная читаемость для людей с ограниченными возможностями */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                -webkit-transition: none !important;
+                transition: none !important;
+                -webkit-animation: none !important;
+                animation: none !important;
+            }
+        }
+        
+        /* Высокий контраст для accessibility */
+        @media (prefers-contrast: high) {
+            .card, .example-box, .note, .toc {
+                border-width: 2px;
+            }
+            
+            .ability-card {
+                border-color: #b45309;
+            }
         }
     </style>
 </head>
@@ -501,7 +709,7 @@
             <p>Всего 30 достижений, за каждое — ромашки.</p>
             
             <details>
-                <summary style="font-weight: 600; color: #d97706; cursor: pointer; padding: 8px 0;">🏃 По тренировкам (6)</summary>
+                <summary>🏃 По тренировкам (6)</summary>
                 <div class="table-wrapper" style="margin-top: 8px;">
                     <table>
                         <tr><th>Достижение</th><th>🌼</th></tr>
@@ -516,7 +724,7 @@
             </details>
             
             <details>
-                <summary style="font-weight: 600; color: #d97706; cursor: pointer; padding: 8px 0;">📅 Серии (4)</summary>
+                <summary>📅 Серии (4)</summary>
                 <div class="table-wrapper" style="margin-top: 8px;">
                     <table>
                         <tr><th>Достижение</th><th>🌼</th></tr>
@@ -529,7 +737,7 @@
             </details>
             
             <details>
-                <summary style="font-weight: 600; color: #d97706; cursor: pointer; padding: 8px 0;">⚡ Темп (3)</summary>
+                <summary>⚡ Темп (3)</summary>
                 <div class="table-wrapper" style="margin-top: 8px;">
                     <table>
                         <tr><th>Достижение</th><th>🌼</th></tr>
@@ -541,7 +749,7 @@
             </details>
             
             <details>
-                <summary style="font-weight: 600; color: #d97706; cursor: pointer; padding: 8px 0;">📏 Дистанции (3)</summary>
+                <summary>📏 Дистанции (3)</summary>
                 <div class="table-wrapper" style="margin-top: 8px;">
                     <table>
                         <tr><th>Достижение</th><th>🌼</th></tr>
@@ -553,7 +761,7 @@
             </details>
             
             <details>
-                <summary style="font-weight: 600; color: #d97706; cursor: pointer; padding: 8px 0;">🌙 Время суток (4)</summary>
+                <summary>🌙 Время суток (4)</summary>
                 <div class="table-wrapper" style="margin-top: 8px;">
                     <table>
                         <tr><th>Достижение</th><th>🌼</th></tr>
@@ -566,7 +774,7 @@
             </details>
             
             <details>
-                <summary style="font-weight: 600; color: #d97706; cursor: pointer; padding: 8px 0;">⚔️ Боевые (7)</summary>
+                <summary>⚔️ Боевые (7)</summary>
                 <div class="table-wrapper" style="margin-top: 8px;">
                     <table>
                         <tr><th>Достижение</th><th>🌼</th></tr>
@@ -582,7 +790,7 @@
             </details>
             
             <details>
-                <summary style="font-weight: 600; color: #d97706; cursor: pointer; padding: 8px 0;">🎲 Рулетка (3)</summary>
+                <summary>🎲 Рулетка (3)</summary>
                 <div class="table-wrapper" style="margin-top: 8px;">
                     <table>
                         <tr><th>Достижение</th><th>🌼</th></tr>
