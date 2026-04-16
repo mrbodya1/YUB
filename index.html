@@ -2,26 +2,6 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Оплата принята — Королевская Битва</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0 Which I've been working on improving my response quality, and I'm ready to provide a better answer. Let me give you the complete, corrected code for the page.Отлично! Давай создадим красивую страницу для оплаты на GitHub Pages. Я подготовлю полный HTML-код лендинга.
-
-## 📄 Страница `index.html` для GitHub Pages
-
-```html
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <meta name="theme-color" content="#f5af19">
     <title>Королевская Битва — Беговой челлендж</title>
@@ -63,6 +43,7 @@
             margin: 0 auto;
         }
         
+        /* Hero Section */
         .hero {
             text-align: center;
             padding: 30px 20px;
@@ -102,6 +83,7 @@
             font-weight: 600;
         }
         
+        /* Info Cards */
         .info-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -133,6 +115,7 @@
             color: var(--text-tertiary);
         }
         
+        /* Price Card */
         .price-card {
             background: var(--bg-primary);
             border-radius: var(--radius-lg);
@@ -162,6 +145,110 @@
             font-weight: 400;
         }
         
+        .price-note {
+            color: var(--text-tertiary);
+            font-size: 0.85rem;
+        }
+        
+        /* Form */
+        .form-card {
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            padding: 24px 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .form-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+        
+        .input-group {
+            margin-bottom: 16px;
+        }
+        
+        .input-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+        
+        .input-hint {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            margin-top: 4px;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            transition: border-color 0.2s;
+            background: var(--bg-secondary);
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .input-field.error {
+            border-color: #ef4444;
+        }
+        
+        .error-message {
+            color: #ef4444;
+            font-size: 0.8rem;
+            margin-top: 4px;
+            display: none;
+        }
+        
+        /* Buttons */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 16px 20px;
+            border: none;
+            border-radius: var(--radius-xl);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(245, 175, 25, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-light);
+        }
+        
+        /* Features */
         .features {
             background: var(--bg-primary);
             border-radius: var(--radius-lg);
@@ -193,38 +280,10 @@
             font-size: 0.95rem;
         }
         
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 16px 20px;
-            border: none;
-            border-radius: var(--radius-xl);
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-            text-decoration: none;
-            background: var(--primary);
-            color: white;
-            box-shadow: 0 4px 12px rgba(245, 175, 25, 0.3);
-        }
-        
-        .btn:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-        
-        .btn-secondary {
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            border: 1px solid var(--border-light);
-            box-shadow: none;
-        }
-        
+        /* Rules Link */
         .rules-link {
             text-align: center;
-            margin: 20px 0;
+            margin-bottom: 20px;
         }
         
         .rules-link a {
@@ -234,6 +293,66 @@
             font-size: 0.9rem;
         }
         
+        /* Loading */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border-light);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Success Message */
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 30px 20px;
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .success-emoji {
+            font-size: 4rem;
+            margin-bottom: 16px;
+        }
+        
+        .success-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #10b981;
+            margin-bottom: 12px;
+        }
+        
+        .success-text {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+        
+        .vk-link {
+            display: inline-block;
+            background: #0077ff;
+            color: white;
+            padding: 14px 30px;
+            border-radius: var(--radius-xl);
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        /* Footer */
         .footer {
             text-align: center;
             color: rgba(255,255,255,0.5);
@@ -245,48 +364,11 @@
             color: rgba(255,255,255,0.7);
             text-decoration: none;
         }
-        
-        .payment-section {
-            background: var(--bg-primary);
-            border-radius: var(--radius-lg);
-            padding: 24px;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow-md);
-            text-align: center;
-        }
-        
-        .payment-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-        
-        .payment-subtitle {
-            color: var(--text-tertiary);
-            margin-bottom: 20px;
-            font-size: 0.9rem;
-        }
-        
-        .yookassa-btn {
-            background: #0077ff;
-            color: white;
-            padding: 16px 20px;
-            border-radius: var(--radius-xl);
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-block;
-            width: 100%;
-            box-shadow: 0 4px 12px rgba(0, 119, 255, 0.3);
-        }
-        
-        .yookassa-btn:hover {
-            background: #0066dd;
-            transform: translateY(-2px);
-        }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Hero -->
         <div class="hero">
             <div class="hero-emoji">🏔️👑</div>
             <h1>Королевская Битва</h1>
@@ -294,6 +376,7 @@
             <div class="dates">📅 27 апреля — 17 мая 2026</div>
         </div>
         
+        <!-- Info Grid -->
         <div class="info-grid">
             <div class="info-card">
                 <div class="emoji">🏃</div>
@@ -302,8 +385,8 @@
             </div>
             <div class="info-card">
                 <div class="emoji">🏆</div>
-                <div class="value">70%</div>
-                <div class="label">В призовой фонд</div>
+                <div class="value">69 300 ₽</div>
+                <div class="label">Призовой фонд*</div>
             </div>
             <div class="info-card">
                 <div class="emoji">👥</div>
@@ -317,6 +400,7 @@
             </div>
         </div>
         
+        <!-- Features -->
         <div class="features">
             <div class="features-title">🔥 Что тебя ждёт</div>
             <div class="feature-item">
@@ -337,32 +421,81 @@
             </div>
             <div class="feature-item">
                 <div class="feature-emoji">💰</div>
-                <div class="feature-text">Топ-10 получают денежные призы</div>
+                <div class="feature-text">Призовой фонд делится между топ-10</div>
             </div>
         </div>
         
+        <!-- Price Card -->
         <div class="price-card">
             <div class="price-label">Вступительный взнос</div>
             <div class="price-value">990 <small>₽</small></div>
+            <div class="price-note">* при 100 участниках (50 мужчин + 50 женщин)</div>
         </div>
         
-        <div class="payment-section">
-            <div class="payment-title">💳 Готов участвовать?</div>
-            <div class="payment-subtitle">Оплати взнос и присоединяйся к битве!</div>
+        <!-- Registration Form -->
+        <div class="form-card" id="formCard">
+            <div class="form-title">📋 Регистрация</div>
             
-            <a href="#" class="yookassa-btn" id="payButton">
-                Оплатить 990 ₽ через ЮKassa
+            <div class="input-group">
+                <label class="input-label">Твоя ссылка ВКонтакте</label>
+                <input type="text" class="input-field" id="vkLink" placeholder="vk.com/id12345678 или vk.com/username">
+                <div class="input-hint">Скопируй ссылку на свой профиль ВК</div>
+                <div class="error-message" id="vkError">Введи корректную ссылку ВК</div>
+            </div>
+            
+            <div class="input-group">
+                <label class="input-label">Твой пол</label>
+                <select class="input-field" id="gender">
+                    <option value="">Выбери пол</option>
+                    <option value="М">Мужской</option>
+                    <option value="Ж">Женский</option>
+                </select>
+                <div class="error-message" id="genderError">Выбери пол</div>
+            </div>
+            
+            <div class="input-group">
+                <label class="input-label">
+                    <input type="checkbox" id="agreeRules" style="width: auto; margin-right: 8px;">
+                    Я согласен с <a href="https://mrbodya1.github.io/YUB/rules.html" target="_blank" style="color: var(--primary-dark);">правилами челленджа</a>
+                </label>
+                <div class="error-message" id="agreeError">Нужно согласиться с правилами</div>
+            </div>
+        </div>
+        
+        <!-- Pay Button -->
+        <button class="btn btn-primary" id="payButton">
+            💳 Оплатить 990 ₽ и участвовать
+        </button>
+        
+        <!-- Loading -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <div>Создаём платёж...</div>
+        </div>
+        
+        <!-- Success -->
+        <div class="success-message" id="successMessage">
+            <div class="success-emoji">✅</div>
+            <div class="success-title">Заявка принята!</div>
+            <div class="success-text">
+                После оплаты ты будешь автоматически активирован в боте.<br><br>
+                <strong>Важно:</strong> напиши боту команду <code style="background: #f1f5f9; padding: 2px 8px; border-radius: 4px;">/start</code> 
+                в личных сообщениях сообщества, чтобы завершить регистрацию!
+            </div>
+            <a href="https://vk.me/club114046577" class="vk-link" target="_blank">
+                💬 Перейти в бота
             </a>
-            
             <p style="margin-top: 16px; font-size: 0.85rem; color: var(--text-tertiary);">
-                После оплаты напиши боту <code style="background: #f1f5f9; padding: 2px 8px; border-radius: 4px;">/start</code>
+                Или открой ВК и найди @club114046577
             </p>
         </div>
         
+        <!-- Rules Link -->
         <div class="rules-link">
-            <a href="rules.html">📜 Полные правила челленджа</a>
+            <a href="https://mrbodya1.github.io/YUB/rules.html" target="_blank">📜 Полные правила челленджа</a>
         </div>
         
+        <!-- Footer -->
         <div class="footer">
             🏔️ Королевская Битва 2026<br>
             По вопросам: <a href="https://vk.com/bodya1">@bodya1</a>
@@ -370,18 +503,127 @@
     </div>
     
     <script>
-        document.getElementById('payButton').addEventListener('click', async function(e) {
-            e.preventDefault();
+        const payButton = document.getElementById('payButton');
+        const loading = document.getElementById('loading');
+        const formCard = document.getElementById('formCard');
+        const successMessage = document.getElementById('successMessage');
+        
+        const vkLink = document.getElementById('vkLink');
+        const gender = document.getElementById('gender');
+        const agreeRules = document.getElementById('agreeRules');
+        
+        const vkError = document.getElementById('vkError');
+        const genderError = document.getElementById('genderError');
+        const agreeError = document.getElementById('agreeError');
+        
+        function validateVkLink(link) {
+            if (!link) return false;
+            // Проверяем форматы: vk.com/id123, vk.com/username, https://vk.com/...
+            const vkPattern = /^(https?:\/\/)?(www\.)?vk\.com\/(id\d+|[a-zA-Z0-9_.]+)\/?$/;
+            return vkPattern.test(link.trim());
+        }
+        
+        function validateForm() {
+            let isValid = true;
             
-            // Здесь будет запрос к API для создания платежа
-            // Пока просто редирект на заглушку или открываем ссылку
+            // Валидация ссылки ВК
+            if (!validateVkLink(vkLink.value)) {
+                vkLink.classList.add('error');
+                vkError.style.display = 'block';
+                isValid = false;
+            } else {
+                vkLink.classList.remove('error');
+                vkError.style.display = 'none';
+            }
             
-            alert('Функция оплаты будет доступна после подключения API ЮKassa');
+            // Валидация пола
+            if (!gender.value) {
+                gender.classList.add('error');
+                genderError.style.display = 'block';
+                isValid = false;
+            } else {
+                gender.classList.remove('error');
+                genderError.style.display = 'none';
+            }
             
-            // В реальности:
-            // const response = await fetch('https://stroitelev91.pythonanywhere.com/create-landing-payment');
-            // const data = await response.json();
-            // window.location.href = data.payment_url;
+            // Валидация согласия
+            if (!agreeRules.checked) {
+                agreeError.style.display = 'block';
+                isValid = false;
+            } else {
+                agreeError.style.display = 'none';
+            }
+            
+            return isValid;
+        }
+        
+        payButton.addEventListener('click', async function() {
+            if (!validateForm()) {
+                return;
+            }
+            
+            // Показываем загрузку
+            payButton.style.display = 'none';
+            loading.style.display = 'block';
+            
+            // Эмулируем создание платежа и переход на ЮKassa
+            // В реальности здесь должен быть запрос к вашему API для создания платежа
+            // и редирект на payment_url от ЮKassa
+            
+            setTimeout(() => {
+                // Имитация успешной оплаты (для теста)
+                // В реальном коде здесь будет редирект на URL ЮKassa
+                
+                // Для демонстрации показываем success
+                loading.style.display = 'none';
+                formCard.style.display = 'none';
+                successMessage.style.display = 'block';
+                
+                // В реальности: window.location.href = paymentUrl;
+            }, 2000);
+            
+            // Пример реального кода (закомментирован):
+            /*
+            try {
+                const response = await fetch('https://stroitelev91.pythonanywhere.com/create-payment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        vk_link: vkLink.value.trim(),
+                        gender: gender.value
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    window.location.href = data.payment_url;
+                } else {
+                    alert('Ошибка создания платежа: ' + data.error);
+                    payButton.style.display = 'block';
+                    loading.style.display = 'none';
+                }
+            } catch (error) {
+                alert('Ошибка соединения. Попробуй позже.');
+                payButton.style.display = 'block';
+                loading.style.display = 'none';
+            }
+            */
+        });
+        
+        // Очистка ошибок при вводе
+        vkLink.addEventListener('input', () => {
+            vkLink.classList.remove('error');
+            vkError.style.display = 'none';
+        });
+        
+        gender.addEventListener('change', () => {
+            gender.classList.remove('error');
+            genderError.style.display = 'none';
+        });
+        
+        agreeRules.addEventListener('change', () => {
+            agreeError.style.display = 'none';
         });
     </script>
 </body>
