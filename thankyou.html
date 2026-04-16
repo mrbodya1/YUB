@@ -13,124 +13,376 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0 Which I've been working on improving my response quality, and I'm ready to provide a better answer. Let me give you the complete, corrected code for the page.Отлично! Давай создадим красивую страницу для оплаты на GitHub Pages. Я подготовлю полный HTML-код лендинга.
+
+## 📄 Страница `index.html` для GitHub Pages
+
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="theme-color" content="#f5af19">
+    <title>Королевская Битва — Беговой челлендж</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #f5af19;
+            --primary-dark: #d97706;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --text-tertiary: #64748b;
+            --border-light: #e2e8f0;
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            color: var(--text-primary);
+            line-height: 1.5;
+            font-size: 16px;
+            padding: 16px;
         }
         
-        .card {
-            max-width: 450px;
-            background: white;
-            border-radius: 24px;
-            padding: 40px 30px;
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+        }
+        
+        .hero {
             text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            padding: 30px 20px;
+            background: var(--bg-primary);
+            border-radius: var(--radius-xl);
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-lg);
         }
         
-        .emoji {
-            font-size: 5rem;
+        .hero-emoji {
+            font-size: 4rem;
+            margin-bottom: 10px;
+        }
+        
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f5af19, #f12711);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+        
+        .hero-subtitle {
+            color: var(--text-tertiary);
+            font-size: 1rem;
+        }
+        
+        .dates {
+            background: var(--primary);
+            color: white;
+            padding: 8px 20px;
+            border-radius: var(--radius-xl);
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
             margin-bottom: 20px;
         }
         
-        h1 {
+        .info-card {
+            background: var(--bg-primary);
+            border-radius: var(--radius-md);
+            padding: 16px 12px;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .info-card .emoji {
             font-size: 2rem;
-            color: #10b981;
+            margin-bottom: 6px;
+        }
+        
+        .info-card .value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+        
+        .info-card .label {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+        }
+        
+        .price-card {
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            padding: 30px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-lg);
+            border: 2px solid var(--primary);
+        }
+        
+        .price-label {
+            font-size: 1rem;
+            color: var(--text-tertiary);
+            margin-bottom: 8px;
+        }
+        
+        .price-value {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        
+        .price-value small {
+            font-size: 1.2rem;
+            font-weight: 400;
+        }
+        
+        .features {
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .features-title {
+            font-size: 1.1rem;
+            font-weight: 600;
             margin-bottom: 16px;
         }
         
-        p {
-            color: #334155;
-            margin-bottom: 24px;
-            font-size: 1.05rem;
-            line-height: 1.6;
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        
+        .feature-emoji {
+            font-size: 1.5rem;
+            min-width: 32px;
+        }
+        
+        .feature-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
         }
         
         .btn {
-            display: inline-block;
-            background: #0077ff;
-            color: white;
-            padding: 16px 32px;
-            border-radius: 40px;
-            text-decoration: none;
-            font-weight: 600;
+            display: block;
+            width: 100%;
+            padding: 16px 20px;
+            border: none;
+            border-radius: var(--radius-xl);
             font-size: 1.1rem;
-            box-shadow: 0 4px 12px rgba(0, 119, 255, 0.3);
-            transition: transform 0.2s;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            text-decoration: none;
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(245, 175, 25, 0.3);
         }
         
         .btn:hover {
+            background: var(--primary-dark);
             transform: translateY(-2px);
         }
         
-        .note {
-            margin-top: 20px;
-            color: #64748b;
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-light);
+            box-shadow: none;
+        }
+        
+        .rules-link {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .rules-link a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
             font-size: 0.9rem;
         }
         
-        .steps {
-            text-align: left;
-            margin: 24px 0;
+        .footer {
+            text-align: center;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.8rem;
             padding: 20px;
-            background: #f8fafc;
-            border-radius: 16px;
         }
         
-        .step {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 16px;
+        .footer a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
         }
         
-        .step-number {
-            width: 28px;
-            height: 28px;
-            background: #f5af19;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .payment-section {
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-md);
+            text-align: center;
+        }
+        
+        .payment-title {
+            font-size: 1.2rem;
             font-weight: 600;
-            flex-shrink: 0;
+            margin-bottom: 8px;
         }
         
-        .step-text {
-            color: #334155;
+        .payment-subtitle {
+            color: var(--text-tertiary);
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .yookassa-btn {
+            background: #0077ff;
+            color: white;
+            padding: 16px 20px;
+            border-radius: var(--radius-xl);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            width: 100%;
+            box-shadow: 0 4px 12px rgba(0, 119, 255, 0.3);
+        }
+        
+        .yookassa-btn:hover {
+            background: #0066dd;
+            transform: translateY(-2px);
         }
     </style>
 </head>
 <body>
-    <div class="card">
-        <div class="emoji">✅🎉</div>
-        <h1>Оплата прошла успешно!</h1>
-        <p>Спасибо за участие в челлендже «Королевская Битва»!</p>
+    <div class="container">
+        <div class="hero">
+            <div class="hero-emoji">🏔️👑</div>
+            <h1>Королевская Битва</h1>
+            <div class="hero-subtitle">Беговой челлендж с элементами стратегии</div>
+            <div class="dates">📅 27 апреля — 17 мая 2026</div>
+        </div>
         
-        <div class="steps">
-            <div class="step">
-                <div class="step-number">1</div>
-                <div class="step-text">Твой платёж обработан, статус участника активирован</div>
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="emoji">🏃</div>
+                <div class="value">3 км</div>
+                <div class="label">Мин. дистанция</div>
             </div>
-            <div class="step">
-                <div class="step-number">2</div>
-                <div class="step-text">Перейди в бота по кнопке ниже</div>
+            <div class="info-card">
+                <div class="emoji">🏆</div>
+                <div class="value">70%</div>
+                <div class="label">В призовой фонд</div>
             </div>
-            <div class="step">
-                <div class="step-number">3</div>
-                <div class="step-text">Напиши <code style="background: #e2e8f0; padding: 2px 6px; border-radius: 4px;">/start</code> и начни тренироваться!</div>
+            <div class="info-card">
+                <div class="emoji">👥</div>
+                <div class="value">Раздельный</div>
+                <div class="label">Мужчины / Женщины</div>
+            </div>
+            <div class="info-card">
+                <div class="emoji">⚡</div>
+                <div class="value">5</div>
+                <div class="label">Способностей</div>
             </div>
         </div>
         
-        <a href="https://vk.me/club114046577" class="btn" target="_blank">
-            💬 Перейти в бота
-        </a>
+        <div class="features">
+            <div class="features-title">🔥 Что тебя ждёт</div>
+            <div class="feature-item">
+                <div class="feature-emoji">🏃‍♂️</div>
+                <div class="feature-text">Ежедневные тренировки и накопление километража</div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-emoji">⚔️</div>
+                <div class="feature-text">Способности для атаки соперников и защиты</div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-emoji">🌼</div>
+                <div class="feature-text">Зарабатывай ромашки и трать на усиления</div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-emoji">🏅</div>
+                <div class="feature-text">30 достижений с наградами</div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-emoji">💰</div>
+                <div class="feature-text">Топ-10 получают денежные призы</div>
+            </div>
+        </div>
         
-        <p class="note">
-            Если кнопка не работает, открой ВК и найди @club114046577
-        </p>
+        <div class="price-card">
+            <div class="price-label">Вступительный взнос</div>
+            <div class="price-value">990 <small>₽</small></div>
+        </div>
+        
+        <div class="payment-section">
+            <div class="payment-title">💳 Готов участвовать?</div>
+            <div class="payment-subtitle">Оплати взнос и присоединяйся к битве!</div>
+            
+            <a href="#" class="yookassa-btn" id="payButton">
+                Оплатить 990 ₽ через ЮKassa
+            </a>
+            
+            <p style="margin-top: 16px; font-size: 0.85rem; color: var(--text-tertiary);">
+                После оплаты напиши боту <code style="background: #f1f5f9; padding: 2px 8px; border-radius: 4px;">/start</code>
+            </p>
+        </div>
+        
+        <div class="rules-link">
+            <a href="rules.html">📜 Полные правила челленджа</a>
+        </div>
+        
+        <div class="footer">
+            🏔️ Королевская Битва 2026<br>
+            По вопросам: <a href="https://vk.com/bodya1">@bodya1</a>
+        </div>
     </div>
+    
+    <script>
+        document.getElementById('payButton').addEventListener('click', async function(e) {
+            e.preventDefault();
+            
+            // Здесь будет запрос к API для создания платежа
+            // Пока просто редирект на заглушку или открываем ссылку
+            
+            alert('Функция оплаты будет доступна после подключения API ЮKassa');
+            
+            // В реальности:
+            // const response = await fetch('https://stroitelev91.pythonanywhere.com/create-landing-payment');
+            // const data = await response.json();
+            // window.location.href = data.payment_url;
+        });
+    </script>
 </body>
 </html>
