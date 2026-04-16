@@ -2,901 +2,1147 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, shrink-to-fit=no">
-    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Королевская Битва — Правила</title>
     <style>
-        /* Reset с учетом старых браузеров */
+        /* ===== CSS RESET & VARIABLES ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
         
-        html {
-            -webkit-text-size-adjust: 100%;
-            -moz-text-size-adjust: 100%;
-            -ms-text-size-adjust: 100%;
-            text-size-adjust: 100%;
-            -webkit-tap-highlight-color: transparent;
-            tap-highlight-color: transparent;
+        :root {
+            --primary: #f5af19;
+            --primary-dark: #d97706;
+            --primary-light: #fef3c7;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --text-tertiary: #64748b;
+            --border-light: #e2e8f0;
+            --border-lighter: #f1f5f9;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+            --transition: all 0.2s ease;
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: #f0f2f5;
+            font-family: var(--font-sans);
+            background: var(--bg-tertiary);
             min-height: 100vh;
-            color: #1a1a1a;
-            line-height: 1.4;
-            padding: 12px 8px;
-            font-size: 14px;
+            color: var(--text-primary);
+            line-height: 1.5;
+            font-size: 15px;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
         }
         
-        /* Контейнер с fallback для старых браузеров */
-        .container {
-            max-width: 600px;
+        /* ===== LAYOUT ===== */
+        .app {
+            max-width: 480px;
             margin: 0 auto;
-            background: #ffffff;
-            border-radius: 16px;
-            padding: 20px 16px;
-            -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-            border: 1px solid #e5e7eb;
+            background: var(--bg-primary);
+            min-height: 100vh;
+            position: relative;
         }
         
-        /* Типографика с fallback */
-        h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 6px;
-            color: #1a1a1a;
-            letter-spacing: -0.5px;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
+        /* ===== HEADER ===== */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-light);
+            padding: 12px 16px;
+            backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.95);
         }
         
-        .subtitle {
-            text-align: center;
-            color: #6b7280;
-            margin-bottom: 24px;
-            font-size: 0.9rem;
-            border-bottom: 1px solid #e5e7eb;
-            padding-bottom: 16px;
-        }
-        
-        h2 {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin: 28px 0 14px 0;
-            color: #1a1a1a;
-            border-left: 4px solid #f5af19;
-            padding-left: 12px;
-        }
-        
-        h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin: 20px 0 10px 0;
-            color: #374151;
-        }
-        
-        h4 {
-            font-size: 1rem;
-            font-weight: 600;
-            margin: 16px 0 8px 0;
-            color: #4b5563;
-        }
-        
-        p {
-            margin-bottom: 10px;
-            color: #374151;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-        
-        /* Карточки с fallback для старых браузеров */
-        .card-grid {
-            display: -webkit-box;
-            display: -webkit-flex;
-            display: -ms-flexbox;
+        .header-content {
             display: flex;
-            -webkit-box-orient: vertical;
-            -webkit-box-direction: normal;
-            -webkit-flex-direction: column;
-            -ms-flex-direction: column;
-            flex-direction: column;
-            gap: 10px;
-            margin: 12px 0;
-        }
-        
-        .card {
-            background: #f9fafb;
-            border-radius: 12px;
-            padding: 14px;
-            border: 1px solid #e5e7eb;
-        }
-        
-        .ability-card {
-            background: #fffbeb;
-            border-color: #fde68a;
-        }
-        
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-            display: -webkit-box;
-            display: -webkit-flex;
-            display: -ms-flexbox;
-            display: flex;
-            -webkit-box-align: center;
-            -webkit-align-items: center;
-            -ms-flex-align: center;
             align-items: center;
-            gap: 6px;
-            -webkit-flex-wrap: wrap;
-            -ms-flex-wrap: wrap;
-            flex-wrap: wrap;
+            justify-content: space-between;
         }
         
-        .card-icon {
-            font-size: 1.3rem;
-            display: inline-block;
+        .header-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
         }
         
-        .price-tag {
-            background: #f5af19;
-            color: #1a1a1a;
-            padding: 2px 8px;
-            border-radius: 16px;
+        .header-subtitle {
             font-size: 0.8rem;
-            font-weight: 600;
-            margin-left: 4px;
-            display: inline-block;
+            color: var(--text-tertiary);
+            margin-top: 2px;
         }
         
-        /* Примеры */
-        .example-box {
-            background: #f3f4f6;
-            border-radius: 10px;
-            padding: 14px;
-            margin: 14px 0;
-            border-left: 3px solid #f5af19;
-            font-size: 0.9rem;
-        }
-        
-        .example-title {
-            font-weight: 600;
-            color: #d97706;
-            margin-bottom: 8px;
-            font-size: 0.95rem;
-        }
-        
-        .highlight {
-            color: #d97706;
-            font-weight: 500;
-        }
-        
-        /* Списки с улучшенной сенсорной областью */
-        ul, ol {
-            margin-left: 20px;
-            margin-bottom: 14px;
-            color: #374151;
-        }
-        
-        li {
-            margin-bottom: 4px;
-            padding: 2px 0;
-        }
-        
-        /* Таблицы с улучшенной прокруткой */
-        .table-wrapper {
+        /* ===== NAVIGATION TABS ===== */
+        .nav-tabs {
+            display: flex;
+            gap: 4px;
+            padding: 8px 16px;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-light);
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
-            margin: 12px -4px;
-            padding: 0 4px;
-            -ms-overflow-style: -ms-autohiding-scrollbar;
-        }
-        
-        .table-wrapper::-webkit-scrollbar {
-            -webkit-appearance: none;
-            height: 4px;
-        }
-        
-        .table-wrapper::-webkit-scrollbar-thumb {
-            background-color: rgba(0, 0, 0, 0.2);
-            border-radius: 4px;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 12px 0;
-            background: #f9fafb;
-            border-radius: 10px;
-            overflow: hidden;
-            font-size: 0.8rem;
-            border: 1px solid #e5e7eb;
-            min-width: -webkit-min-content;
-            min-width: -moz-min-content;
-            min-width: min-content;
-        }
-        
-        th, td {
-            padding: 8px 6px;
-            text-align: left;
-            border-bottom: 1px solid #e5e7eb;
-            vertical-align: top;
-        }
-        
-        th {
-            background: #f5af19;
-            color: #1a1a1a;
-            font-weight: 600;
-            font-size: 0.8rem;
+            scrollbar-width: none;
             white-space: nowrap;
         }
         
-        tr:last-child td {
-            border-bottom: none;
-        }
-        
-        tr:nth-child(even) {
-            background: #ffffff;
-        }
-        
-        /* Заметки */
-        .note {
-            background: #fef3c7;
-            border-radius: 10px;
-            padding: 12px 14px;
-            margin: 14px 0;
-            border: 1px solid #fde68a;
-            font-size: 0.9rem;
-        }
-        
-        .note-title {
-            color: #b45309;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-        
-        /* Оглавление */
-        .toc {
-            background: #f9fafb;
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 20px;
-            border: 1px solid #e5e7eb;
-        }
-        
-        .toc-title {
-            font-size: 1rem;
-            margin-bottom: 12px;
-            color: #374151;
-            font-weight: 600;
-        }
-        
-        .toc-list {
-            display: -webkit-box;
-            display: -webkit-flex;
-            display: -ms-flexbox;
-            display: flex;
-            -webkit-flex-wrap: wrap;
-            -ms-flex-wrap: wrap;
-            flex-wrap: wrap;
-            gap: 6px 12px;
-            list-style: none;
-            margin-left: 0;
-        }
-        
-        .toc-list li {
-            padding: 0;
-        }
-        
-        .toc-list a {
-            color: #4b5563;
-            text-decoration: none;
-            font-size: 0.85rem;
-            -webkit-transition: color 0.15s;
-            transition: color 0.15s;
-            padding: 4px 0;
-            display: inline-block;
-            -webkit-tap-highlight-color: rgba(245, 175, 25, 0.2);
-            tap-highlight-color: rgba(245, 175, 25, 0.2);
-        }
-        
-        .toc-list a:active {
-            color: #d97706;
-        }
-        
-        /* Details/Summary с улучшенной сенсорной областью */
-        details {
-            margin: 8px 0;
-        }
-        
-        summary {
-            font-weight: 600;
-            color: #d97706;
-            cursor: pointer;
-            padding: 10px 8px;
-            -webkit-tap-highlight-color: rgba(245, 175, 25, 0.2);
-            tap-highlight-color: rgba(245, 175, 25, 0.2);
-            border-radius: 6px;
-            -webkit-transition: background 0.15s;
-            transition: background 0.15s;
-            outline: none;
-            list-style: none;
-        }
-        
-        summary::-webkit-details-marker {
+        .nav-tabs::-webkit-scrollbar {
             display: none;
         }
         
-        summary::before {
-            content: '▶';
-            display: inline-block;
-            margin-right: 8px;
-            font-size: 0.7rem;
-            -webkit-transition: -webkit-transform 0.2s;
-            transition: transform 0.2s;
-            color: #d97706;
-        }
-        
-        details[open] summary::before {
-            -webkit-transform: rotate(90deg);
-            -ms-transform: rotate(90deg);
-            transform: rotate(90deg);
-        }
-        
-        summary:active {
-            background: rgba(245, 175, 25, 0.1);
-        }
-        
-        summary:focus {
-            background: rgba(245, 175, 25, 0.05);
-        }
-        
-        summary:focus:not(:focus-visible) {
+        .nav-tab {
+            padding: 8px 14px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-tertiary);
             background: transparent;
+            border: none;
+            border-radius: var(--radius-xl);
+            cursor: pointer;
+            transition: var(--transition);
+            flex-shrink: 0;
         }
         
-        /* Бейджи */
+        .nav-tab:hover {
+            background: var(--bg-tertiary);
+        }
+        
+        .nav-tab.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* ===== CONTENT ===== */
+        .content {
+            padding: 20px 16px 32px;
+        }
+        
+        /* ===== CARDS ===== */
+        .card {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: 18px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border-light);
+            transition: var(--transition);
+        }
+        
+        .card:hover {
+            box-shadow: var(--shadow-md);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        
+        .card-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--primary-light);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .card-title {
+            flex: 1;
+        }
+        
+        .card-title h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+        
+        .card-title p {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+        }
+        
+        /* ===== ABILITY CARDS ===== */
+        .ability-grid {
+            display: grid;
+            gap: 12px;
+        }
+        
+        .ability-card {
+            background: var(--bg-primary);
+            border-radius: var(--radius-md);
+            padding: 14px;
+            border: 1px solid var(--border-light);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        
+        .ability-emoji {
+            font-size: 1.8rem;
+            line-height: 1;
+        }
+        
+        .ability-content {
+            flex: 1;
+        }
+        
+        .ability-name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+            flex-wrap: wrap;
+        }
+        
+        .ability-name h4 {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .ability-cost {
+            background: var(--primary);
+            color: white;
+            padding: 2px 8px;
+            border-radius: var(--radius-xl);
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        
+        .ability-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+        
+        .ability-target {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        /* ===== INFO BLOCKS ===== */
+        .info-block {
+            background: var(--primary-light);
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .info-title {
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .info-text {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+        
+        /* ===== STATS ROW ===== */
+        .stats-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .stat-item {
+            flex: 1;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            padding: 12px 8px;
+            text-align: center;
+            border: 1px solid var(--border-light);
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            line-height: 1.2;
+        }
+        
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* ===== TABLE STYLES ===== */
+        .table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 12px 0;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-light);
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            min-width: 100%;
+        }
+        
+        .table th {
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            font-weight: 600;
+            padding: 10px 8px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-light);
+            white-space: nowrap;
+        }
+        
+        .table td {
+            padding: 10px 8px;
+            border-bottom: 1px solid var(--border-lighter);
+        }
+        
+        .table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .table tr:hover {
+            background: var(--bg-secondary);
+        }
+        
+        /* ===== ACCORDION ===== */
+        .accordion {
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+        
+        .accordion-header {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--bg-primary);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .accordion-header:hover {
+            background: var(--bg-secondary);
+        }
+        
+        .accordion-header::after {
+            content: '▼';
+            font-size: 0.7rem;
+            color: var(--text-tertiary);
+            transition: var(--transition);
+        }
+        
+        .accordion[open] .accordion-header::after {
+            transform: rotate(180deg);
+        }
+        
+        .accordion-content {
+            padding: 0 16px 16px;
+            background: var(--bg-primary);
+        }
+        
+        /* ===== LIST STYLES ===== */
+        .list {
+            list-style: none;
+        }
+        
+        .list-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-lighter);
+        }
+        
+        .list-item:last-child {
+            border-bottom: none;
+        }
+        
+        .list-bullet {
+            color: var(--primary);
+            font-weight: 600;
+            min-width: 20px;
+        }
+        
+        /* ===== BADGES ===== */
         .badge {
             display: inline-block;
             padding: 2px 8px;
-            border-radius: 16px;
-            font-size: 0.75rem;
+            border-radius: var(--radius-xl);
+            font-size: 0.7rem;
             font-weight: 600;
-            margin-right: 4px;
         }
         
-        .badge-gold {
-            background: #f5af19;
-            color: #1a1a1a;
+        .badge-success {
+            background: #d1fae5;
+            color: #065f46;
         }
         
-        .badge-red {
-            background: #ef4444;
+        .badge-warning {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+        }
+        
+        .badge-danger {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .badge-info {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px 18px;
+            border-radius: var(--radius-xl);
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
             color: white;
         }
         
-        .badge-blue {
-            background: #3b82f6;
-            color: white;
+        .btn-primary:hover {
+            background: var(--primary-dark);
         }
         
-        .badge-green {
-            background: #10b981;
-            color: white;
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
         }
         
-        /* Футер */
+        .btn-secondary:hover {
+            background: var(--border-light);
+        }
+        
+        /* ===== FOOTER ===== */
         .footer {
+            padding: 24px 16px 32px;
             text-align: center;
-            margin-top: 32px;
-            padding-top: 20px;
-            border-top: 1px solid #e5e7eb;
-            color: #9ca3af;
+            border-top: 1px solid var(--border-light);
+            background: var(--bg-secondary);
+        }
+        
+        .footer-text {
+            color: var(--text-tertiary);
             font-size: 0.8rem;
         }
         
-        .footer a {
-            color: #d97706;
+        .footer-link {
+            color: var(--primary-dark);
             text-decoration: none;
-            padding: 4px;
-            -webkit-tap-highlight-color: rgba(245, 175, 25, 0.2);
-            tap-highlight-color: rgba(245, 175, 25, 0.2);
+            font-weight: 500;
         }
         
-        /* Улучшенные сенсорные области для всех кликабельных элементов */
-        a, button, [role="button"], summary {
+        /* ===== UTILITIES ===== */
+        .divider {
+            height: 1px;
+            background: var(--border-light);
+            margin: 20px 0;
+        }
+        
+        .text-primary { color: var(--text-primary); }
+        .text-secondary { color: var(--text-secondary); }
+        .text-tertiary { color: var(--text-tertiary); }
+        .text-warning { color: var(--warning); }
+        .text-success { color: var(--success); }
+        .text-danger { color: var(--danger); }
+        
+        .font-bold { font-weight: 700; }
+        .font-semibold { font-weight: 600; }
+        .font-medium { font-weight: 500; }
+        
+        .mb-1 { margin-bottom: 4px; }
+        .mb-2 { margin-bottom: 8px; }
+        .mb-3 { margin-bottom: 12px; }
+        .mb-4 { margin-bottom: 16px; }
+        .mt-2 { margin-top: 8px; }
+        .mt-4 { margin-top: 16px; }
+        
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .gap-2 { gap: 8px; }
+        .gap-3 { gap: 12px; }
+        .flex-wrap { flex-wrap: wrap; }
+        
+        /* ===== MOBILE OPTIMIZATIONS ===== */
+        @media (max-width: 360px) {
+            body { font-size: 14px; }
+            .content { padding: 16px 12px; }
+            .card { padding: 14px; }
+            .ability-card { padding: 12px; }
+            .stat-value { font-size: 1.3rem; }
+        }
+        
+        /* Touch-friendly tap targets */
+        button, 
+        .nav-tab,
+        .accordion-header,
+        a {
             min-height: 44px;
-            min-width: 44px;
-            display: -webkit-inline-box;
-            display: -webkit-inline-flex;
-            display: -ms-inline-flexbox;
-            display: inline-flex;
-            -webkit-box-align: center;
-            -webkit-align-items: center;
-            -ms-flex-align: center;
-            align-items: center;
         }
         
-        .toc-list a {
-            min-height: 36px;
-            min-width: auto;
+        /* Prevent text size adjustment on orientation change */
+        html {
+            -webkit-text-size-adjust: 100%;
         }
         
-        /* Предотвращение выезда за экран */
-        .break-word {
-            word-break: break-word;
-            overflow-wrap: break-word;
-            -webkit-hyphens: auto;
-            -moz-hyphens: auto;
-            -ms-hyphens: auto;
-            hyphens: auto;
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
         }
         
-        img, svg, video, canvas {
-            max-width: 100%;
-            height: auto;
-        }
-        
-        /* Медиа-запросы с префиксами */
-        @media (max-width: 480px) {
-            body {
-                padding: 8px 4px;
-                font-size: 13px;
-            }
-            
-            .container {
-                padding: 16px 12px;
-                border-radius: 12px;
-            }
-            
-            h1 {
-                font-size: 1.5rem;
-            }
-            
-            h2 {
-                font-size: 1.2rem;
-                margin: 22px 0 12px 0;
-            }
-            
-            h3 {
-                font-size: 1rem;
-            }
-            
-            table {
-                font-size: 0.75rem;
-            }
-            
-            th, td {
-                padding: 6px 4px;
-            }
-            
-            .card-title {
-                font-size: 1rem;
-            }
-            
-            .toc-list {
-                gap: 4px 8px;
-            }
-            
-            .toc-list a {
-                font-size: 0.8rem;
-            }
-        }
-        
-        /* Поддержка старых iOS */
-        @supports (-webkit-touch-callout: none) {
-            body {
-                padding-bottom: env(safe-area-inset-bottom, 12px);
-            }
-            
-            .container {
-                padding-left: max(16px, env(safe-area-inset-left));
-                padding-right: max(16px, env(safe-area-inset-right));
-            }
-        }
-        
-        /* Поддержка Samsung Internet и старых Android */
-        @media screen and (-webkit-min-device-pixel-ratio: 0) {
-            .table-wrapper {
-                -webkit-overflow-scrolling: touch;
-            }
-        }
-        
-        /* Fallback для браузеров без поддержки gap */
-        @supports not (gap: 10px) {
-            .card-grid > * + * {
-                margin-top: 10px;
-            }
-            
-            .toc-list > * {
-                margin-right: 12px;
-                margin-bottom: 6px;
-            }
-            
-            .card-title > * + * {
-                margin-left: 6px;
-            }
-        }
-        
-        /* Улучшенная читаемость для людей с ограниченными возможностями */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                -webkit-transition: none !important;
-                transition: none !important;
-                -webkit-animation: none !important;
-                animation: none !important;
-            }
-        }
-        
-        /* Высокий контраст для accessibility */
-        @media (prefers-contrast: high) {
-            .card, .example-box, .note, .toc {
-                border-width: 2px;
-            }
-            
-            .ability-card {
-                border-color: #b45309;
-            }
+        /* Focus styles for accessibility */
+        :focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🏔️ КОРОЛЕВСКАЯ БИТВА</h1>
-        <div class="subtitle">Правила и механика</div>
-        
-        <!-- Оглавление -->
-        <div class="toc">
-            <div class="toc-title">📑 Содержание</div>
-            <ul class="toc-list">
-                <li><a href="#basics">Основное</a></li>
-                <li><a href="#workouts">Тренировки</a></li>
-                <li><a href="#snowflakes">Ромашки</a></li>
-                <li><a href="#rating">Рейтинг</a></li>
-                <li><a href="#abilities">Способности</a></li>
-                <li><a href="#roulette">Рулетка</a></li>
-                <li><a href="#achievements">Достижения</a></li>
-                <li><a href="#weekly">Очки</a></li>
-                <li><a href="#prizes">Призы</a></li>
-                <li><a href="#examples">Примеры</a></li>
-            </ul>
-        </div>
-        
-        <!-- Основные правила -->
-        <section id="basics">
-            <h2>🎯 Основное</h2>
-            <p><strong>Королевская Битва</strong> — беговой челлендж с элементами стратегии.</p>
-            
-            <div class="card-grid">
-                <div class="card">
-                    <div class="card-title"><span class="card-icon">👥</span> Раздельный зачёт</div>
-                    <p>Мужчины и женщины соревнуются отдельно. Призовой фонд делится 50/50.</p>
+    <div class="app">
+        <!-- Sticky Header -->
+        <header class="header">
+            <div class="header-content">
+                <div>
+                    <h1 class="header-title">🏔️ Королевская Битва</h1>
+                    <div class="header-subtitle">Правила и механика</div>
                 </div>
-                <div class="card">
-                    <div class="card-title"><span class="card-icon">⏰</span> 1 тренировка в день</div>
-                    <p>Можно загрузить только 1 тренировку в сутки по времени ЕКБ.</p>
+                <span style="font-size: 1.8rem;">👑</span>
+            </div>
+        </header>
+        
+        <!-- Horizontal Navigation -->
+        <nav class="nav-tabs">
+            <button class="nav-tab active" data-tab="main">📋 Главное</button>
+            <button class="nav-tab" data-tab="abilities">⚡ Способности</button>
+            <button class="nav-tab" data-tab="achievements">🏅 Достижения</button>
+            <button class="nav-tab" data-tab="prizes">💰 Призы</button>
+            <button class="nav-tab" data-tab="examples">📝 Примеры</button>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="content" id="tab-main">
+            <!-- Key Stats -->
+            <div class="stats-row">
+                <div class="stat-item">
+                    <div class="stat-value">3 км</div>
+                    <div class="stat-label">Мин. дистанция</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">50 🌼</div>
+                    <div class="stat-label">За тренировку</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">1/день</div>
+                    <div class="stat-label">Лимит</div>
                 </div>
             </div>
-        </section>
-        
-        <!-- Тренировки -->
-        <section id="workouts">
-            <h2>🏃 Тренировки</h2>
             
-            <ul>
-                <li><strong>Мин. дистанция:</strong> 3 км (целое число)</li>
-                <li><strong>Мин. время:</strong> 0 мин</li>
-                <li><strong>Фото:</strong> скриншот GPS-трека обязательно</li>
-            </ul>
-            
-            <h4>🌼 Награда</h4>
-            <div class="table-wrapper">
-                <table>
-                    <tr><th>Условие</th><th>🌼</th></tr>
-                    <tr><td>Базовая награда</td><td>30</td></tr>
-                    <tr><td>До 22:00 YEKT</td><td>+20</td></tr>
-                    <tr><td>После 22:00 YEKT</td><td>30 (без бонуса)</td></tr>
-                </table>
+            <!-- Basic Rules Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🎯</div>
+                    <div class="card-title">
+                        <h3>Основные правила</h3>
+                        <p>Базовая механика челленджа</p>
+                    </div>
+                </div>
+                <ul class="list">
+                    <li class="list-item">
+                        <span class="list-bullet">•</span>
+                        <span><strong>Раздельный зачёт:</strong> мужчины и женщины соревнуются отдельно</span>
+                    </li>
+                    <li class="list-item">
+                        <span class="list-bullet">•</span>
+                        <span><strong>1 тренировка в день:</strong> по времени Екатеринбурга (YEKT)</span>
+                    </li>
+                    <li class="list-item">
+                        <span class="list-bullet">•</span>
+                        <span><strong>Фото обязательно:</strong> скриншот GPS-трека (Strava, Nike Run Club и др.)</span>
+                    </li>
+                    <li class="list-item">
+                        <span class="list-bullet">•</span>
+                        <span><strong>Минимум 3 км:</strong> целое число километров</span>
+                    </li>
+                </ul>
             </div>
             
-            <div class="example-box">
-                <div class="example-title">📌 Пример</div>
-                <p>Анна: 5 км в 10:00 → 30 + 20 = <strong>50 🌼</strong><br>
-                Михаил: 10 км в 23:00 → <strong>30 🌼</strong></p>
-            </div>
-        </section>
-        
-        <!-- Ромашки -->
-        <section id="snowflakes">
-            <h2>🌼 Ромашки</h2>
-            <p>Внутренняя валюта для покупки способностей.</p>
-            
-            <h4>Заработок:</h4>
-            <ul>
-                <li>🏃 Тренировки: 30-50 🌼</li>
-                <li>🎲 Рулетка: до 250 🌼</li>
-                <li>🏅 Достижения: 50-500 🌼</li>
-            </ul>
-        </section>
-        
-        <!-- Рейтинг -->
-        <section id="rating">
-            <h2>🏆 Рейтинг</h2>
-            <p>Участники ранжируются по общему километражу внутри своего пола.</p>
-        </section>
-        
-        <!-- Способности -->
-        <section id="abilities">
-            <h2>⚡ Способности</h2>
-            
-            <div class="card-grid">
-                <div class="card ability-card">
-                    <div class="card-title"><span class="card-icon">⚡</span> Удвоение <span class="price-tag">150🌼</span></div>
-                    <p><strong>Своя тренировка</strong> — увеличивает км в 2 раза. Нельзя применить дважды.</p>
+            <!-- Snowflakes Info -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🌼</div>
+                    <div class="card-title">
+                        <h3>Ромашки</h3>
+                        <p>Внутренняя валюта для способностей</p>
+                    </div>
                 </div>
                 
-                <div class="card ability-card">
-                    <div class="card-title"><span class="card-icon">🛡️</span> Щит <span class="price-tag">100🌼</span></div>
-                    <p><strong>Своя тренировка</strong> — защищает от негативных способностей.</p>
+                <div style="margin-bottom: 16px;">
+                    <div class="flex justify-between mb-2">
+                        <span class="text-secondary">Базовая награда</span>
+                        <span class="font-semibold">30 🌼</span>
+                    </div>
+                    <div class="flex justify-between mb-2">
+                        <span class="text-secondary">Дневной бонус (до 22:00)</span>
+                        <span class="font-semibold text-success">+20 🌼</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-secondary">Ночная (после 22:00)</span>
+                        <span class="font-semibold">30 🌼</span>
+                    </div>
                 </div>
                 
-                <div class="card ability-card">
-                    <div class="card-title"><span class="card-icon">✂️</span> Разделение <span class="price-tag">150🌼</span></div>
-                    <p><strong>Тренировка соперника</strong> — уменьшает км в 2 раза. Цель должна быть без защиты.</p>
+                <div class="info-block">
+                    <div class="info-title">💡 Как заработать ещё?</div>
+                    <div class="info-text">
+                        • Рулетка — до 250 🌼 (1 раз/день)<br>
+                        • Достижения — от 50 до 500 🌼
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Rating & Points -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🏆</div>
+                    <div class="card-title">
+                        <h3>Еженедельные очки</h3>
+                        <p>Подсчёт каждый понедельник</p>
+                    </div>
                 </div>
                 
-                <div class="card ability-card">
-                    <div class="card-title"><span class="card-icon">🌊</span> Потоп <span class="price-tag">150🌼</span></div>
-                    <p><strong>Топ-5 лидеров твоего пола</strong> — уменьшает км на 20% у до 5 целей.</p>
+                <div class="table-wrapper">
+                    <table class="table">
+                        <tr>
+                            <th>Место</th>
+                            <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th>
+                            <th>6</th><th>7</th><th>8</th><th>9</th><th>10</th>
+                        </tr>
+                        <tr>
+                            <td>Очки</td>
+                            <td>50</td><td>45</td><td>41</td><td>38</td><td>36</td>
+                            <td>34</td><td>32</td><td>30</td><td>28</td><td>26</td>
+                        </tr>
+                    </table>
                 </div>
                 
-                <div class="card ability-card">
-                    <div class="card-title"><span class="card-icon">💀</span> Обнуление <span class="price-tag">200🌼</span></div>
-                    <p><strong>Тренировка соперника</strong> — полностью обнуляет км. Цель должна быть без защиты.</p>
+                <div style="margin-top: 12px;">
+                    <span class="badge badge-warning">Бонусы</span>
+                    <span class="text-secondary" style="margin-left: 8px; font-size: 0.85rem;">+10 очков каждый</span>
                 </div>
+                <ul class="list" style="margin-top: 8px;">
+                    <li class="list-item">
+                        <span class="list-bullet">🥇</span>
+                        <span>Максимальный километраж за неделю</span>
+                    </li>
+                    <li class="list-item">
+                        <span class="list-bullet">📏</span>
+                        <span>Самая длинная одиночная тренировка</span>
+                    </li>
+                    <li class="list-item">
+                        <span class="list-bullet">⚡</span>
+                        <span>Лучший средний темп</span>
+                    </li>
+                    <li class="list-item">
+                        <span class="list-bullet">🎮</span>
+                        <span>Больше всех использовал способностей</span>
+                    </li>
+                </ul>
             </div>
             
-            <h4>🔒 Правила применения</h4>
-            <ul>
-                <li>На 1 тренировку — только 1 позитивная и/или 1 негативная способность</li>
-                <li>Щит блокирует любую атаку (Разделение, Потоп, Обнуление)</li>
-                <li>Нельзя атаковать уже атакованную или защищённую тренировку</li>
-                <li>Потоп атакует только лидеров ТВОЕГО пола</li>
-            </ul>
-        </section>
+            <!-- Roulette -->
+            <details class="accordion">
+                <summary class="accordion-header">🎲 Рулетка — бесплатно, 1 раз в день</summary>
+                <div class="accordion-content">
+                    <div class="table-wrapper">
+                        <table class="table">
+                            <tr><th>Эффект</th><th>Результат</th></tr>
+                            <tr><td>💰 +100</td><td>Просто ромашки</td></tr>
+                            <tr><td>💰💰 +250</td><td>Джекпот</td></tr>
+                            <tr><td>✨ Удача</td><td>Тренировка ×1.5</td></tr>
+                            <tr><td>⭐ Большая удача</td><td>Тренировка ×2</td></tr>
+                            <tr><td>🌧 Неудача</td><td>Тренировка ÷2</td></tr>
+                            <tr><td>💔 Обнуление</td><td>Тренировка → 0</td></tr>
+                            <tr><td>🛡️ Щит</td><td>Бесплатная защита</td></tr>
+                            <tr><td>🔥 КОМБО</td><td>×2 + 200 🌼</td></tr>
+                            <tr><td>😕 Пусто</td><td>Ничего</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </details>
+        </main>
         
-        <!-- Рулетка -->
-        <section id="roulette">
-            <h2>🎲 Рулетка</h2>
-            <p>Бесплатно, 1 раз в день. Случайный эффект.</p>
-            
-            <div class="table-wrapper">
-                <table>
-                    <tr><th>Эффект</th><th>Описание</th></tr>
-                    <tr><td>💰 +100</td><td>Просто ромашки</td></tr>
-                    <tr><td>💰💰 +250</td><td>Джекпот!</td></tr>
-                    <tr><td>✨ +50%</td><td>Тренировка ×1.5</td></tr>
-                    <tr><td>⭐ ×2</td><td>Тренировка удваивается</td></tr>
-                    <tr><td>🌧 /2</td><td>Тренировка уменьшается вдвое</td></tr>
-                    <tr><td>💔 0</td><td>Тренировка обнуляется</td></tr>
-                    <tr><td>🛡️ Щит</td><td>Бесплатный щит</td></tr>
-                    <tr><td>😕 Пусто</td><td>Ничего</td></tr>
-                    <tr><td>🔥 КОМБО</td><td>×2 + 200 🌼</td></tr>
-                </table>
+        <!-- Abilities Tab -->
+        <main class="content" id="tab-abilities" style="display: none;">
+            <div class="ability-grid">
+                <div class="ability-card">
+                    <div class="ability-emoji">⚡</div>
+                    <div class="ability-content">
+                        <div class="ability-name">
+                            <h4>Удвоение</h4>
+                            <span class="ability-cost">150 🌼</span>
+                        </div>
+                        <div class="ability-desc">Увеличивает километраж в 2 раза</div>
+                        <div class="ability-target">🎯 Своя последняя тренировка</div>
+                        <div class="ability-target">⚠️ Нельзя применить дважды</div>
+                    </div>
+                </div>
+                
+                <div class="ability-card">
+                    <div class="ability-emoji">🛡️</div>
+                    <div class="ability-content">
+                        <div class="ability-name">
+                            <h4>Щит</h4>
+                            <span class="ability-cost">100 🌼</span>
+                        </div>
+                        <div class="ability-desc">Защищает от негативных способностей</div>
+                        <div class="ability-target">🎯 Своя последняя тренировка</div>
+                    </div>
+                </div>
+                
+                <div class="ability-card">
+                    <div class="ability-emoji">✂️</div>
+                    <div class="ability-content">
+                        <div class="ability-name">
+                            <h4>Разделение</h4>
+                            <span class="ability-cost">150 🌼</span>
+                        </div>
+                        <div class="ability-desc">Уменьшает километраж в 2 раза</div>
+                        <div class="ability-target">🎯 Тренировка соперника</div>
+                        <div class="ability-target">⚠️ Цель должна быть без защиты</div>
+                    </div>
+                </div>
+                
+                <div class="ability-card">
+                    <div class="ability-emoji">🌊</div>
+                    <div class="ability-content">
+                        <div class="ability-name">
+                            <h4>Потоп</h4>
+                            <span class="ability-cost">150 🌼</span>
+                        </div>
+                        <div class="ability-desc">Уменьшает км на 20% у до 5 целей</div>
+                        <div class="ability-target">🎯 Топ-5 лидеров твоего пола</div>
+                        <div class="ability-target">💡 Атакует только доступные цели</div>
+                    </div>
+                </div>
+                
+                <div class="ability-card">
+                    <div class="ability-emoji">💀</div>
+                    <div class="ability-content">
+                        <div class="ability-name">
+                            <h4>Обнуление</h4>
+                            <span class="ability-cost">200 🌼</span>
+                        </div>
+                        <div class="ability-desc">Полностью обнуляет километраж</div>
+                        <div class="ability-target">🎯 Тренировка соперника</div>
+                        <div class="ability-target">⚠️ Цель должна быть без защиты</div>
+                    </div>
+                </div>
             </div>
             
-            <div class="note">
-                <div class="note-title">⚠️ Важно</div>
-                <p>Если нет тренировок, эффекты на тренировку не сработают — выпадут только ромашки или пусто.</p>
+            <div class="info-block" style="margin-top: 16px;">
+                <div class="info-title">🔒 Правила применения</div>
+                <div class="info-text">
+                    • На 1 тренировку — только 1 позитивная и/или 1 негативная способность<br>
+                    • Щит блокирует любую атаку (Разделение, Потоп, Обнуление)<br>
+                    • Нельзя атаковать уже атакованную или защищённую тренировку<br>
+                    • При попытке атаковать защищённую цель ромашки <strong>НЕ списываются</strong>
+                </div>
             </div>
-        </section>
+        </main>
         
-        <!-- Достижения (компактно) -->
-        <section id="achievements">
-            <h2>🏅 Достижения</h2>
-            <p>Всего 30 достижений, за каждое — ромашки.</p>
+        <!-- Achievements Tab -->
+        <main class="content" id="tab-achievements" style="display: none;">
+            <p class="text-secondary mb-3">Всего 30 достижений. Награда — от 50 до 500 🌼</p>
             
-            <details>
-                <summary>🏃 По тренировкам (6)</summary>
-                <div class="table-wrapper" style="margin-top: 8px;">
-                    <table>
-                        <tr><th>Достижение</th><th>🌼</th></tr>
-                        <tr><td>1 тренировка</td><td>50</td></tr>
-                        <tr><td>3 тренировки</td><td>50</td></tr>
-                        <tr><td>7 тренировок</td><td>50</td></tr>
-                        <tr><td>14 тренировок</td><td>100</td></tr>
-                        <tr><td>21 тренировка</td><td>100</td></tr>
-                        <tr><td>28 тренировок</td><td>200</td></tr>
-                    </table>
+            <details class="accordion">
+                <summary class="accordion-header">🏃 По тренировкам (6)</summary>
+                <div class="accordion-content">
+                    <div class="table-wrapper">
+                        <table class="table">
+                            <tr><th>Достижение</th><th>🌼</th></tr>
+                            <tr><td>1 тренировка</td><td>50</td></tr>
+                            <tr><td>3 тренировки</td><td>50</td></tr>
+                            <tr><td>7 тренировок</td><td>50</td></tr>
+                            <tr><td>14 тренировок</td><td>100</td></tr>
+                            <tr><td>21 тренировка</td><td>100</td></tr>
+                            <tr><td>28 тренировок</td><td>200</td></tr>
+                        </table>
+                    </div>
                 </div>
             </details>
             
-            <details>
-                <summary>📅 Серии (4)</summary>
-                <div class="table-wrapper" style="margin-top: 8px;">
-                    <table>
-                        <tr><th>Достижение</th><th>🌼</th></tr>
-                        <tr><td>3 дня подряд</td><td>50</td></tr>
-                        <tr><td>7 дней подряд</td><td>100</td></tr>
-                        <tr><td>14 дней подряд</td><td>200</td></tr>
-                        <tr><td>21 день подряд</td><td>300</td></tr>
-                    </table>
+            <details class="accordion">
+                <summary class="accordion-header">📅 Серии (4)</summary>
+                <div class="accordion-content">
+                    <div class="table-wrapper">
+                        <table class="table">
+                            <tr><th>Достижение</th><th>🌼</th></tr>
+                            <tr><td>3 дня подряд</td><td>50</td></tr>
+                            <tr><td>7 дней подряд</td><td>100</td></tr>
+                            <tr><td>14 дней подряд</td><td>200</td></tr>
+                            <tr><td>21 день подряд</td><td>300</td></tr>
+                        </table>
+                    </div>
                 </div>
             </details>
             
-            <details>
-                <summary>⚡ Темп (3)</summary>
-                <div class="table-wrapper" style="margin-top: 8px;">
-                    <table>
-                        <tr><th>Достижение</th><th>🌼</th></tr>
-                        <tr><td>Средний темп > 7:00</td><td>50</td></tr>
-                        <tr><td>Средний темп < 4:00</td><td>100</td></tr>
-                        <tr><td>5 тренировок > 7:00</td><td>100</td></tr>
-                    </table>
+            <details class="accordion">
+                <summary class="accordion-header">⚡ Темп (3)</summary>
+                <div class="accordion-content">
+                    <div class="table-wrapper">
+                        <table class="table">
+                            <tr><th>Достижение</th><th>🌼</th></tr>
+                            <tr><td>Средний темп > 7:00</td><td>50</td></tr>
+                            <tr><td>Средний темп < 4:00</td><td>100</td></tr>
+                            <tr><td>5 тренировок > 7:00</td><td>100</td></tr>
+                        </table>
+                    </div>
                 </div>
             </details>
             
-            <details>
-                <summary>📏 Дистанции (3)</summary>
-                <div class="table-wrapper" style="margin-top: 8px;">
-                    <table>
-                        <tr><th>Достижение</th><th>🌼</th></tr>
-                        <tr><td>≥ 21 км</td><td>150</td></tr>
-                        <tr><td>≥ 42 км</td><td>300</td></tr>
-                        <tr><td>≥ 70 км</td><td>500</td></tr>
-                    </table>
+            <details class="accordion">
+                <summary class="accordion-header">📏 Дистанции (3)</summary>
+                <div class="accordion-content">
+                    <div class="table-wrapper">
+                        <table class="table">
+                            <tr><th>Достижение</th><th>🌼</th></tr>
+                            <tr><td>≥ 21 км (полумарафон)</td><td>150</td></tr>
+                            <tr><td>≥ 42 км (марафон)</td><td>300</td></tr>
+                            <tr><td>≥ 70 км (ультра)</td><td>500</td></tr>
+                        </table>
+                    </div>
                 </div>
             </details>
             
-            <details>
-                <summary>🌙 Время суток (4)</summary>
-                <div class="table-wrapper" style="margin-top: 8px;">
-                    <table>
-                        <tr><th>Достижение</th><th>🌼</th></tr>
-                        <tr><td>00:00-05:00</td><td>50</td></tr>
-                        <tr><td>05:00-08:00</td><td>50</td></tr>
-                        <tr><td>5 ночных</td><td>150</td></tr>
-                        <tr><td>5 утренних</td><td>150</td></tr>
-                    </table>
+            <details class="accordion">
+                <summary class="accordion-header">🌙 Время суток (4)</summary>
+                <div class="accordion-content">
+                    <div class="table-wrapper">
+                        <table class="table">
+                            <tr><th>Достижение</th><th>🌼</th></tr>
+                            <tr><td>Тренировка 00:00-05:00</td><td>50</td></tr>
+                            <tr><td>Тренировка 05:00-08:00</td><td>50</td></tr>
+                            <tr><td>5 ночных тренировок</td><td>150</td></tr>
+                            <tr><td>5 утренних тренировок</td><td>150</td></tr>
+                        </table>
+                    </div>
                 </div>
             </details>
             
-            <details>
-                <summary>⚔️ Боевые (7)</summary>
-                <div class="table-wrapper" style="margin-top: 8px;">
-                    <table>
-                        <tr><th>Достижение</th><th>🌼</th></tr>
-                        <tr><td>Обнулить топ-3</td><td>200</td></tr>
-                        <tr><td>Разделить топ-3</td><td>150</td></tr>
-                        <tr><td>Получить 3 атаки</td><td>100</td></tr>
-                        <tr><td>Обнуление 3 раза</td><td>200</td></tr>
-                        <tr><td>Разделение 5 раз</td><td>150</td></tr>
-                        <tr><td>Получить 10 атак</td><td>200</td></tr>
-                        <tr><td>Реванш</td><td>150</td></tr>
-                    </table>
+            <details class="accordion">
+                <summary class="accordion-header">⚔️ Боевые (7)</summary>
+                <div class="accordion-content">
+                    <div class="table-wrapper">
+                        <table class="table">
+                            <tr><th>Достижение</th><th>🌼</th></tr>
+                            <tr><td>Обнулить топ-3</td><td>200</td></tr>
+                            <tr><td>Разделить топ-3</td><td>150</td></tr>
+                            <tr><td>Получить 3 атаки</td><td>100</td></tr>
+                            <tr><td>Обнуление 3 раза</td><td>200</td></tr>
+                            <tr><td>Разделение 5 раз</td><td>150</td></tr>
+                            <tr><td>Получить 10 атак</td><td>200</td></tr>
+                            <tr><td>Реванш (атаковать атаковавшего)</td><td>150</td></tr>
+                        </table>
+                    </div>
                 </div>
             </details>
             
-            <details>
-                <summary>🎲 Рулетка (3)</summary>
-                <div class="table-wrapper" style="margin-top: 8px;">
-                    <table>
-                        <tr><th>Достижение</th><th>🌼</th></tr>
-                        <tr><td>Обнуление в рулетке</td><td>100</td></tr>
-                        <tr><td>КОМБО в рулетке</td><td>150</td></tr>
-                        <tr><td>Рулетка 5 раз</td><td>100</td></tr>
-                    </table>
+            <details class="accordion">
+                <summary class="accordion-header">🎲 Рулетка (3)</summary>
+                <div class="accordion-content">
+                    <div class="table-wrapper">
+                        <table class="table">
+                            <tr><th>Достижение</th><th>🌼</th></tr>
+                            <tr><td>Обнуление в рулетке</td><td>100</td></tr>
+                            <tr><td>КОМБО в рулетке</td><td>150</td></tr>
+                            <tr><td>Рулетка 5 раз</td><td>100</td></tr>
+                        </table>
+                    </div>
                 </div>
             </details>
-        </section>
+        </main>
         
-        <!-- Еженедельные очки -->
-        <section id="weekly">
-            <h2>📊 Еженедельные очки</h2>
-            <p>Каждый понедельник подводятся итоги недели.</p>
-            
-            <h4>Очки за места</h4>
-            <div class="table-wrapper">
-                <table>
-                    <tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th></tr>
-                    <tr><td>50</td><td>45</td><td>41</td><td>38</td><td>36</td><td>34</td><td>32</td><td>30</td><td>28</td><td>26</td></tr>
-                </table>
+        <!-- Prizes Tab -->
+        <main class="content" id="tab-prizes" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">💰</div>
+                    <div class="card-title">
+                        <h3>Призовой фонд</h3>
+                        <p>Формирование и распределение</p>
+                    </div>
+                </div>
+                
+                <ul class="list">
+                    <li class="list-item">
+                        <span class="list-bullet">💵</span>
+                        <span><strong>Вступительный взнос:</strong> 990 ₽</span>
+                    </li>
+                    <li class="list-item">
+                        <span class="list-bullet">📊</span>
+                        <span><strong>В призовой фонд:</strong> 70% от всех взносов</span>
+                    </li>
+                    <li class="list-item">
+                        <span class="list-bullet">👥</span>
+                        <span><strong>Распределение:</strong> 50% мужчинам / 50% женщинам</span>
+                    </li>
+                    <li class="list-item">
+                        <span class="list-bullet">🏅</span>
+                        <span><strong>Награждаются:</strong> топ-10 в каждом зачёте</span>
+                    </li>
+                </ul>
             </div>
             
-            <h4>Бонусы (по +10 очков)</h4>
-            <ul>
-                <li>🥇 Максимальный километраж за неделю</li>
-                <li>📏 Самая длинная одиночная тренировка</li>
-                <li>⚡ Лучший средний темп</li>
-                <li>🎮 Больше всех использовал способностей</li>
-            </ul>
-        </section>
+            <div class="card">
+                <h4 style="margin-bottom: 12px;">Пример при 100 участниках (50+50)</h4>
+                
+                <div class="flex justify-between mb-2">
+                    <span>Всего взносов</span>
+                    <span class="font-semibold">99 000 ₽</span>
+                </div>
+                <div class="flex justify-between mb-2">
+                    <span>Призовой фонд (70%)</span>
+                    <span class="font-semibold">69 300 ₽</span>
+                </div>
+                <div class="flex justify-between mb-3">
+                    <span>Фонд на один зачёт</span>
+                    <span class="font-semibold text-warning">34 650 ₽</span>
+                </div>
+                
+                <div class="table-wrapper">
+                    <table class="table">
+                        <tr><th>Место</th><th>%</th><th>Сумма</th></tr>
+                        <tr><td>🥇 1</td><td>25%</td><td>8 662 ₽</td></tr>
+                        <tr><td>🥈 2</td><td>18%</td><td>6 237 ₽</td></tr>
+                        <tr><td>🥉 3</td><td>14%</td><td>4 851 ₽</td></tr>
+                        <tr><td>4</td><td>11%</td><td>3 811 ₽</td></tr>
+                        <tr><td>5</td><td>9%</td><td>3 118 ₽</td></tr>
+                        <tr><td>6</td><td>7%</td><td>2 425 ₽</td></tr>
+                        <tr><td>7</td><td>5%</td><td>1 732 ₽</td></tr>
+                        <tr><td>8</td><td>4%</td><td>1 386 ₽</td></tr>
+                        <tr><td>9</td><td>4%</td><td>1 386 ₽</td></tr>
+                        <tr><td>10</td><td>3%</td><td>1 039 ₽</td></tr>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="info-block">
+                <div class="info-title">📈 При разном количестве участников</div>
+                <div class="table-wrapper">
+                    <table class="table">
+                        <tr><th>Участников</th><th>Фонд/зачёт</th><th>1 место</th><th>10 место</th></tr>
+                        <tr><td>50 (25+25)</td><td>17 325 ₽</td><td>4 331 ₽</td><td>520 ₽</td></tr>
+                        <tr><td>100 (50+50)</td><td>34 650 ₽</td><td>8 662 ₽</td><td>1 039 ₽</td></tr>
+                        <tr><td>150 (75+75)</td><td>51 975 ₽</td><td>12 994 ₽</td><td>1 559 ₽</td></tr>
+                        <tr><td>200 (100+100)</td><td>69 300 ₽</td><td>17 325 ₽</td><td>2 079 ₽</td></tr>
+                    </table>
+                </div>
+            </div>
+        </main>
         
-        <!-- Призы -->
-        <section id="prizes">
-            <h2>💰 Призовой фонд</h2>
-            
-            <ul>
-                <li>Взнос: <strong>990 ₽</strong></li>
-                <li>В фонд: <strong>70%</strong></li>
-                <li>Делится: <strong>50% М / 50% Ж</strong></li>
-                <li>Награждаются: <strong>топ-10</strong> в каждом зачёте</li>
-            </ul>
-            
-            <h4>Пример при 100 участниках</h4>
-            <div class="table-wrapper">
-                <table>
-                    <tr><th>Место</th><th>%</th><th>Сумма</th></tr>
-                    <tr><td>🥇 1</td><td>25%</td><td>8 662 ₽</td></tr>
-                    <tr><td>🥈 2</td><td>18%</td><td>6 237 ₽</td></tr>
-                    <tr><td>🥉 3</td><td>14%</td><td>4 851 ₽</td></tr>
-                    <tr><td>4</td><td>11%</td><td>3 811 ₽</td></tr>
-                    <tr><td>5</td><td>9%</td><td>3 118 ₽</td></tr>
-                    <tr><td>6</td><td>7%</td><td>2 425 ₽</td></tr>
-                    <tr><td>7</td><td>5%</td><td>1 732 ₽</td></tr>
-                    <tr><td>8</td><td>4%</td><td>1 386 ₽</td></tr>
-                    <tr><td>9</td><td>4%</td><td>1 386 ₽</td></tr>
-                    <tr><td>10</td><td>3%</td><td>1 039 ₽</td></tr>
-                </table>
-            </div>
-        </section>
-        
-        <!-- Примеры -->
-        <section id="examples">
-            <h2>📝 Примеры</h2>
-            
-            <div class="example-box">
-                <div class="example-title">🛡️ Защита от атаки</div>
-                <p>1. Алексей пробежал 15 км<br>
-                2. Покупает Щит за 100 🌼 → тренировка защищена<br>
-                3. Елена пытается применить Разделение<br>
-                4. Система: «❌ На эту тренировку уже применена способность!»<br>
-                5. <strong>Ромашки Елены НЕ списываются</strong><br>
-                6. Алексей сохраняет 15 км</p>
+        <!-- Examples Tab -->
+        <main class="content" id="tab-examples" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🛡️</div>
+                    <div class="card-title">
+                        <h3>Защита от атаки</h3>
+                        <p>Как работает щит</p>
+                    </div>
+                </div>
+                <ol style="margin-left: 20px; color: var(--text-secondary);">
+                    <li>Алексей пробежал 15 км</li>
+                    <li>Покупает Щит за 100 🌼 → тренировка защищена</li>
+                    <li>Елена пытается применить Разделение</li>
+                    <li>Система: «❌ На эту тренировку уже применена способность!»</li>
+                    <li><strong>Ромашки Елены НЕ списываются</strong></li>
+                    <li>Алексей сохраняет 15 км</li>
+                </ol>
             </div>
             
-            <div class="example-box">
-                <div class="example-title">⚡ Комбинация способностей</div>
-                <p>1. Ольга пробежала 8 км<br>
-                2. Использует Удвоение (150 🌼) → 16 км<br>
-                3. Дмитрий пытается применить Разделение<br>
-                4. Система: «❌ Нельзя атаковать — тренировка уже модифицирована»<br>
-                5. Ромашки Дмитрия НЕ списываются</p>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">⚡</div>
+                    <div class="card-title">
+                        <h3>Комбинация способностей</h3>
+                        <p>Удвоение + защита от атаки</p>
+                    </div>
+                </div>
+                <ol style="margin-left: 20px; color: var(--text-secondary);">
+                    <li>Ольга пробежала 8 км</li>
+                    <li>Использует Удвоение (150 🌼) → 16 км</li>
+                    <li>Дмитрий пытается применить Разделение</li>
+                    <li>Система: «❌ Нельзя атаковать — тренировка уже модифицирована»</li>
+                    <li>Ромашки Дмитрия НЕ списываются</li>
+                </ol>
             </div>
             
-            <div class="example-box">
-                <div class="example-title">🌊 Потоп по лидерам</div>
-                <p>Михаил (5 место) использует Потоп.<br>
-                Система находит топ-5 мужчин с доступными тренировками (кроме самого Михаила).<br>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🌊</div>
+                    <div class="card-title">
+                        <h3>Потоп по лидерам</h3>
+                        <p>Массовая атака на топ-5</p>
+                    </div>
+                </div>
+                <p style="color: var(--text-secondary);">Михаил (5 место) использует Потоп.<br><br>
+                Система находит топ-5 мужчин с доступными тренировками (кроме самого Михаила).<br><br>
                 Атакованы: 1, 2, 3, 4, 6 места — каждый теряет 20% от последней тренировки.</p>
             </div>
             
-            <div class="example-box">
-                <div class="example-title">💀 Полное уничтожение</div>
-                <p>1. Мария пробежала 21 км<br>
-                2. Не поставила щит<br>
-                3. Анна покупает Обнуление (200 🌼) и применяет<br>
-                4. Тренировка Марии → 0 км<br>
-                5. Анна получает достижение «Цареубийца» (если Мария в топ-3)</p>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">💀</div>
+                    <div class="card-title">
+                        <h3>Полное уничтожение</h3>
+                        <p>Обнуление тренировки</p>
+                    </div>
+                </div>
+                <ol style="margin-left: 20px; color: var(--text-secondary);">
+                    <li>Мария пробежала 21 км</li>
+                    <li>Не поставила щит</li>
+                    <li>Анна покупает Обнуление (200 🌼) и применяет</li>
+                    <li>Тренировка Марии → 0 км</li>
+                    <li>Анна получает достижение «Цареубийца» (если Мария в топ-3)</li>
+                </ol>
             </div>
-        </section>
+        </main>
         
-        <div class="footer">
-            <p>🏔️ Королевская Битва</p>
-            <p style="margin-top: 6px;">По вопросам: <a href="https://vk.com/bodya1">vk.com/bodya1</a></p>
-        </div>
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-text">
+                🏔️ Королевская Битва<br>
+                <span style="display: block; margin-top: 8px;">
+                    По вопросам: <a href="https://vk.com/bodya1" class="footer-link">vk.com/bodya1</a>
+                </span>
+            </div>
+        </footer>
     </div>
+    
+    <script>
+        // Tab switching functionality
+        (function() {
+            const tabs = document.querySelectorAll('.nav-tab');
+            const contents = {
+                'main': document.getElementById('tab-main'),
+                'abilities': document.getElementById('tab-abilities'),
+                'achievements': document.getElementById('tab-achievements'),
+                'prizes': document.getElementById('tab-prizes'),
+                'examples': document.getElementById('tab-examples')
+            };
+            
+            function switchTab(tabId) {
+                // Hide all contents
+                Object.values(contents).forEach(content => {
+                    if (content) content.style.display = 'none';
+                });
+                
+                // Show selected content
+                if (contents[tabId]) {
+                    contents[tabId].style.display = 'block';
+                }
+                
+                // Update active tab
+                tabs.forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                
+                const activeTab = Array.from(tabs).find(tab => tab.dataset.tab === tabId);
+                if (activeTab) {
+                    activeTab.classList.add('active');
+                }
+                
+                // Scroll to top smoothly
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+            
+            // Add click handlers
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const tabId = this.dataset.tab;
+                    if (tabId) {
+                        switchTab(tabId);
+                    }
+                });
+            });
+            
+            // Handle deep linking from URL hash
+            function handleHash() {
+                const hash = window.location.hash.slice(1);
+                const validTabs = ['main', 'abilities', 'achievements', 'prizes', 'examples'];
+                if (validTabs.includes(hash)) {
+                    switchTab(hash);
+                }
+            }
+            
+            window.addEventListener('hashchange', handleHash);
+            handleHash();
+        })();
+        
+        // Register Service Worker for PWA (optional)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').catch(() => {});
+            });
+        }
+    </script>
 </body>
 </html>
