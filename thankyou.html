@@ -27,4 +27,110 @@
             border-radius: 24px;
             padding: 40px 30px;
             text-align: center;
-            box-shadow: 0 20px 40px rgba(0,
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        .emoji {
+            font-size: 5rem;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            color: #10b981;
+            margin-bottom: 16px;
+        }
+        
+        p {
+            color: #334155;
+            margin-bottom: 24px;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: #0077ff;
+            color: white;
+            padding: 16px 32px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 12px rgba(0, 119, 255, 0.3);
+            transition: transform 0.2s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .note {
+            margin-top: 20px;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        
+        .steps {
+            text-align: left;
+            margin: 24px 0;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 16px;
+        }
+        
+        .step {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .step-number {
+            width: 28px;
+            height: 28px;
+            background: #f5af19;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        
+        .step-text {
+            color: #334155;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="emoji">✅🎉</div>
+        <h1>Оплата прошла успешно!</h1>
+        <p>Спасибо за участие в челлендже «Королевская Битва»!</p>
+        
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-text">Твой платёж обработан, статус участника активирован</div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-text">Перейди в бота по кнопке ниже</div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-text">Напиши <code style="background: #e2e8f0; padding: 2px 6px; border-radius: 4px;">/start</code> и начни тренироваться!</div>
+            </div>
+        </div>
+        
+        <a href="https://vk.me/club114046577" class="btn" target="_blank">
+            💬 Перейти в бота
+        </a>
+        
+        <p class="note">
+            Если кнопка не работает, открой ВК и найди @club114046577
+        </p>
+    </div>
+</body>
+</html>
