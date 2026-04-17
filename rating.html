@@ -261,44 +261,7 @@
         tr:hover {
             background: var(--bg-secondary);
         }
-        
-        .medal-1 td:first-child {
-            position: relative;
-        }
-        
-        .medal-1 td:first-child::before {
-            content: '🥇';
-            position: absolute;
-            left: -8px;
-            font-size: 1.2rem;
-        }
-        
-        .medal-2 td:first-child::before {
-            content: '🥈';
-            position: absolute;
-            left: -8px;
-            font-size: 1.2rem;
-        }
-        
-        .medal-3 td:first-child::before {
-            content: '🥉';
-            position: absolute;
-            left: -8px;
-            font-size: 1.2rem;
-        }
-        
-        .medal-1 {
-            background: linear-gradient(135deg, #ffd70008, #ffd70002);
-        }
-        
-        .medal-2 {
-            background: linear-gradient(135deg, #c0c0c008, #c0c0c002);
-        }
-        
-        .medal-3 {
-            background: linear-gradient(135deg, #cd7f3208, #cd7f3202);
-        }
-        
+             
         .footer {
             text-align: center;
             margin-top: 28px;
@@ -378,12 +341,6 @@
                 font-size: 1.4rem;
             }
             
-            .medal-1 td:first-child::before,
-            .medal-2 td:first-child::before,
-            .medal-3 td:first-child::before {
-                left: -4px;
-                font-size: 1rem;
-            }
         }
     </style>
 </head>
@@ -574,20 +531,9 @@
                 const place = index + 1;
                 const pace = p.avg_pace > 0 ? p.avg_pace.toFixed(2) : '—';
                 
-                let medalClass = '';
-                if (place === 1) medalClass = 'medal-1';
-                else if (place === 2) medalClass = 'medal-2';
-                else if (place === 3) medalClass = 'medal-3';
-                
-                // Место с медалькой
-                let placeDisplay = place;
-                if (place === 1) placeDisplay = '🥇 1';
-                else if (place === 2) placeDisplay = '🥈 2';
-                else if (place === 3) placeDisplay = '🥉 3';
-                
                 return `
-                    <tr class="${medalClass}">
-                        <td style="font-weight: 600;">${placeDisplay}</td>
+                    <tr>
+                        <td style="font-weight: 600;">${place}</td>
                         <td style="text-align: left;">${p.first_name} ${p.last_name}</td>
                         <td>${p.gender === 'М' ? 'М' : 'Ж'}</td>
                         <td>${p.total_km || 0}</td>
