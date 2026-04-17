@@ -52,7 +52,7 @@
         /* Hero */
         .hero {
             text-align: center;
-            padding: 28px 20px;
+            padding: 20px 20px 28px;
             background: var(--bg-primary);
             border-radius: var(--radius-xl);
             margin-bottom: 20px;
@@ -60,9 +60,11 @@
             border: 1px solid var(--border-light);
         }
         
-        .hero-emoji {
-            font-size: 3.5rem;
-            margin-bottom: 8px;
+        .hero-banner {
+            width: 100%;
+            border-radius: var(--radius-lg);
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-sm);
         }
         
         .hero h1 {
@@ -288,7 +290,7 @@
             }
             
             .hero {
-                padding: 20px 16px;
+                padding: 16px 16px 24px;
             }
             
             .hero h1 {
@@ -305,7 +307,9 @@
     <div class="container">
         <!-- Hero -->
         <div class="hero">
-            <div class="hero-emoji">🏔️👑</div>
+            <!-- БАННЕР-КАРТИНКА — ЗАМЕНИ НА СВОЮ -->
+            <img src="images/banner.png" alt="Королевская Битва" class="hero-banner" onerror="this.style.display='none'">
+            
             <h1>Королевская Битва</h1>
             <div class="hero-subtitle">Беговой челлендж нового формата</div>
             <div class="hero-dates">📅 27 апреля — 17 мая 2026</div>
@@ -402,5 +406,23 @@
             По вопросам: <a href="https://vk.com/bodya1">@bodya1</a>
         </div>
     </div>
+    
+    <script>
+        // Если картинка не загрузилась — просто скрываем её (уже есть onerror)
+        // Можно также добавить fallback на эмодзи
+        const banner = document.querySelector('.hero-banner');
+        if (banner) {
+            banner.addEventListener('error', function() {
+                // Создаём эмодзи-заглушку
+                const fallback = document.createElement('div');
+                fallback.className = 'hero-emoji';
+                fallback.style.fontSize = '3.5rem';
+                fallback.style.marginBottom = '8px';
+                fallback.textContent = '🏔️👑';
+                this.parentNode.insertBefore(fallback, this);
+                this.style.display = 'none';
+            });
+        }
+    </script>
 </body>
 </html>
