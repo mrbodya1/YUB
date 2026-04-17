@@ -30,9 +30,6 @@
             --radius-md: 12px;
             --radius-lg: 16px;
             --radius-xl: 24px;
-            --gold: #ffd700;
-            --silver: #c0c0c0;
-            --bronze: #cd7f32;
         }
         
         body {
@@ -81,7 +78,7 @@
         }
         
         .search-box {
-            flex: 2;
+            flex: 1;
             min-width: 200px;
         }
         
@@ -100,27 +97,6 @@
             border-color: var(--primary);
         }
         
-        .gender-filter {
-            flex: 1;
-            min-width: 140px;
-        }
-        
-        .gender-filter select {
-            width: 100%;
-            padding: 14px 18px;
-            border: 2px solid var(--border-light);
-            border-radius: var(--radius-md);
-            font-size: 1rem;
-            background: var(--bg-secondary);
-            cursor: pointer;
-            transition: border-color 0.2s;
-        }
-        
-        .gender-filter select:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-        
         .tabs {
             display: flex;
             gap: 8px;
@@ -129,7 +105,8 @@
         }
         
         .tab {
-            padding: 12px 24px;
+            flex: 1;
+            padding: 12px 0;
             font-size: 1rem;
             font-weight: 600;
             color: var(--text-tertiary);
@@ -138,6 +115,7 @@
             cursor: pointer;
             transition: all 0.2s;
             border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+            text-align: center;
         }
         
         .tab:hover {
@@ -180,28 +158,6 @@
             letter-spacing: 0.5px;
         }
         
-        .week-selector {
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-        }
-        
-        .week-selector label {
-            font-weight: 500;
-            color: var(--text-secondary);
-        }
-        
-        .week-selector select {
-            padding: 10px 16px;
-            border: 2px solid var(--border-light);
-            border-radius: var(--radius-md);
-            font-size: 0.95rem;
-            background: var(--bg-secondary);
-            cursor: pointer;
-        }
-        
         .table-wrapper {
             overflow-x: auto;
             margin-bottom: 20px;
@@ -228,7 +184,7 @@
             transition: background 0.2s;
         }
         
-        th:first-child {
+        th:first-child, th:nth-child(2) {
             text-align: left;
         }
         
@@ -254,14 +210,14 @@
             text-align: center;
         }
         
-        td:first-child {
+        td:first-child, td:nth-child(2) {
             text-align: left;
         }
         
         tr:hover {
             background: var(--bg-secondary);
         }
-             
+        
         .footer {
             text-align: center;
             margin-top: 28px;
@@ -340,7 +296,6 @@
             .stat-value {
                 font-size: 1.4rem;
             }
-            
         }
     </style>
 </head>
@@ -358,13 +313,6 @@
         <div class="filters">
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="🔍 Поиск по имени...">
-            </div>
-            <div class="gender-filter">
-                <select id="genderFilter">
-                    <option value="all">Все участники</option>
-                    <option value="М">Только мужчины</option>
-                    <option value="Ж">Только женщины</option>
-                </select>
             </div>
         </div>
         
@@ -388,8 +336,7 @@
                 <thead>
                     <tr>
                         <th data-sort="place">#</th>
-                        <th data-sort="first_name" style="text-align: left;">Участник</th>
-                        <th data-sort="gender">Пол</th>
+                        <th data-sort="first_name">Участник</th>
                         <th data-sort="total_km">Всего км</th>
                         <th data-sort="total_workouts">Трен.</th>
                         <th data-sort="avg_pace">Темп</th>
@@ -401,7 +348,7 @@
                     </tr>
                 </thead>
                 <tbody id="tableBody">
-                    <tr><td colspan="11" class="loading">Загрузка данных...</td></tr>
+                    <tr><td colspan="10" class="loading">Загрузка данных...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -423,11 +370,9 @@
 
         async function loadData() {
             try {
-                // Загружаем участников
                 const participantsRes = await fetch('https://stroitelev91.pythonanywhere.com/api/rating');
                 participants = await participantsRes.json();
                 
-                // Загружаем очки по неделям
                 try {
                     const scoresRes = await fetch('https://stroitelev91.pythonanywhere.com/api/weekly-scores');
                     weeklyScores = await scoresRes.json();
@@ -435,11 +380,9 @@
                     console.log('Очки по неделям не загружены');
                 }
                 
-                // Добавляем вычисляемые поля
                 participants.forEach(p => {
                     p.avg_pace = p.total_km > 0 ? p.total_min / p.total_km : 0;
                     
-                    // Очки по неделям
                     const scores = weeklyScores.filter(s => s.participant_id === p.id);
                     p.week1_points = scores.find(s => s.week_number === 1)?.total_points || 0;
                     p.week2_points = scores.find(s => s.week_number === 2)?.total_points || 0;
@@ -451,27 +394,19 @@
             } catch (error) {
                 console.error('Ошибка загрузки:', error);
                 document.getElementById('tableBody').innerHTML = 
-                    '<tr><td colspan="11" style="text-align: center; padding: 40px;">Ошибка загрузки данных</td></tr>';
+                    '<tr><td colspan="10" style="text-align: center; padding: 40px;">Ошибка загрузки данных</td></tr>';
             }
         }
 
         function applyFilters() {
             const searchInput = document.getElementById('searchInput');
-            const genderFilter = document.getElementById('genderFilter');
-            
             const searchTerm = searchInput.value.toLowerCase();
-            const gender = genderFilter.value;
             
             filteredParticipants = participants.filter(p => {
-                if (gender !== 'all' && p.gender !== gender) return false;
+                if (currentTab === 'men' && p.gender !== 'М') return false;
+                if (currentTab === 'women' && p.gender !== 'Ж') return false;
                 return true;
             });
-            
-            if (currentTab === 'men') {
-                filteredParticipants = filteredParticipants.filter(p => p.gender === 'М');
-            } else if (currentTab === 'women') {
-                filteredParticipants = filteredParticipants.filter(p => p.gender === 'Ж');
-            }
             
             if (searchTerm) {
                 filteredParticipants = filteredParticipants.filter(p => 
@@ -523,7 +458,7 @@
             const tbody = document.getElementById('tableBody');
             
             if (filteredParticipants.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="11" style="text-align: center; padding: 40px;">Участники не найдены</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; padding: 40px;">Участники не найдены</td></tr>';
                 return;
             }
             
@@ -534,8 +469,7 @@
                 return `
                     <tr>
                         <td style="font-weight: 600;">${place}</td>
-                        <td style="text-align: left;">${p.first_name} ${p.last_name}</td>
-                        <td>${p.gender === 'М' ? 'М' : 'Ж'}</td>
+                        <td>${p.first_name} ${p.last_name}</td>
                         <td>${p.total_km || 0}</td>
                         <td>${p.total_workouts || 0}</td>
                         <td>${pace}</td>
@@ -577,23 +511,12 @@
         });
 
         document.getElementById('searchInput').addEventListener('input', applyFilters);
-        document.getElementById('genderFilter').addEventListener('change', applyFilters);
         
         document.querySelectorAll('.tab').forEach(tab => {
             tab.addEventListener('click', () => {
                 document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
                 currentTab = tab.dataset.tab;
-                
-                const genderFilter = document.getElementById('genderFilter');
-                if (currentTab === 'men') {
-                    genderFilter.value = 'М';
-                } else if (currentTab === 'women') {
-                    genderFilter.value = 'Ж';
-                } else {
-                    genderFilter.value = 'all';
-                }
-                
                 applyFilters();
             });
         });
