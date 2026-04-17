@@ -721,26 +721,20 @@
                     onSuccess: function(paymentData) {
                         console.log('✅ Оплата успешна!', paymentData);
                         
-                        // НЕМЕДЛЕННО удаляем контейнер с виджетом
                         var container = document.getElementById('payment-form');
                         if (container) {
-                            container.remove(); // Полное удаление из DOM
+                            container.remove();
                         }
                         
-                        // Создаём новый пустой контейнер (на случай если понадобится снова)
                         var newContainer = document.createElement('div');
                         newContainer.id = 'payment-form';
                         newContainer.style.display = 'none';
                         document.querySelector('.container').appendChild(newContainer);
                         
-                        // Скрываем загрузку и форму
                         loading.style.display = 'none';
                         formCard.style.display = 'none';
-                        
-                        // Показываем успех
                         successMessage.style.display = 'block';
                         
-                        // Принудительно убираем все оверлеи
                         var overlays = document.querySelectorAll('div[style*="position: fixed"], div[style*="position: absolute"]');
                         overlays.forEach(function(el) {
                             if (el.id !== 'successMessage') {
@@ -748,12 +742,9 @@
                             }
                         });
                         
-                        // Очищаем body от лишнего
                         document.body.style.overflow = 'visible';
-                        
-                        // Прокручиваем вверх
                         window.scrollTo(0, 0);
-                    }
+                    },  // ← ЗАПЯТАЯ ЗДЕСЬ
                     
                     onError: function(error) {
                         console.error('❌ Ошибка оплаты:', error);
