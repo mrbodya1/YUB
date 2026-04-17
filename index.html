@@ -450,18 +450,6 @@
             .form-card {
                 padding: 20px 16px;
             }
-            // Принудительно скрываем все модальные окна
-            var style = document.createElement('style');
-            style.innerHTML = `
-                [class*="modal"], 
-                [class*="overlay"], 
-                [class*="popup"],
-                div[style*="position: fixed"],
-                div[style*="position: absolute"] {
-                    display: none !important;
-                }
-            `;
-            document.head.appendChild(style);
         }
     </style>
 </head>
@@ -522,7 +510,7 @@
         <!-- Цена -->
         <div class="price-card">
             <div class="price-label">Вступительный взнос</div>
-            <div class="price-value">100 <small>₽</small></div>
+            <div class="price-value">990 <small>₽</small></div>
             <div class="price-note">70% взносов — в призовой фонд</div>
         </div>
         
@@ -597,7 +585,7 @@
         
         <!-- Кнопка оплаты -->
         <button class="btn" id="payButton">
-            💳 Оплатить 100 ₽ и участвовать
+            💳 Оплатить 990 ₽ и участвовать
         </button>
         
         <!-- Загрузка -->
@@ -721,7 +709,6 @@
                 checkoutWidget = new window.YooMoneyCheckoutWidget({
                     confirmation_token: data.confirmation_token,
                     
-                    // ОБЯЗАТЕЛЬНЫЙ ПАРАМЕТР
                     error_callback: function(error) {
                         console.error('❌ Ошибка инициализации виджета:', error);
                         loading.style.display = 'none';
@@ -731,69 +718,31 @@
                         globalError.style.display = 'block';
                     },
                     
-                    // Колбэк при успешной оплате
                     onSuccess: function(paymentData) {
                         console.log('✅ Оплата успешна!', paymentData);
                         
-                        // Ждём немного, чтобы ЮKassa завершила свои процессы
-                        setTimeout(function() {
-                            // Скрываем контейнер с виджетом
-                            var paymentForm = document.getElementById('payment-form');
-                            if (paymentForm) {
-                                paymentForm.style.display = 'none';
-                            }
-                            
-                            // Скрываем загрузку
-                            var loading = document.getElementById('loading');
-                            if (loading) {
-                                loading.style.display = 'none';
-                            }
-                            
-                            // Скрываем форму
-                            var formCard = document.getElementById('formCard');
-                            if (formCard) {
-                                formCard.style.display = 'none';
-                            }
-                            
-                            // Показываем страницу "Спасибо"
-                            var successMessage = document.getElementById('successMessage');
-                            if (successMessage) {
-                                successMessage.style.display = 'block';
-                            }
-                            
-                            // Пытаемся уничтожить виджет
-                            if (checkoutWidget) {
-                                try {
-                                    checkoutWidget.destroy();
-                                } catch (e) {
-                                    console.log('Виджет уже уничтожен:', e);
-                                }
-                            }
-                            
-                            // На всякий случай прокручиваем страницу вверх
-                            window.scrollTo(0, 0);
-                            
-                            // Убираем возможные оверлеи ЮKassa
-                            var overlays = document.querySelectorAll('[class*="yoomoney"], [class*="checkout"]');
-                            overlays.forEach(function(el) {
-                                if (el.style.position === 'fixed' || el.style.position === 'absolute') {
-                                    el.style.display = 'none';
-                                }
-                            });
-                        }, 1000); // Задержка 1 секунда
-                    }
+                        // Сразу скрываем контейнер виджета
+                        paymentFormContainer.style.display = 'none';
+                        paymentFormContainer.innerHTML = '';
+                        
+                        // Показываем страницу "Спасибо"
+                        loading.style.display = 'none';
+                        formCard.style.display = 'none';
+                        successMessage.style.display = 'block';
+                        
+                        // Прокручиваем вверх
+                        window.scrollTo(0, 0);
+                    },
                     
-                    // Колбэк при ошибке
                     onError: function(error) {
-                        console.error('❌ Ошибка виджета:', error);
+                        console.error('❌ Ошибка оплаты:', error);
                         loading.style.display = 'none';
                         payButton.style.display = 'block';
                         paymentFormContainer.style.display = 'none';
-                        globalError.textContent = 'Ошибка оплаты. Попробуй ещё раз или используй другую карту.';
+                        globalError.textContent = 'Ошибка оплаты. Попробуй ещё раз.';
                         globalError.style.display = 'block';
                     },
                     
-                    // Колбэк при закрытии без оплаты
                     onClose: function() {
                         console.log('Виджет закрыт без оплаты');
                         loading.style.display = 'none';
@@ -801,13 +750,11 @@
                         paymentFormContainer.style.display = 'none';
                     },
                     
-                    // Настройка модального окна
                     customization: {
                         modal: true
                     }
                 });
                 
-                // Отображаем виджет
                 checkoutWidget.render('payment-form')
                     .then(() => {
                         console.log('Виджет загружен');
@@ -827,7 +774,6 @@
             }
         });
         
-        // Очистка ошибок при вводе
         firstName.addEventListener('input', () => {
             firstName.classList.remove('error');
             firstNameError.style.display = 'none';
