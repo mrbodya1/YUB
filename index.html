@@ -723,17 +723,53 @@
                     onSuccess: function(paymentData) {
                         console.log('✅ Оплата успешна!', paymentData);
                         
-                        // Скрываем виджет
-                        if (checkoutWidget) {
-                            checkoutWidget.destroy();
-                        }
-                        
-                        // Показываем страницу "Спасибо"
-                        loading.style.display = 'none';
-                        formCard.style.display = 'none';
-                        paymentFormContainer.style.display = 'none';
-                        successMessage.style.display = 'block';
-                    },
+                        // Ждём немного, чтобы ЮKassa завершила свои процессы
+                        setTimeout(function() {
+                            // Скрываем контейнер с виджетом
+                            var paymentForm = document.getElementById('payment-form');
+                            if (paymentForm) {
+                                paymentForm.style.display = 'none';
+                            }
+                            
+                            // Скрываем загрузку
+                            var loading = document.getElementById('loading');
+                            if (loading) {
+                                loading.style.display = 'none';
+                            }
+                            
+                            // Скрываем форму
+                            var formCard = document.getElementById('formCard');
+                            if (formCard) {
+                                formCard.style.display = 'none';
+                            }
+                            
+                            // Показываем страницу "Спасибо"
+                            var successMessage = document.getElementById('successMessage');
+                            if (successMessage) {
+                                successMessage.style.display = 'block';
+                            }
+                            
+                            // Пытаемся уничтожить виджет
+                            if (checkoutWidget) {
+                                try {
+                                    checkoutWidget.destroy();
+                                } catch (e) {
+                                    console.log('Виджет уже уничтожен:', e);
+                                }
+                            }
+                            
+                            // На всякий случай прокручиваем страницу вверх
+                            window.scrollTo(0, 0);
+                            
+                            // Убираем возможные оверлеи ЮKassa
+                            var overlays = document.querySelectorAll('[class*="yoomoney"], [class*="checkout"]');
+                            overlays.forEach(function(el) {
+                                if (el.style.position === 'fixed' || el.style.position === 'absolute') {
+                                    el.style.display = 'none';
+                                }
+                            });
+                        }, 1000); // Задержка 1 секунда
+                    }
                     
                     // Колбэк при ошибке
                     onError: function(error) {
