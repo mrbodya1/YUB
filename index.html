@@ -6,9 +6,6 @@
     <meta name="theme-color" content="#f5af19">
     <title>Королевская Битва — Беговой челлендж</title>
     
-    <!-- ЮKassa Widget -->
-    <script src="https://yookassa.ru/checkout-widget/v1/checkout-widget.js"></script>
-    
     <style>
         * {
             margin: 0;
@@ -52,7 +49,6 @@
             margin: 0 auto;
         }
         
-        /* Hero */
         .hero {
             text-align: center;
             padding: 28px 20px;
@@ -101,7 +97,6 @@
             margin-top: 8px;
         }
         
-        /* Преимущества */
         .benefits-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -135,7 +130,6 @@
             color: var(--text-tertiary);
         }
         
-        /* Кнопка правил */
         .rules-btn-wrapper {
             text-align: center;
             margin-bottom: 20px;
@@ -160,7 +154,6 @@
             box-shadow: var(--shadow-md);
         }
         
-        /* Цена */
         .price-card {
             background: var(--bg-primary);
             border-radius: var(--radius-lg);
@@ -195,7 +188,6 @@
             font-size: 0.8rem;
         }
         
-        /* Особенности */
         .features {
             background: var(--bg-primary);
             border-radius: var(--radius-lg);
@@ -230,7 +222,6 @@
             font-size: 0.9rem;
         }
         
-        /* Форма */
         .form-card {
             background: var(--bg-primary);
             border-radius: var(--radius-lg);
@@ -291,7 +282,6 @@
             display: none;
         }
         
-        /* Кнопка */
         .btn {
             display: block;
             width: 100%;
@@ -321,14 +311,6 @@
             transform: none;
         }
         
-        /* Контейнер для виджета */
-        #payment-form {
-            margin-bottom: 20px;
-            min-height: 100px;
-            display: none;
-        }
-        
-        /* Загрузка */
         .loading {
             display: none;
             text-align: center;
@@ -352,56 +334,6 @@
             to { transform: rotate(360deg); }
         }
         
-        /* Успех */
-        .success-message {
-            display: none;
-            text-align: center;
-            padding: 40px 24px;
-            background: var(--bg-primary);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--border-light);
-        }
-        
-        .success-emoji {
-            font-size: 4rem;
-            margin-bottom: 16px;
-        }
-        
-        .success-title {
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: #10b981;
-            margin-bottom: 16px;
-        }
-        
-        .success-text {
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-            font-size: 1rem;
-            line-height: 1.6;
-        }
-        
-        .vk-link {
-            display: inline-block;
-            background: #0077ff;
-            color: white;
-            padding: 16px 32px;
-            border-radius: var(--radius-xl);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            box-shadow: var(--shadow-md);
-            transition: all 0.2s;
-        }
-        
-        .vk-link:hover {
-            background: #0066dd;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-        
-        /* Ошибка */
         .error-global {
             background: #fee2e2;
             color: #991b1b;
@@ -413,7 +345,6 @@
             border: 1px solid #fecaca;
         }
         
-        /* Подвал */
         .footer {
             text-align: center;
             color: var(--text-tertiary);
@@ -428,7 +359,6 @@
             font-weight: 500;
         }
         
-        /* Адаптация для маленьких экранов */
         @media (max-width: 400px) {
             body {
                 padding: 12px 8px;
@@ -455,7 +385,6 @@
 </head>
 <body>
     <div class="container">
-        <!-- Hero -->
         <div class="hero">
             <div class="hero-emoji">🏔️👑</div>
             <h1>Королевская Битва</h1>
@@ -466,7 +395,6 @@
             </div>
         </div>
         
-        <!-- Преимущества -->
         <div class="benefits-grid">
             <div class="benefit-card">
                 <div class="benefit-emoji">👥</div>
@@ -500,21 +428,18 @@
             </div>
         </div>
         
-        <!-- Кнопка на правила -->
         <div class="rules-btn-wrapper">
             <a href="rules.html" class="rules-btn" target="_blank">
                 📜 Полные правила челленджа
             </a>
         </div>
         
-        <!-- Цена -->
         <div class="price-card">
             <div class="price-label">Вступительный взнос</div>
             <div class="price-value">990 <small>₽</small></div>
             <div class="price-note">70% взносов — в призовой фонд</div>
         </div>
         
-        <!-- Особенности -->
         <div class="features">
             <div class="features-title">⚡ Почему стоит участвовать</div>
             <div class="feature-item">
@@ -539,7 +464,6 @@
             </div>
         </div>
         
-        <!-- Форма -->
         <div class="form-card" id="formCard">
             <div class="form-title">📋 Регистрация</div>
             
@@ -580,37 +504,15 @@
             </div>
         </div>
         
-        <!-- Контейнер для виджета -->
-        <div id="payment-form"></div>
-        
-        <!-- Кнопка оплаты -->
         <button class="btn" id="payButton">
             💳 Оплатить 990 ₽ и участвовать
         </button>
         
-        <!-- Загрузка -->
         <div class="loading" id="loading">
             <div class="spinner"></div>
-            <div style="color: var(--text-secondary);">Создаём платёж...</div>
+            <div style="color: var(--text-secondary);">Перенаправляем на страницу оплаты...</div>
         </div>
         
-        <!-- Успех -->
-        <div class="success-message" id="successMessage">
-            <div class="success-emoji">✅🎉</div>
-            <div class="success-title">Оплата прошла успешно!</div>
-            <div class="success-text">
-                Спасибо за участие в челлендже!<br><br>
-                <strong>Остался последний шаг:</strong>
-            </div>
-            <a href="https://vk.me/club114046577" class="vk-link" target="_blank">
-                💬 Перейти в бота
-            </a>
-            <p style="margin-top: 20px; font-size: 0.9rem; color: var(--text-tertiary);">
-                Напиши <code style="background: var(--bg-tertiary); padding: 2px 8px; border-radius: 4px;">/start</code> и укажи те же имя и фамилию
-            </p>
-        </div>
-        
-        <!-- Подвал -->
         <div class="footer">
             🏔️ Королевская Битва 2026<br>
             По вопросам: <a href="https://vk.com/bodya1">@bodya1</a>
@@ -622,10 +524,7 @@
         
         const payButton = document.getElementById('payButton');
         const loading = document.getElementById('loading');
-        const formCard = document.getElementById('formCard');
-        const successMessage = document.getElementById('successMessage');
         const globalError = document.getElementById('globalError');
-        const paymentFormContainer = document.getElementById('payment-form');
         
         const firstName = document.getElementById('firstName');
         const lastName = document.getElementById('lastName');
@@ -636,8 +535,6 @@
         const lastNameError = document.getElementById('lastNameError');
         const genderError = document.getElementById('genderError');
         const agreeError = document.getElementById('agreeError');
-        
-        let checkoutWidget = null;
         
         function validateForm() {
             let isValid = true;
@@ -701,83 +598,11 @@
                 
                 const data = await response.json();
                 
-                if (!data.success) {
-                    throw new Error(data.error || 'Не удалось создать платеж');
+                if (data.success && data.payment_url) {
+                    window.location.href = data.payment_url;
+                } else {
+                    throw new Error(data.error || 'Не удалось создать платёж');
                 }
-                
-                // Инициализируем виджет
-                checkoutWidget = new window.YooMoneyCheckoutWidget({
-                    confirmation_token: data.confirmation_token,
-                    
-                    error_callback: function(error) {
-                        console.error('❌ Ошибка инициализации виджета:', error);
-                        loading.style.display = 'none';
-                        payButton.style.display = 'block';
-                        paymentFormContainer.style.display = 'none';
-                        globalError.textContent = 'Ошибка загрузки формы оплаты. Попробуй ещё раз.';
-                        globalError.style.display = 'block';
-                    },
-                    
-                    onSuccess: function(paymentData) {
-                        console.log('✅ Оплата успешна!', paymentData);
-                        
-                        var container = document.getElementById('payment-form');
-                        if (container) {
-                            container.remove();
-                        }
-                        
-                        var newContainer = document.createElement('div');
-                        newContainer.id = 'payment-form';
-                        newContainer.style.display = 'none';
-                        document.querySelector('.container').appendChild(newContainer);
-                        
-                        loading.style.display = 'none';
-                        formCard.style.display = 'none';
-                        successMessage.style.display = 'block';
-                        
-                        var overlays = document.querySelectorAll('div[style*="position: fixed"], div[style*="position: absolute"]');
-                        overlays.forEach(function(el) {
-                            if (el.id !== 'successMessage') {
-                                el.style.display = 'none';
-                            }
-                        });
-                        
-                        document.body.style.overflow = 'visible';
-                        window.scrollTo(0, 0);
-                    },  // ← ЗАПЯТАЯ ЗДЕСЬ
-                    
-                    onError: function(error) {
-                        console.error('❌ Ошибка оплаты:', error);
-                        loading.style.display = 'none';
-                        payButton.style.display = 'block';
-                        paymentFormContainer.style.display = 'none';
-                        globalError.textContent = 'Ошибка оплаты. Попробуй ещё раз.';
-                        globalError.style.display = 'block';
-                    },
-                    
-                    onClose: function() {
-                        console.log('Виджет закрыт без оплаты');
-                        loading.style.display = 'none';
-                        payButton.style.display = 'block';
-                        paymentFormContainer.style.display = 'none';
-                    },
-                    
-                    customization: {
-                        modal: true
-                    }
-                });
-                
-                checkoutWidget.render('payment-form')
-                    .then(() => {
-                        console.log('Виджет загружен');
-                        loading.style.display = 'none';
-                        paymentFormContainer.style.display = 'block';
-                    })
-                    .catch(error => {
-                        console.error('Ошибка рендеринга:', error);
-                        throw new Error('Не удалось загрузить форму оплаты');
-                    });
-                    
             } catch (error) {
                 loading.style.display = 'none';
                 payButton.style.display = 'block';
