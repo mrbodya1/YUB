@@ -369,7 +369,7 @@
         const SUPABASE_URL = 'https://ohaspovkdvtihosvzpli.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9oYXNwb3ZrZHZ0aWhvc3Z6cGxpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1NjI1ODEsImV4cCI6MjA5MDEzODU4MX0.5OvphjjVlBP8hXvLMIALsD6pZn5453mkSEpCeOl8280';
         
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         
         let participants = [];
         let weeklyScores = [];
@@ -381,7 +381,7 @@
         async function loadData() {
             try {
                 // Загружаем участников (только активные)
-                const { data: participantsData, error: participantsError } = await supabase
+                const { data: participantsData, error: participantsError } = await supabaseClient
                     .from('participants')
                     .select('*')
                     .eq('status', 'active');
@@ -390,7 +390,7 @@
                 participants = participantsData || [];
                 
                 // Загружаем очки по неделям
-                const { data: scoresData, error: scoresError } = await supabase
+                const { data: scoresData, error: scoresError } = await supabaseClient
                     .from('weekly_scores')
                     .select('*');
                 
@@ -398,7 +398,7 @@
                 weeklyScores = scoresData || [];
                 
                 // Загружаем тренировки для расчёта темпа
-                const { data: workoutsData } = await supabase
+                const { data: workoutsData } = await supabaseClient
                     .from('workouts')
                     .select('participant_id, original_km, original_min')
                     .eq('status', 'accepted');
