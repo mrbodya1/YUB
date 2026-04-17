@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <meta name="theme-color" content="#f5af19">
     <title>Королевская Битва — Беговой челлендж</title>
     
@@ -10,7 +10,6 @@
     <script src="https://yookassa.ru/checkout-widget/v1/checkout-widget.js"></script>
     
     <style>
-        /* Все стили остаются как были */
         * {
             margin: 0;
             padding: 0;
@@ -39,12 +38,13 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            background: var(--bg-tertiary);
             min-height: 100vh;
             color: var(--text-primary);
             line-height: 1.5;
             font-size: 15px;
             padding: 16px 12px;
+            -webkit-font-smoothing: antialiased;
         }
         
         .container {
@@ -52,13 +52,15 @@
             margin: 0 auto;
         }
         
+        /* Hero */
         .hero {
             text-align: center;
-            padding: 24px 16px;
+            padding: 28px 20px;
             background: var(--bg-primary);
             border-radius: var(--radius-xl);
             margin-bottom: 20px;
-            box-shadow: var(--shadow-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-light);
         }
         
         .hero-emoji {
@@ -67,12 +69,10 @@
         }
         
         .hero h1 {
-            font-size: 2rem;
+            font-size: 1.9rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #f5af19, #f12711);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
             margin-bottom: 4px;
         }
         
@@ -101,6 +101,7 @@
             margin-top: 8px;
         }
         
+        /* Преимущества */
         .benefits-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -134,6 +135,7 @@
             color: var(--text-tertiary);
         }
         
+        /* Кнопка правил */
         .rules-btn-wrapper {
             text-align: center;
             margin-bottom: 20px;
@@ -141,29 +143,31 @@
         
         .rules-btn {
             display: inline-block;
-            background: rgba(255,255,255,0.15);
-            color: white;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             padding: 12px 24px;
             border-radius: var(--radius-xl);
             text-decoration: none;
             font-weight: 500;
             font-size: 0.95rem;
-            border: 1px solid rgba(255,255,255,0.2);
-            backdrop-filter: blur(4px);
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
             transition: all 0.2s;
         }
         
         .rules-btn:hover {
-            background: rgba(255,255,255,0.25);
+            background: var(--bg-secondary);
+            box-shadow: var(--shadow-md);
         }
         
+        /* Цена */
         .price-card {
             background: var(--bg-primary);
             border-radius: var(--radius-lg);
-            padding: 24px 20px;
+            padding: 28px 20px;
             text-align: center;
             margin-bottom: 20px;
-            box-shadow: var(--shadow-lg);
+            box-shadow: var(--shadow-md);
             border: 2px solid var(--primary);
         }
         
@@ -191,45 +195,82 @@
             font-size: 0.8rem;
         }
         
+        /* Особенности */
+        .features {
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            padding: 18px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+        }
+        
+        .features-title {
+            font-weight: 600;
+            margin-bottom: 14px;
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .feature-emoji {
+            font-size: 1.3rem;
+            min-width: 28px;
+            text-align: center;
+        }
+        
+        .feature-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        /* Форма */
         .form-card {
             background: var(--bg-primary);
             border-radius: var(--radius-lg);
-            padding: 20px 16px;
+            padding: 24px 20px;
             margin-bottom: 20px;
             box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-light);
         }
         
         .form-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 16px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
             color: var(--text-primary);
         }
         
         .input-group {
-            margin-bottom: 16px;
+            margin-bottom: 18px;
         }
         
         .input-label {
             display: block;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: 500;
             color: var(--text-secondary);
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
         
         .input-hint {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             color: var(--text-tertiary);
             margin-top: 4px;
         }
         
         .input-field {
             width: 100%;
-            padding: 12px 14px;
+            padding: 14px 16px;
             border: 2px solid var(--border-light);
             border-radius: var(--radius-md);
-            font-size: 0.95rem;
+            font-size: 1rem;
             transition: border-color 0.2s;
             background: var(--bg-secondary);
         }
@@ -245,11 +286,12 @@
         
         .error-message {
             color: #ef4444;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             margin-top: 4px;
             display: none;
         }
         
+        /* Кнопка */
         .btn {
             display: block;
             width: 100%;
@@ -262,138 +304,157 @@
             transition: all 0.2s;
             text-align: center;
             text-decoration: none;
-        }
-        
-        .btn-primary {
             background: var(--primary);
             color: white;
-            box-shadow: 0 4px 12px rgba(245, 175, 25, 0.3);
+            box-shadow: var(--shadow-md);
         }
         
-        .btn-primary:hover {
+        .btn:hover {
             background: var(--primary-dark);
             transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
         }
         
-        .btn-primary:disabled {
+        .btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
             transform: none;
         }
         
+        /* Контейнер для виджета */
+        #payment-form {
+            margin-bottom: 20px;
+            min-height: 100px;
+        }
+        
+        /* Загрузка */
         .loading {
             display: none;
             text-align: center;
-            padding: 20px;
-            color: white;
+            padding: 30px 20px;
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
         }
         
         .spinner {
             width: 40px;
             height: 40px;
-            border: 3px solid rgba(255,255,255,0.2);
-            border-top-color: white;
+            border: 3px solid var(--border-light);
+            border-top-color: var(--primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto 10px;
+            margin: 0 auto 16px;
         }
         
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
         
+        /* Успех */
         .success-message {
             display: none;
             text-align: center;
-            padding: 30px 20px;
+            padding: 40px 24px;
             background: var(--bg-primary);
             border-radius: var(--radius-lg);
             box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-light);
         }
         
         .success-emoji {
-            font-size: 3.5rem;
+            font-size: 4rem;
             margin-bottom: 16px;
         }
         
         .success-title {
-            font-size: 1.4rem;
+            font-size: 1.6rem;
             font-weight: 700;
             color: #10b981;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
         }
         
         .success-text {
             color: var(--text-secondary);
-            margin-bottom: 20px;
-            font-size: 0.95rem;
+            margin-bottom: 24px;
+            font-size: 1rem;
+            line-height: 1.6;
         }
         
         .vk-link {
             display: inline-block;
             background: #0077ff;
             color: white;
-            padding: 14px 28px;
+            padding: 16px 32px;
             border-radius: var(--radius-xl);
             text-decoration: none;
             font-weight: 600;
-        }
-        
-        .footer {
-            text-align: center;
-            color: rgba(255,255,255,0.5);
-            font-size: 0.8rem;
-            padding: 20px;
-        }
-        
-        .footer a {
-            color: rgba(255,255,255,0.7);
-            text-decoration: none;
-        }
-        
-        .features {
-            background: var(--bg-primary);
-            border-radius: var(--radius-lg);
-            padding: 18px;
-            margin-bottom: 20px;
+            font-size: 1.1rem;
             box-shadow: var(--shadow-md);
+            transition: all 0.2s;
         }
         
-        .features-title {
-            font-weight: 600;
-            margin-bottom: 12px;
-            font-size: 1rem;
+        .vk-link:hover {
+            background: #0066dd;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
         }
         
-        .feature-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-        
-        .feature-emoji {
-            font-size: 1.2rem;
-            min-width: 24px;
-        }
-        
-        .feature-text {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-        }
-        
+        /* Ошибка */
         .error-global {
             background: #fee2e2;
             color: #991b1b;
-            padding: 12px 16px;
+            padding: 14px 16px;
             border-radius: var(--radius-md);
-            margin-bottom: 16px;
+            margin-bottom: 20px;
             display: none;
+            font-size: 0.9rem;
+            border: 1px solid #fecaca;
+        }
+        
+        /* Подвал */
+        .footer {
+            text-align: center;
+            color: var(--text-tertiary);
+            font-size: 0.85rem;
+            padding: 24px 20px;
+            margin-top: 10px;
+        }
+        
+        .footer a {
+            color: var(--primary-dark);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        /* Адаптация для маленьких экранов */
+        @media (max-width: 400px) {
+            body {
+                padding: 12px 8px;
+                font-size: 14px;
+            }
+            
+            .hero {
+                padding: 20px 16px;
+            }
+            
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+            
+            .price-value {
+                font-size: 3rem;
+            }
+            
+            .form-card {
+                padding: 20px 16px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Hero -->
         <div class="hero">
             <div class="hero-emoji">🏔️👑</div>
             <h1>Королевская Битва</h1>
@@ -404,6 +465,7 @@
             </div>
         </div>
         
+        <!-- Преимущества -->
         <div class="benefits-grid">
             <div class="benefit-card">
                 <div class="benefit-emoji">👥</div>
@@ -437,18 +499,21 @@
             </div>
         </div>
         
+        <!-- Кнопка на правила -->
         <div class="rules-btn-wrapper">
             <a href="rules.html" class="rules-btn" target="_blank">
                 📜 Полные правила челленджа
             </a>
         </div>
         
+        <!-- Цена -->
         <div class="price-card">
             <div class="price-label">Вступительный взнос</div>
             <div class="price-value">990 <small>₽</small></div>
             <div class="price-note">70% взносов — в призовой фонд</div>
         </div>
         
+        <!-- Особенности -->
         <div class="features">
             <div class="features-title">⚡ Почему стоит участвовать</div>
             <div class="feature-item">
@@ -473,6 +538,7 @@
             </div>
         </div>
         
+        <!-- Форма -->
         <div class="form-card" id="formCard">
             <div class="form-title">📋 Регистрация</div>
             
@@ -502,26 +568,32 @@
             
             <div class="input-group">
                 <label class="input-label">
-                    <input type="checkbox" id="agreeRules" style="width: auto; margin-right: 8px;">
-                    Согласен с <a href="rules.html" target="_blank" style="color: var(--primary-dark);">правилами</a>
+                    <input type="checkbox" id="agreeRules" style="width: auto; margin-right: 10px;">
+                    Согласен с <a href="rules.html" target="_blank" style="color: var(--primary-dark); font-weight: 500;">правилами</a>
                 </label>
                 <div class="error-message" id="agreeError">Нужно согласиться</div>
             </div>
             
-            <div class="input-hint" style="margin-bottom: 16px;">
-                После оплаты напиши боту <code style="background: #e2e8f0; padding: 2px 6px; border-radius: 4px;">/start</code> с теми же именем и фамилией
+            <div class="input-hint">
+                После оплаты напиши боту <code style="background: var(--bg-tertiary); padding: 2px 6px; border-radius: 4px;">/start</code> с теми же именем и фамилией
             </div>
         </div>
         
-        <button class="btn btn-primary" id="payButton">
+        <!-- Контейнер для виджета -->
+        <div id="payment-form"></div>
+        
+        <!-- Кнопка оплаты -->
+        <button class="btn" id="payButton">
             💳 Оплатить 990 ₽ и участвовать
         </button>
         
+        <!-- Загрузка -->
         <div class="loading" id="loading">
             <div class="spinner"></div>
-            <div>Открываем форму оплаты...</div>
+            <div style="color: var(--text-secondary);">Создаём платёж...</div>
         </div>
         
+        <!-- Успех -->
         <div class="success-message" id="successMessage">
             <div class="success-emoji">✅🎉</div>
             <div class="success-title">Оплата прошла успешно!</div>
@@ -532,11 +604,12 @@
             <a href="https://vk.me/club114046577" class="vk-link" target="_blank">
                 💬 Перейти в бота
             </a>
-            <p style="margin-top: 16px; font-size: 0.85rem; color: var(--text-tertiary);">
-                Напиши <code style="background: #f1f5f9; padding: 2px 8px; border-radius: 4px;">/start</code> и укажи те же имя и фамилию
+            <p style="margin-top: 20px; font-size: 0.9rem; color: var(--text-tertiary);">
+                Напиши <code style="background: var(--bg-tertiary); padding: 2px 8px; border-radius: 4px;">/start</code> и укажи те же имя и фамилию
             </p>
         </div>
         
+        <!-- Подвал -->
         <div class="footer">
             🏔️ Королевская Битва 2026<br>
             По вопросам: <a href="https://vk.com/bodya1">@bodya1</a>
@@ -544,66 +617,14 @@
     </div>
     
     <script>
-        // Инициализация виджета ЮKassa
-        const checkout = new YooKassaCheckoutWidget({
-            confirmation_token: 'YOUR_CONFIRMATION_TOKEN', // ← ЗАМЕНИ НА СВОЙ ТОКЕН
-            return_url: 'https://mrbodya1.github.io/YUB/thankyou.html',
-            
-            // Настройки внешнего вида
-            customization: {
-                colors: {
-                    control_primary: '#f5af19',
-                    background: '#ffffff'
-                },
-                modal: true
-            },
-            
-            // Обработчики событий
-            onSuccess: function(data) {
-                // Платёж успешен
-                console.log('Оплата успешна:', data);
-                
-                // Скрываем форму, показываем успех
-                document.getElementById('formCard').style.display = 'none';
-                document.getElementById('payButton').style.display = 'none';
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('successMessage').style.display = 'block';
-                
-                // Отправляем данные на сервер (опционально)
-                fetch('https://stroitelev91.pythonanywhere.com/landing-payment-success', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        first_name: document.getElementById('firstName').value.trim(),
-                        last_name: document.getElementById('lastName').value.trim(),
-                        gender: document.getElementById('gender').value,
-                        payment_id: data.payment_id
-                    })
-                }).catch(err => console.log('Ошибка отправки на сервер:', err));
-            },
-            
-            onError: function(error) {
-                // Ошибка оплаты
-                console.error('Ошибка оплаты:', error);
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('payButton').style.display = 'block';
-                
-                const globalError = document.getElementById('globalError');
-                globalError.textContent = 'Ошибка оплаты. Попробуй ещё раз или используй другую карту.';
-                globalError.style.display = 'block';
-            },
-            
-            onClose: function() {
-                // Виджет закрыт без оплаты
-                console.log('Виджет закрыт');
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('payButton').style.display = 'block';
-            }
-        });
+        const API_URL = 'https://stroitelev91.pythonanywhere.com/create-landing-payment';
         
         const payButton = document.getElementById('payButton');
         const loading = document.getElementById('loading');
+        const formCard = document.getElementById('formCard');
+        const successMessage = document.getElementById('successMessage');
         const globalError = document.getElementById('globalError');
+        const paymentFormContainer = document.getElementById('payment-form');
         
         const firstName = document.getElementById('firstName');
         const lastName = document.getElementById('lastName');
@@ -614,6 +635,8 @@
         const lastNameError = document.getElementById('lastNameError');
         const genderError = document.getElementById('genderError');
         const agreeError = document.getElementById('agreeError');
+        
+        let checkoutWidget = null;
         
         function validateForm() {
             let isValid = true;
@@ -655,20 +678,67 @@
             return isValid;
         }
         
-        payButton.addEventListener('click', function() {
+        payButton.addEventListener('click', async function() {
             if (!validateForm()) {
                 return;
             }
             
-            globalError.style.display = 'none';
             payButton.style.display = 'none';
             loading.style.display = 'block';
+            globalError.style.display = 'none';
             
-            // Открываем виджет
-            checkout.open();
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        first_name: firstName.value.trim(),
+                        last_name: lastName.value.trim(),
+                        gender: gender.value
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (!data.success) {
+                    throw new Error(data.error || 'Не удалось создать платеж');
+                }
+                
+                // Инициализируем виджет
+                checkoutWidget = new window.YooMoneyCheckoutWidget({
+                    confirmation_token: data.confirmation_token,
+                    return_url: 'https://mrbodya1.github.io/YUB/thankyou.html',
+                    error_callback: function(error) {
+                        console.error('Ошибка виджета:', error);
+                        loading.style.display = 'none';
+                        payButton.style.display = 'block';
+                        globalError.textContent = 'Ошибка загрузки формы оплаты. Попробуй ещё раз.';
+                        globalError.style.display = 'block';
+                    }
+                });
+                
+                // Отображаем виджет
+                checkoutWidget.render('payment-form')
+                    .then(() => {
+                        loading.style.display = 'none';
+                        formCard.style.display = 'none';
+                        payButton.style.display = 'none';
+                        successMessage.style.display = 'block';
+                    })
+                    .catch(error => {
+                        console.error('Ошибка рендеринга:', error);
+                        throw new Error('Не удалось загрузить форму оплаты');
+                    });
+                    
+            } catch (error) {
+                loading.style.display = 'none';
+                payButton.style.display = 'block';
+                globalError.textContent = error.message;
+                globalError.style.display = 'block';
+            }
         });
         
-        // Очистка ошибок при вводе
+        // Очистка ошибок
         firstName.addEventListener('input', () => {
             firstName.classList.remove('error');
             firstNameError.style.display = 'none';
