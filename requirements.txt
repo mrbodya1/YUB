@@ -1,8 +1,0 @@
-flask>=2.0.0
-flask-cors>=4.0.0
-vk-api>=11.9.0
-supabase>=1.0.0
-python-dotenv>=1.0.0
-yookassa>=3.0.0
-pytz>=2023.3
-gunicorn>=21.0.0
