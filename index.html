@@ -709,7 +709,15 @@
                 checkoutWidget = new window.YooMoneyCheckoutWidget({
                     confirmation_token: data.confirmation_token,
                     
-                    // НЕ передаём return_url, чтобы виджет не редиректил
+                    // ОБЯЗАТЕЛЬНЫЙ ПАРАМЕТР
+                    error_callback: function(error) {
+                        console.error('❌ Ошибка инициализации виджета:', error);
+                        loading.style.display = 'none';
+                        payButton.style.display = 'block';
+                        paymentFormContainer.style.display = 'none';
+                        globalError.textContent = 'Ошибка загрузки формы оплаты. Попробуй ещё раз.';
+                        globalError.style.display = 'block';
+                    },
                     
                     // Колбэк при успешной оплате
                     onSuccess: function(paymentData) {
