@@ -25,9 +25,11 @@
             --border-light: #e2e8f0;
             --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
             --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
             --radius-sm: 8px;
             --radius-md: 12px;
             --radius-lg: 16px;
+            --radius-xl: 24px;
         }
         
         body {
@@ -46,13 +48,13 @@
             margin: 0 auto;
             background: var(--bg-primary);
             border-radius: var(--radius-lg);
-            padding: 20px 16px;
+            padding: 24px 20px;
             box-shadow: var(--shadow-md);
-            overflow-x: auto;
+            border: 1px solid var(--border-light);
         }
         
         h1 {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 800;
             text-align: center;
             margin-bottom: 6px;
@@ -62,31 +64,32 @@
         .subtitle {
             text-align: center;
             color: var(--text-tertiary);
-            font-size: 0.9rem;
-            margin-bottom: 20px;
+            font-size: 0.95rem;
+            margin-bottom: 24px;
             border-bottom: 1px solid var(--border-light);
-            padding-bottom: 16px;
+            padding-bottom: 18px;
         }
         
         .filters {
             display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
+            gap: 12px;
+            margin-bottom: 24px;
             flex-wrap: wrap;
         }
         
         .search-box {
             flex: 2;
-            min-width: 180px;
+            min-width: 200px;
         }
         
         .search-box input {
             width: 100%;
-            padding: 12px 16px;
+            padding: 14px 18px;
             border: 2px solid var(--border-light);
             border-radius: var(--radius-md);
             font-size: 1rem;
             background: var(--bg-secondary);
+            transition: border-color 0.2s;
         }
         
         .search-box input:focus {
@@ -96,17 +99,18 @@
         
         .gender-filter {
             flex: 1;
-            min-width: 120px;
+            min-width: 140px;
         }
         
         .gender-filter select {
             width: 100%;
-            padding: 12px 16px;
+            padding: 14px 18px;
             border: 2px solid var(--border-light);
             border-radius: var(--radius-md);
             font-size: 1rem;
             background: var(--bg-secondary);
             cursor: pointer;
+            transition: border-color 0.2s;
         }
         
         .gender-filter select:focus {
@@ -114,114 +118,17 @@
             border-color: var(--primary);
         }
         
-        .stats-summary {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 20px;
-            padding: 12px;
-            background: var(--primary-light);
-            border-radius: var(--radius-md);
-        }
-        
-        .stat-item {
-            text-align: center;
-        }
-        
-        .stat-value {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--primary-dark);
-        }
-        
-        .stat-label {
-            font-size: 0.75rem;
-            color: var(--text-tertiary);
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.85rem;
-            min-width: 800px;
-        }
-        
-        th {
-            background: var(--primary);
-            color: white;
-            padding: 12px 8px;
-            text-align: left;
-            font-weight: 600;
-            cursor: pointer;
-            user-select: none;
-            white-space: nowrap;
-        }
-        
-        th:hover {
-            background: var(--primary-dark);
-        }
-        
-        th.sort-asc::after {
-            content: ' ▲';
-            font-size: 0.7rem;
-        }
-        
-        th.sort-desc::after {
-            content: ' ▼';
-            font-size: 0.7rem;
-        }
-        
-        td {
-            padding: 10px 8px;
-            border-bottom: 1px solid var(--border-light);
-        }
-        
-        tr:hover {
-            background: var(--bg-secondary);
-        }
-        
-        .medal-1 {
-            background: linear-gradient(135deg, #ffd70020, #ffd70005);
-        }
-        
-        .medal-2 {
-            background: linear-gradient(135deg, #c0c0c020, #c0c0c005);
-        }
-        
-        .medal-3 {
-            background: linear-gradient(135deg, #cd7f3220, #cd7f3205);
-        }
-        
-        .footer {
-            text-align: center;
-            margin-top: 24px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border-light);
-            color: var(--text-tertiary);
-            font-size: 0.85rem;
-        }
-        
-        .footer a {
-            color: var(--primary-dark);
-            text-decoration: none;
-        }
-        
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: var(--text-tertiary);
-        }
-        
         .tabs {
             display: flex;
-            gap: 4px;
-            margin-bottom: 16px;
+            gap: 8px;
+            margin-bottom: 20px;
             border-bottom: 2px solid var(--border-light);
         }
         
         .tab {
-            padding: 10px 20px;
-            font-size: 0.95rem;
-            font-weight: 500;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 600;
             color: var(--text-tertiary);
             background: transparent;
             border: none;
@@ -232,25 +139,184 @@
         
         .tab:hover {
             background: var(--bg-secondary);
+            color: var(--text-primary);
         }
         
         .tab.active {
             color: var(--primary-dark);
-            border-bottom: 2px solid var(--primary);
+            border-bottom: 3px solid var(--primary);
             margin-bottom: -2px;
         }
         
-        @media (max-width: 480px) {
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+        
+        .stat-card {
+            background: var(--primary-light);
+            border-radius: var(--radius-md);
+            padding: 16px 12px;
+            text-align: center;
+            border: 1px solid var(--primary);
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            line-height: 1.2;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .table-wrapper {
+            overflow-x: auto;
+            margin-bottom: 20px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-light);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            min-width: 1000px;
+        }
+        
+        th {
+            background: var(--primary);
+            color: white;
+            padding: 14px 10px;
+            text-align: left;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+            white-space: nowrap;
+            transition: background 0.2s;
+        }
+        
+        th:hover {
+            background: var(--primary-dark);
+        }
+        
+        th.sort-asc::after {
+            content: ' ▲';
+            font-size: 0.7rem;
+            opacity: 0.8;
+        }
+        
+        th.sort-desc::after {
+            content: ' ▼';
+            font-size: 0.7rem;
+            opacity: 0.8;
+        }
+        
+        td {
+            padding: 12px 10px;
+            border-bottom: 1px solid var(--border-light);
+        }
+        
+        tr:hover {
+            background: var(--bg-secondary);
+        }
+        
+        .medal-1 {
+            background: linear-gradient(135deg, #ffd70015, #ffd70005);
+        }
+        
+        .medal-2 {
+            background: linear-gradient(135deg, #c0c0c015, #c0c0c005);
+        }
+        
+        .medal-3 {
+            background: linear-gradient(135deg, #cd7f3215, #cd7f3205);
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 28px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-light);
+            color: var(--text-tertiary);
+            font-size: 0.9rem;
+        }
+        
+        .footer a {
+            color: var(--primary-dark);
+            text-decoration: none;
+            font-weight: 500;
+            margin: 0 8px;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-tertiary);
+            font-size: 1.1rem;
+        }
+        
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-left: 10px;
+            border: 2px solid var(--border-light);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            vertical-align: middle;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .week-selector {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        
+        .week-selector label {
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        
+        .week-selector select {
+            padding: 10px 16px;
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-md);
+            font-size: 0.95rem;
+            background: var(--bg-secondary);
+            cursor: pointer;
+        }
+        
+        @media (max-width: 600px) {
             body {
                 padding: 8px 4px;
             }
             
             .container {
-                padding: 16px 12px;
+                padding: 18px 14px;
             }
             
             h1 {
-                font-size: 1.5rem;
+                font-size: 1.6rem;
             }
             
             table {
@@ -258,7 +324,11 @@
             }
             
             th, td {
-                padding: 8px 4px;
+                padding: 8px 6px;
+            }
+            
+            .stat-value {
+                font-size: 1.4rem;
             }
         }
     </style>
@@ -266,12 +336,12 @@
 <body>
     <div class="container">
         <h1>🏆 РЕЙТИНГ</h1>
-        <div class="subtitle">Королевская Битва 2026</div>
+        <div class="subtitle">Королевская Битва • 27 апреля — 17 мая 2026</div>
         
         <div class="tabs">
-            <button class="tab active" data-tab="overall">Общий</button>
-            <button class="tab" data-tab="men">Мужчины</button>
-            <button class="tab" data-tab="women">Женщины</button>
+            <button class="tab active" data-tab="overall">🏔️ Общий</button>
+            <button class="tab" data-tab="men">👨 Мужчины</button>
+            <button class="tab" data-tab="women">👩 Женщины</button>
         </div>
         
         <div class="filters">
@@ -280,34 +350,41 @@
             </div>
             <div class="gender-filter">
                 <select id="genderFilter">
-                    <option value="all">Все</option>
-                    <option value="М">Мужчины</option>
-                    <option value="Ж">Женщины</option>
+                    <option value="all">Все участники</option>
+                    <option value="М">Только мужчины</option>
+                    <option value="Ж">Только женщины</option>
                 </select>
             </div>
         </div>
         
-        <div class="stats-summary" id="statsSummary">
-            <div class="stat-item">
+        <div class="stats-grid">
+            <div class="stat-card">
                 <div class="stat-value" id="totalParticipants">0</div>
                 <div class="stat-label">Участников</div>
             </div>
-            <div class="stat-item">
+            <div class="stat-card">
                 <div class="stat-value" id="totalKm">0</div>
                 <div class="stat-label">Всего км</div>
             </div>
-            <div class="stat-item">
+            <div class="stat-card">
                 <div class="stat-value" id="totalWorkouts">0</div>
                 <div class="stat-label">Тренировок</div>
             </div>
         </div>
         
-        <div style="overflow-x: auto;">
+        <div class="week-selector">
+            <label>📅 Неделя:</label>
+            <select id="weekSelect">
+                <option value="all">Все недели</option>
+            </select>
+        </div>
+        
+        <div class="table-wrapper">
             <table>
                 <thead>
                     <tr>
                         <th data-sort="place">#</th>
-                        <th data-sort="first_name">Имя</th>
+                        <th data-sort="first_name">Участник</th>
                         <th data-sort="gender">Пол</th>
                         <th data-sort="total_km">Км</th>
                         <th data-sort="total_workouts">Трен.</th>
@@ -324,26 +401,42 @@
         
         <div class="footer">
             <a href="index.html">← На главную</a> • 
-            <a href="rules.html">Правила</a> • 
-            <a href="https://vk.me/club114046577">Бот</a>
+            <a href="rules.html">📜 Правила</a> • 
+            <a href="https://vk.me/club114046577">💬 Бот</a>
         </div>
     </div>
     
     <script>
         let participants = [];
+        let weeklyScores = [];
         let filteredParticipants = [];
         let sortColumn = 'total_km';
         let sortDirection = 'desc';
         let currentTab = 'overall';
+        let currentWeek = 'all';
 
         async function loadData() {
             try {
-                const response = await fetch('https://stroitelev91.pythonanywhere.com/api/rating');
-                participants = await response.json();
+                // Загружаем участников
+                const participantsRes = await fetch('https://stroitelev91.pythonanywhere.com/api/rating');
+                participants = await participantsRes.json();
+                
+                // Загружаем очки по неделям
+                try {
+                    const scoresRes = await fetch('https://stroitelev91.pythonanywhere.com/api/weekly-scores');
+                    weeklyScores = await scoresRes.json();
+                    populateWeekSelector();
+                } catch (e) {
+                    console.log('Очки по неделям не загружены');
+                }
                 
                 // Добавляем вычисляемые поля
                 participants.forEach(p => {
                     p.avg_pace = p.total_km > 0 ? p.total_min / p.total_km : 0;
+                    
+                    // Суммируем очки по всем неделям
+                    const scores = weeklyScores.filter(s => s.participant_id === p.id);
+                    p.total_points = scores.reduce((sum, s) => sum + (s.total_points || 0), 0);
                 });
                 
                 applyFilters();
@@ -354,6 +447,18 @@
             }
         }
 
+        function populateWeekSelector() {
+            const weeks = [...new Set(weeklyScores.map(s => s.week_number))].sort((a, b) => b - a);
+            const select = document.getElementById('weekSelect');
+            
+            weeks.forEach(week => {
+                const option = document.createElement('option');
+                option.value = week;
+                option.textContent = `Неделя ${week}`;
+                select.appendChild(option);
+            });
+        }
+
         function applyFilters() {
             const searchInput = document.getElementById('searchInput');
             const genderFilter = document.getElementById('genderFilter');
@@ -361,25 +466,30 @@
             const searchTerm = searchInput.value.toLowerCase();
             const gender = genderFilter.value;
             
-            // Сначала фильтруем по полу (из селекта)
             filteredParticipants = participants.filter(p => {
                 if (gender !== 'all' && p.gender !== gender) return false;
                 return true;
             });
             
-            // Затем по табу
             if (currentTab === 'men') {
                 filteredParticipants = filteredParticipants.filter(p => p.gender === 'М');
             } else if (currentTab === 'women') {
                 filteredParticipants = filteredParticipants.filter(p => p.gender === 'Ж');
             }
             
-            // Поиск по имени
             if (searchTerm) {
                 filteredParticipants = filteredParticipants.filter(p => 
                     p.first_name.toLowerCase().includes(searchTerm) || 
                     p.last_name.toLowerCase().includes(searchTerm)
                 );
+            }
+            
+            // Фильтр по неделе
+            if (currentWeek !== 'all') {
+                const weekNum = parseInt(currentWeek);
+                const weekScores = weeklyScores.filter(s => s.week_number === weekNum);
+                const participantIds = weekScores.map(s => s.participant_id);
+                filteredParticipants = filteredParticipants.filter(p => participantIds.includes(p.id));
             }
             
             updateStats();
@@ -397,20 +507,16 @@
         }
 
         function sortAndRender() {
-            // Сортировка
             filteredParticipants.sort((a, b) => {
                 let aVal = a[sortColumn];
                 let bVal = b[sortColumn];
                 
-                // Числовые колонки
                 if (['total_km', 'total_workouts', 'avg_pace', 'snowflake_balance', 'total_points'].includes(sortColumn)) {
                     aVal = parseFloat(aVal) || 0;
                     bVal = parseFloat(bVal) || 0;
                 } else if (sortColumn === 'place') {
-                    // Место определяется после сортировки
                     return 0;
                 } else {
-                    // Строковые колонки
                     aVal = String(aVal || '').toLowerCase();
                     bVal = String(bVal || '').toLowerCase();
                 }
@@ -457,7 +563,6 @@
                 `;
             }).join('');
             
-            // Обновляем индикаторы сортировки
             document.querySelectorAll('th[data-sort]').forEach(th => {
                 const field = th.dataset.sort;
                 th.classList.remove('sort-asc', 'sort-desc');
@@ -467,7 +572,6 @@
             });
         }
 
-        // Обработчики сортировки
         document.querySelectorAll('th[data-sort]').forEach(th => {
             th.addEventListener('click', () => {
                 const field = th.dataset.sort;
@@ -487,18 +591,19 @@
             });
         });
 
-        // Обработчики фильтров
         document.getElementById('searchInput').addEventListener('input', applyFilters);
         document.getElementById('genderFilter').addEventListener('change', applyFilters);
+        document.getElementById('weekSelect').addEventListener('change', (e) => {
+            currentWeek = e.target.value;
+            applyFilters();
+        });
         
-        // Обработчики табов
         document.querySelectorAll('.tab').forEach(tab => {
             tab.addEventListener('click', () => {
                 document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
                 currentTab = tab.dataset.tab;
                 
-                // Синхронизируем селект пола с табом
                 const genderFilter = document.getElementById('genderFilter');
                 if (currentTab === 'men') {
                     genderFilter.value = 'М';
@@ -512,10 +617,7 @@
             });
         });
         
-        // Загрузка при старте
         loadData();
-        
-        // Автообновление каждые 60 секунд
         setInterval(loadData, 60000);
     </script>
 </body>
