@@ -6,6 +6,7 @@
     <meta name="theme-color" content="#f5af19">
     <title>Королевская Битва — Беговой челлендж</title>
     <style>
+        /* Все стили остаются как в предыдущей версии */
         * {
             margin: 0;
             padding: 0;
@@ -47,7 +48,6 @@
             margin: 0 auto;
         }
         
-        /* Hero */
         .hero {
             text-align: center;
             padding: 24px 16px;
@@ -97,7 +97,6 @@
             margin-top: 8px;
         }
         
-        /* Преимущества — сетка 2x3 */
         .benefits-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -131,7 +130,6 @@
             color: var(--text-tertiary);
         }
         
-        /* Кнопка правил */
         .rules-btn-wrapper {
             text-align: center;
             margin-bottom: 20px;
@@ -155,7 +153,6 @@
             background: rgba(255,255,255,0.25);
         }
         
-        /* Цена */
         .price-card {
             background: var(--bg-primary);
             border-radius: var(--radius-lg);
@@ -190,7 +187,6 @@
             font-size: 0.8rem;
         }
         
-        /* Форма */
         .form-card {
             background: var(--bg-primary);
             border-radius: var(--radius-lg);
@@ -250,7 +246,6 @@
             display: none;
         }
         
-        /* Кнопки */
         .btn {
             display: block;
             width: 100%;
@@ -282,7 +277,6 @@
             transform: none;
         }
         
-        /* Загрузка */
         .loading {
             display: none;
             text-align: center;
@@ -304,7 +298,6 @@
             to { transform: rotate(360deg); }
         }
         
-        /* Успех */
         .success-message {
             display: none;
             text-align: center;
@@ -342,7 +335,6 @@
             font-weight: 600;
         }
         
-        /* Подвал */
         .footer {
             text-align: center;
             color: rgba(255,255,255,0.5);
@@ -355,7 +347,6 @@
             text-decoration: none;
         }
         
-        /* Детали */
         .features {
             background: var(--bg-primary);
             border-radius: var(--radius-lg);
@@ -386,12 +377,21 @@
             color: var(--text-secondary);
             font-size: 0.85rem;
         }
+        
+        .error-global {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            margin-bottom: 16px;
+            display: none;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Hero -->
         <div class="hero">
+            <div class="hero-emoji">🏔️👑</div>
             <h1>Королевская Битва</h1>
             <div class="hero-subtitle">Беговой челлендж нового формата</div>
             <div class="hero-dates">📅 27 апреля — 17 мая 2026</div>
@@ -400,7 +400,6 @@
             </div>
         </div>
         
-        <!-- Преимущества (мотивация) -->
         <div class="benefits-grid">
             <div class="benefit-card">
                 <div class="benefit-emoji">👥</div>
@@ -434,21 +433,18 @@
             </div>
         </div>
         
-        <!-- Кнопка на полные правила -->
         <div class="rules-btn-wrapper">
             <a href="rules.html" class="rules-btn" target="_blank">
                 📜 Полные правила челленджа
             </a>
         </div>
         
-        <!-- Цена -->
         <div class="price-card">
             <div class="price-label">Вступительный взнос</div>
             <div class="price-value">990 <small>₽</small></div>
             <div class="price-note">70% взносов — в призовой фонд</div>
         </div>
         
-        <!-- Детали -->
         <div class="features">
             <div class="features-title">⚡ Почему стоит участвовать</div>
             <div class="feature-item">
@@ -473,19 +469,20 @@
             </div>
         </div>
         
-        <!-- Форма регистрации -->
         <div class="form-card" id="formCard">
             <div class="form-title">📋 Регистрация</div>
             
+            <div class="error-global" id="globalError"></div>
+            
             <div class="input-group">
                 <label class="input-label">Имя</label>
-                <input type="text" class="input-field" id="firstName" placeholder="Иван">
+                <input type="text" class="input-field" id="firstName" placeholder="Иван" autocomplete="given-name">
                 <div class="error-message" id="firstNameError">Введи имя</div>
             </div>
             
             <div class="input-group">
                 <label class="input-label">Фамилия</label>
-                <input type="text" class="input-field" id="lastName" placeholder="Иванов">
+                <input type="text" class="input-field" id="lastName" placeholder="Иванов" autocomplete="family-name">
                 <div class="error-message" id="lastNameError">Введи фамилию</div>
             </div>
             
@@ -512,34 +509,26 @@
             </div>
         </div>
         
-        <!-- Кнопка оплаты -->
         <button class="btn btn-primary" id="payButton">
             💳 Оплатить 990 ₽ и участвовать
         </button>
         
-        <!-- Загрузка -->
         <div class="loading" id="loading">
             <div class="spinner"></div>
             <div>Создаём платёж...</div>
         </div>
         
-        <!-- Успех -->
         <div class="success-message" id="successMessage">
-            <div class="success-emoji">✅🎉</div>
-            <div class="success-title">Заявка принята!</div>
+            <div class="success-emoji">🔗</div>
+            <div class="success-title">Перенаправляем на оплату...</div>
             <div class="success-text">
-                После оплаты напиши боту <code style="background: #f1f5f9; padding: 2px 8px; border-radius: 4px;">/start</code><br>
-                Укажи те же имя и фамилию, что при регистрации.
+                Если редирект не сработал, нажми кнопку ниже.
             </div>
-            <a href="https://vk.me/club114046577" class="vk-link" target="_blank">
-                💬 Перейти в бота
+            <a href="#" class="vk-link" id="manualPayLink" target="_blank">
+                Перейти к оплате
             </a>
-            <p style="margin-top: 16px; font-size: 0.8rem; color: var(--text-tertiary);">
-                @club114046577
-            </p>
         </div>
         
-        <!-- Подвал -->
         <div class="footer">
             🏔️ Королевская Битва 2026<br>
             По вопросам: <a href="https://vk.com/bodya1">@bodya1</a>
@@ -547,10 +536,14 @@
     </div>
     
     <script>
+        const API_URL = 'https://stroitelev91.pythonanywhere.com/create-landing-payment';
+        
         const payButton = document.getElementById('payButton');
         const loading = document.getElementById('loading');
         const formCard = document.getElementById('formCard');
         const successMessage = document.getElementById('successMessage');
+        const globalError = document.getElementById('globalError');
+        const manualPayLink = document.getElementById('manualPayLink');
         
         const firstName = document.getElementById('firstName');
         const lastName = document.getElementById('lastName');
@@ -607,35 +600,69 @@
                 return;
             }
             
+            // Скрываем ошибки, показываем загрузку
+            globalError.style.display = 'none';
             payButton.style.display = 'none';
             loading.style.display = 'block';
             
-            // TODO: заменить на реальный запрос к API
-            setTimeout(() => {
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        first_name: firstName.value.trim(),
+                        last_name: lastName.value.trim(),
+                        gender: gender.value
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success && data.payment_url) {
+                    // Показываем success и редиректим
+                    loading.style.display = 'none';
+                    formCard.style.display = 'none';
+                    payButton.style.display = 'none';
+                    successMessage.style.display = 'block';
+                    manualPayLink.href = data.payment_url;
+                    
+                    // Автоматический редирект
+                    window.location.href = data.payment_url;
+                } else {
+                    throw new Error(data.error || 'Ошибка создания платежа');
+                }
+            } catch (error) {
                 loading.style.display = 'none';
-                formCard.style.display = 'none';
-                payButton.style.display = 'none';
-                successMessage.style.display = 'block';
-            }, 2000);
+                payButton.style.display = 'block';
+                globalError.textContent = error.message || 'Ошибка соединения. Попробуй позже.';
+                globalError.style.display = 'block';
+            }
         });
         
+        // Очистка ошибок при вводе
         firstName.addEventListener('input', () => {
             firstName.classList.remove('error');
             firstNameError.style.display = 'none';
+            globalError.style.display = 'none';
         });
         
         lastName.addEventListener('input', () => {
             lastName.classList.remove('error');
             lastNameError.style.display = 'none';
+            globalError.style.display = 'none';
         });
         
         gender.addEventListener('change', () => {
             gender.classList.remove('error');
             genderError.style.display = 'none';
+            globalError.style.display = 'none';
         });
         
         agreeRules.addEventListener('change', () => {
             agreeError.style.display = 'none';
+            globalError.style.display = 'none';
         });
     </script>
 </body>
