@@ -450,6 +450,18 @@
             .form-card {
                 padding: 20px 16px;
             }
+            // Принудительно скрываем все модальные окна
+            var style = document.createElement('style');
+            style.innerHTML = `
+                [class*="modal"], 
+                [class*="overlay"], 
+                [class*="popup"],
+                div[style*="position: fixed"],
+                div[style*="position: absolute"] {
+                    display: none !important;
+                }
+            `;
+            document.head.appendChild(style);
         }
     </style>
 </head>
