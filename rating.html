@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <meta name="theme-color" content="#f5af19">
     <title>Рейтинг — Королевская Битва</title>
+    
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
     <style>
         * {
             margin: 0;
@@ -361,6 +365,12 @@
     </div>
     
     <script>
+        // Конфигурация Supabase
+        const SUPABASE_URL = 'https://ohaspovkdvtihosvzpli.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9oYXNwb3ZrZHZ0aWhvc3Z6cGxpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1NjI1ODEsImV4cCI6MjA5MDEzODU4MX0.5OvphjjVlBP8hXvLMIALsD6pZn5453mkSEpCeOl8280';
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
         let participants = [];
         let weeklyScores = [];
         let filteredParticipants = [];
@@ -370,19 +380,44 @@
 
         async function loadData() {
             try {
-                const participantsRes = await fetch('https://stroitelev91.pythonanywhere.com/api/rating');
-                participants = await participantsRes.json();
+                // Загружаем участников (только активные)
+                const { data: participantsData, error: participantsError } = await supabase
+                    .from('participants')
+                    .select('*')
+                    .eq('status', 'active');
                 
-                try {
-                    const scoresRes = await fetch('https://stroitelev91.pythonanywhere.com/api/weekly-scores');
-                    weeklyScores = await scoresRes.json();
-                } catch (e) {
-                    console.log('Очки по неделям не загружены');
-                }
+                if (participantsError) throw participantsError;
+                participants = participantsData || [];
+                
+                // Загружаем очки по неделям
+                const { data: scoresData, error: scoresError } = await supabase
+                    .from('weekly_scores')
+                    .select('*');
+                
+                if (scoresError) throw scoresError;
+                weeklyScores = scoresData || [];
+                
+                // Загружаем тренировки для расчёта темпа
+                const { data: workoutsData } = await supabase
+                    .from('workouts')
+                    .select('participant_id, original_km, original_min')
+                    .eq('status', 'accepted');
+                
+                // Вычисляем темп для каждого участника
+                const workoutsByParticipant = {};
+                workoutsData?.forEach(w => {
+                    if (!workoutsByParticipant[w.participant_id]) {
+                        workoutsByParticipant[w.participant_id] = { km: 0, min: 0 };
+                    }
+                    workoutsByParticipant[w.participant_id].km += w.original_km || 0;
+                    workoutsByParticipant[w.participant_id].min += w.original_min || 0;
+                });
                 
                 participants.forEach(p => {
-                    p.avg_pace = p.total_km > 0 ? p.total_min / p.total_km : 0;
+                    const w = workoutsByParticipant[p.id] || { km: 0, min: 0 };
+                    p.avg_pace = w.km > 0 ? w.min / w.km : 0;
                     
+                    // Очки по неделям
                     const scores = weeklyScores.filter(s => s.participant_id === p.id);
                     p.week1_points = scores.find(s => s.week_number === 1)?.total_points || 0;
                     p.week2_points = scores.find(s => s.week_number === 2)?.total_points || 0;
