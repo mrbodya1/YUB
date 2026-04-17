@@ -42,6 +42,7 @@
         
         .success h1 { color: #10b981; }
         .canceled h1 { color: #ef4444; }
+        .pending h1 { color: #f5af19; }
         
         p {
             color: #334155;
@@ -113,13 +114,13 @@
         }
         
         .hidden {
-            display: none;
+            display: none !important;
         }
     </style>
 </head>
 <body>
     <!-- Успешная оплата -->
-    <div class="card success" id="successBlock">
+    <div class="card success hidden" id="successBlock">
         <div class="emoji">✅🎉</div>
         <h1>Оплата прошла успешно!</h1>
         <p>Спасибо за участие в челлендже «Королевская Битва»!</p>
@@ -165,6 +166,24 @@
         </a>
     </div>
     
+    <!-- Неопределённый статус (если зашли напрямую) -->
+    <div class="card pending" id="pendingBlock">
+        <div class="emoji">⏳</div>
+        <h1>Статус оплаты неизвестен</h1>
+        <p>Ты попал на эту страницу напрямую, а не после оплаты.</p>
+        
+        <p style="color: #64748b; margin-bottom: 24px;">
+            Если ты уже оплатил участие, напиши боту <code>/start</code> — он автоматически проверит статус платежа.
+        </p>
+        
+        <a href="index.html" class="btn">
+            🔄 Вернуться к регистрации
+        </a>
+        <a href="https://vk.me/club114046577" class="btn btn-outline" target="_blank">
+            💬 Перейти в бота
+        </a>
+    </div>
+    
     <script>
         // Проверяем параметры URL
         const urlParams = new URLSearchParams(window.location.search);
@@ -173,20 +192,26 @@
         
         const successBlock = document.getElementById('successBlock');
         const canceledBlock = document.getElementById('canceledBlock');
+        const pendingBlock = document.getElementById('pendingBlock');
         
-        // Если есть payment_id в URL, значит был редирект с ЮKassa
+        // Определяем, что показывать
         if (paymentId) {
+            // Есть payment_id — значит был редирект с ЮKassa
             if (status === 'succeeded') {
                 successBlock.classList.remove('hidden');
                 canceledBlock.classList.add('hidden');
+                pendingBlock.classList.add('hidden');
             } else {
+                // Любой другой статус (canceled, pending, или без статуса)
                 successBlock.classList.add('hidden');
                 canceledBlock.classList.remove('hidden');
+                pendingBlock.classList.add('hidden');
             }
         } else {
-            // Если параметров нет — просто показываем успех (на случай прямого захода)
-            // Но лучше показать заглушку или редирект на главную
-            // successBlock.classList.remove('hidden');
+            // Нет параметров — пользователь зашёл напрямую
+            successBlock.classList.add('hidden');
+            canceledBlock.classList.add('hidden');
+            pendingBlock.classList.remove('hidden');
         }
     </script>
 </body>
