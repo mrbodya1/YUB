@@ -5,8 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <meta name="theme-color" content="#f5af19">
     <title>Королевская Битва — Беговой челлендж</title>
+    
+    <!-- ЮKassa Widget -->
+    <script src="https://yookassa.ru/checkout-widget/v1/checkout-widget.js"></script>
+    
     <style>
-        /* Все стили остаются как в предыдущей версии */
+        /* Все стили остаются как были */
         * {
             margin: 0;
             padding: 0;
@@ -391,6 +395,7 @@
 <body>
     <div class="container">
         <div class="hero">
+            <div class="hero-emoji">🏔️👑</div>
             <h1>Королевская Битва</h1>
             <div class="hero-subtitle">Беговой челлендж нового формата</div>
             <div class="hero-dates">📅 27 апреля — 17 мая 2026</div>
@@ -514,18 +519,22 @@
         
         <div class="loading" id="loading">
             <div class="spinner"></div>
-            <div>Создаём платёж...</div>
+            <div>Открываем форму оплаты...</div>
         </div>
         
         <div class="success-message" id="successMessage">
-            <div class="success-emoji">🔗</div>
-            <div class="success-title">Перенаправляем на оплату...</div>
+            <div class="success-emoji">✅🎉</div>
+            <div class="success-title">Оплата прошла успешно!</div>
             <div class="success-text">
-                Если редирект не сработал, нажми кнопку ниже.
+                Спасибо за участие в челлендже!<br><br>
+                <strong>Остался последний шаг:</strong>
             </div>
-            <a href="#" class="vk-link" id="manualPayLink" target="_blank">
-                Перейти к оплате
+            <a href="https://vk.me/club114046577" class="vk-link" target="_blank">
+                💬 Перейти в бота
             </a>
+            <p style="margin-top: 16px; font-size: 0.85rem; color: var(--text-tertiary);">
+                Напиши <code style="background: #f1f5f9; padding: 2px 8px; border-radius: 4px;">/start</code> и укажи те же имя и фамилию
+            </p>
         </div>
         
         <div class="footer">
@@ -535,14 +544,66 @@
     </div>
     
     <script>
-        const API_URL = 'https://stroitelev91.pythonanywhere.com/create-landing-payment';
+        // Инициализация виджета ЮKassa
+        const checkout = new YooKassaCheckoutWidget({
+            confirmation_token: 'YOUR_CONFIRMATION_TOKEN', // ← ЗАМЕНИ НА СВОЙ ТОКЕН
+            return_url: 'https://mrbodya1.github.io/YUB/thankyou.html',
+            
+            // Настройки внешнего вида
+            customization: {
+                colors: {
+                    control_primary: '#f5af19',
+                    background: '#ffffff'
+                },
+                modal: true
+            },
+            
+            // Обработчики событий
+            onSuccess: function(data) {
+                // Платёж успешен
+                console.log('Оплата успешна:', data);
+                
+                // Скрываем форму, показываем успех
+                document.getElementById('formCard').style.display = 'none';
+                document.getElementById('payButton').style.display = 'none';
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('successMessage').style.display = 'block';
+                
+                // Отправляем данные на сервер (опционально)
+                fetch('https://stroitelev91.pythonanywhere.com/landing-payment-success', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        first_name: document.getElementById('firstName').value.trim(),
+                        last_name: document.getElementById('lastName').value.trim(),
+                        gender: document.getElementById('gender').value,
+                        payment_id: data.payment_id
+                    })
+                }).catch(err => console.log('Ошибка отправки на сервер:', err));
+            },
+            
+            onError: function(error) {
+                // Ошибка оплаты
+                console.error('Ошибка оплаты:', error);
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('payButton').style.display = 'block';
+                
+                const globalError = document.getElementById('globalError');
+                globalError.textContent = 'Ошибка оплаты. Попробуй ещё раз или используй другую карту.';
+                globalError.style.display = 'block';
+            },
+            
+            onClose: function() {
+                // Виджет закрыт без оплаты
+                console.log('Виджет закрыт');
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('payButton').style.display = 'block';
+            }
+        });
         
         const payButton = document.getElementById('payButton');
         const loading = document.getElementById('loading');
-        const formCard = document.getElementById('formCard');
-        const successMessage = document.getElementById('successMessage');
         const globalError = document.getElementById('globalError');
-        const manualPayLink = document.getElementById('manualPayLink');
         
         const firstName = document.getElementById('firstName');
         const lastName = document.getElementById('lastName');
@@ -594,50 +655,17 @@
             return isValid;
         }
         
-        payButton.addEventListener('click', async function() {
+        payButton.addEventListener('click', function() {
             if (!validateForm()) {
                 return;
             }
             
-            // Скрываем ошибки, показываем загрузку
             globalError.style.display = 'none';
             payButton.style.display = 'none';
             loading.style.display = 'block';
             
-            try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        first_name: firstName.value.trim(),
-                        last_name: lastName.value.trim(),
-                        gender: gender.value
-                    })
-                });
-                
-                const data = await response.json();
-                
-                if (data.success && data.payment_url) {
-                    // Показываем success и редиректим
-                    loading.style.display = 'none';
-                    formCard.style.display = 'none';
-                    payButton.style.display = 'none';
-                    successMessage.style.display = 'block';
-                    manualPayLink.href = data.payment_url;
-                    
-                    // Автоматический редирект
-                    window.location.href = data.payment_url;
-                } else {
-                    throw new Error(data.error || 'Ошибка создания платежа');
-                }
-            } catch (error) {
-                loading.style.display = 'none';
-                payButton.style.display = 'block';
-                globalError.textContent = error.message || 'Ошибка соединения. Попробуй позже.';
-                globalError.style.display = 'block';
-            }
+            // Открываем виджет
+            checkout.open();
         });
         
         // Очистка ошибок при вводе
