@@ -6,470 +6,226 @@
     <meta name="theme-color" content="#f5af19">
     <title>Правила — Королевская Битва</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --primary: #f5af19;
-            --primary-dark: #d97706;
-            --primary-light: #fef3c7;
-            --bg-primary: #ffffff;
-            --bg-secondary: #f8fafc;
-            --bg-tertiary: #f1f5f9;
-            --text-primary: #0f172a;
-            --text-secondary: #334155;
-            --text-tertiary: #64748b;
-            --border-light: #e2e8f0;
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
+            --primary: #f5af19; --primary-dark: #d97706; --primary-light: #fef3c7;
+            --bg-primary: #ffffff; --bg-secondary: #f8fafc; --bg-tertiary: #f1f5f9;
+            --text-primary: #0f172a; --text-secondary: #334155; --text-tertiary: #64748b;
+            --border-light: #e2e8f0; --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --radius-sm: 8px; --radius-md: 12px; --radius-lg: 16px;
         }
-        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: var(--bg-tertiary);
-            min-height: 100vh;
-            color: var(--text-primary);
-            line-height: 1.5;
-            font-size: 15px;
-            padding: 16px 12px;
-            -webkit-font-smoothing: antialiased;
+            background: var(--bg-tertiary); min-height: 100vh; color: var(--text-primary);
+            line-height: 1.5; font-size: 15px; padding: 16px 12px; -webkit-font-smoothing: antialiased;
         }
-        
         .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: var(--bg-primary);
-            border-radius: var(--radius-lg);
-            padding: 24px 20px;
-            box-shadow: var(--shadow-md);
-        }
-        
-        h1 {
-            font-size: 1.9rem;
-            font-weight: 800;
-            text-align: center;
-            margin-bottom: 6px;
-            color: var(--text-primary);
-            letter-spacing: -0.02em;
-        }
-        
-        .subtitle {
-            text-align: center;
-            color: var(--text-tertiary);
-            font-size: 0.9rem;
-            margin-bottom: 28px;
-            border-bottom: 1px solid var(--border-light);
-            padding-bottom: 18px;
-        }
-        
-        h2 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin: 28px 0 12px 0;
-            color: var(--text-primary);
-            border-left: 4px solid var(--primary);
-            padding-left: 14px;
-        }
-        
-        h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin: 20px 0 10px 0;
-            color: var(--text-secondary);
-        }
-        
-        h4 {
-            font-size: 1rem;
-            font-weight: 600;
-            margin: 16px 0 8px 0;
-            color: var(--text-secondary);
-        }
-        
-        p {
-            margin-bottom: 12px;
-            color: var(--text-secondary);
-        }
-        
-        ul, ol {
-            margin-left: 22px;
-            margin-bottom: 16px;
-            color: var(--text-secondary);
-        }
-        
-        li {
-            margin-bottom: 6px;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 16px 0;
-            background: var(--bg-secondary);
-            border-radius: var(--radius-sm);
-            overflow: hidden;
-            font-size: 0.85rem;
+            max-width: 600px; margin: 0 auto; background: var(--bg-primary);
+            border-radius: var(--radius-lg); padding: 24px 20px; box-shadow: var(--shadow-md);
             border: 1px solid var(--border-light);
         }
-        
-        th, td {
-            padding: 10px 8px;
-            text-align: left;
-            border-bottom: 1px solid var(--border-light);
-        }
-        
-        th {
-            background: var(--primary);
-            color: white;
-            font-weight: 600;
-        }
-        
-        tr:last-child td {
-            border-bottom: none;
-        }
-        
-        tr:nth-child(even) {
-            background: var(--bg-primary);
-        }
-        
-        .example-box {
-            background: var(--bg-secondary);
-            border-radius: var(--radius-sm);
-            padding: 14px 16px;
-            margin: 16px 0;
-            border-left: 4px solid var(--primary);
-            font-size: 0.9rem;
-        }
-        
-        .example-title {
-            font-weight: 600;
-            color: var(--primary-dark);
-            margin-bottom: 8px;
-        }
-        
-        .note {
-            background: var(--primary-light);
-            border-radius: var(--radius-sm);
-            padding: 14px 16px;
-            margin: 16px 0;
-            border: 1px solid var(--primary);
-            font-size: 0.9rem;
-        }
-        
-        .note-title {
-            font-weight: 600;
-            color: var(--primary-dark);
-            margin-bottom: 6px;
-        }
-        
-        .badge {
-            display: inline-block;
-            padding: 2px 10px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-right: 6px;
-        }
-        
-        .badge-warning {
-            background: var(--primary);
-            color: white;
-        }
-        
-        .table-wrapper {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            margin: 16px 0;
-        }
-        
-        .footer {
-            text-align: center;
-            margin-top: 32px;
-            padding-top: 24px;
-            border-top: 1px solid var(--border-light);
-            color: var(--text-tertiary);
-            font-size: 0.85rem;
-        }
-        
-        .footer a {
-            color: var(--primary-dark);
-            text-decoration: none;
-        }
-        
-        strong {
-            color: var(--text-primary);
-        }
-        
+        h1 { font-size: 1.9rem; font-weight: 800; text-align: center; margin-bottom: 6px; color: var(--text-primary); letter-spacing: -0.02em; }
+        .subtitle { text-align: center; color: var(--text-tertiary); font-size: 0.9rem; margin-bottom: 28px; border-bottom: 1px solid var(--border-light); padding-bottom: 18px; }
+        h2 { font-size: 1.3rem; font-weight: 700; margin: 28px 0 12px 0; color: var(--text-primary); border-left: 4px solid var(--primary); padding-left: 14px; }
+        h3 { font-size: 1.1rem; font-weight: 600; margin: 20px 0 10px 0; color: var(--text-secondary); }
+        p { margin-bottom: 12px; color: var(--text-secondary); }
+        ul, ol { margin-left: 22px; margin-bottom: 16px; color: var(--text-secondary); }
+        li { margin-bottom: 6px; }
+        table { width: 100%; border-collapse: collapse; margin: 16px 0; background: var(--bg-secondary); border-radius: var(--radius-sm); overflow: hidden; font-size: 0.85rem; border: 1px solid var(--border-light); }
+        th, td { padding: 10px 8px; text-align: left; border-bottom: 1px solid var(--border-light); }
+        th { background: var(--primary); color: white; font-weight: 600; text-align: center; }
+        tr:last-child td { border-bottom: none; }
+        tr:nth-child(even) { background: var(--bg-primary); }
+        .example-box { background: var(--bg-secondary); border-radius: var(--radius-sm); padding: 14px 16px; margin: 16px 0; border-left: 4px solid var(--primary); font-size: 0.9rem; }
+        .example-title { font-weight: 600; color: var(--primary-dark); margin-bottom: 8px; }
+        .note { background: var(--primary-light); border-radius: var(--radius-sm); padding: 14px 16px; margin: 16px 0; border: 1px solid var(--primary); font-size: 0.9rem; }
+        .note-title { font-weight: 600; color: var(--primary-dark); margin-bottom: 6px; }
+        .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 16px 0; }
+        .footer { text-align: center; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border-light); color: var(--text-tertiary); font-size: 0.85rem; }
+        .footer a { color: var(--primary-dark); text-decoration: none; }
+        strong { color: var(--text-primary); }
+        details { margin-bottom: 16px; border: 1px solid var(--border-light); border-radius: var(--radius-sm); overflow: hidden; }
+        summary { padding: 14px 16px; background: var(--bg-secondary); font-weight: 600; color: var(--text-primary); cursor: pointer; user-select: none; }
+        summary:hover { background: var(--bg-tertiary); }
+        details[open] summary { border-bottom: 1px solid var(--border-light); }
+        details .content { padding: 16px; }
         @media (max-width: 480px) {
-            body {
-                padding: 8px 4px;
-                font-size: 14px;
-            }
-            
-            .container {
-                padding: 18px 14px;
-            }
-            
-            h1 {
-                font-size: 1.6rem;
-            }
-            
-            h2 {
-                font-size: 1.2rem;
-            }
-            
-            table {
-                font-size: 0.8rem;
-            }
-            
-            th, td {
-                padding: 8px 6px;
-            }
+            body { padding: 8px 4px; font-size: 14px; }
+            .container { padding: 18px 14px; }
+            h1 { font-size: 1.6rem; }
+            h2 { font-size: 1.2rem; }
+            table { font-size: 0.8rem; }
+            th, td { padding: 8px 4px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🏔️ КОРОЛЕВСКАЯ БИТВА</h1>
-        <div class="subtitle">Правила и механика челленджа</div>
+        <div class="subtitle">Положение о проведении онлайн-челленджа</div>
 
-        <h2>1. ОБЩИЕ ПОЛОЖЕНИЯ</h2>
-        <p><strong>Сроки проведения:</strong> 27 апреля — 17 мая (3 недели)</p>
-        <p>Участники соревнуются в беге, зарабатывают километры и внутреннюю валюту — ромашки. Можно влиять на результаты соперников с помощью способностей. Побеждает тот, кто наберёт больше всех очков в своём зачёте.</p>
-        <p><strong>Раздельный зачёт:</strong></p>
-        <ul>
-            <li>Мужчины и женщины соревнуются отдельно</li>
-            <li>Рейтинг считается отдельно для каждого пола</li>
-            <li>Призовой фонд делится пропорционально количеству участников каждого пола</li>
-        </ul>
-        <p><strong>Время:</strong></p>
-        <ul>
-            <li>Всё считается по времени Екатеринбурга (YEKT, UTC+5)</li>
-            <li>Сутки начинаются в 00:00 YEKT</li>
-            <li>Все ограничения по времени работают по этому часовому поясу</li>
-        </ul>
+        <!-- 1. ОБЩИЕ ПОЛОЖЕНИЯ -->
+        <h2>1. ОБЩИЕ ПОЛОЖЕНИЯ И МЕХАНИКА ПОБЕДЫ</h2>
+        <p><strong>1.1. Сроки проведения:</strong> 27 апреля — 17 мая 2026 года (3 недели).</p>
+        <p><strong>1.2. Главная цель и система очков (КЛЮЧЕВОЕ ПРАВИЛО):</strong> Челлендж состоит из еженедельных зачетов. Ваш итоговый километраж <strong>не гарантирует победу</strong>. Победителем становится участник, набравший <strong>наибольшее количество Очков (Points)</strong> в своей группе (мужчины/женщины).</p>
+        <p><strong>1.3. Как копятся Очки?</strong> Очки начисляются <strong>один раз в неделю</strong> (в понедельник) по результатам вашего выступления за предыдущие 7 дней.</p>
+        <p><strong>1.4. Раздельный зачёт:</strong> Мужчины и женщины соревнуются <strong>отдельно</strong>. У каждой группы свой рейтинг, свои очки и свой призовой фонд, который делится пропорционально количеству участников.</p>
+        <p><strong>1.5. Часовой пояс:</strong> Все события происходят по времени <strong>Екатеринбурга (YEKT, UTC+5)</strong>.</p>
 
+        <!-- 2. РЕГИСТРАЦИЯ -->
         <h2>2. РЕГИСТРАЦИЯ</h2>
-        <p>Чтобы участвовать, нужно:</p>
+        <p>Чтобы стать участником, необходимо:</p>
         <ol>
-            <li>Написать боту в личные сообщения команду <code>/start</code> или нажать «Начать»</li>
-            <li>Бот автоматически определит имя, фамилию и пол из профиля ВК</li>
-            <li>После регистрации участник получает начальный баланс 0 ромашек</li>
+            <li>Перейти в чат с ботом: <a href="https://vk.me/club114046577">https://vk.me/club114046577</a> и написать команду <code>/start</code>.</li>
+            <li>Оплатить вступительный взнос по полученной ссылке.</li>
+            <li>После оплаты нажать кнопку <strong>«✅ Я оплатил»</strong> и следовать инструкциям бота для ввода имени и пола.</li>
         </ol>
-        <p><strong>Важно:</strong></p>
-        <ul>
-            <li>Один человек = один аккаунт ВК</li>
-            <li>Нельзя регистрироваться с фейковых страниц</li>
-            <li>Администратор может дисквалифицировать участника за нарушения</li>
-        </ul>
+        <div class="note"><div class="note-title">⚠️ Важно</div><p>Один человек = один аккаунт ВК. Фейковые страницы запрещены. Администратор может дисквалифицировать участника за нарушения.</p></div>
 
-        <h2>3. ТРЕНИРОВКИ</h2>
-        <h3>3.1. Требования к тренировке</h3>
-        <p><strong>Обязательные условия:</strong></p>
-        <ul>
-            <li>Минимальная дистанция: 3 км (целое число)</li>
-            <li>Без ограничения по времени</li>
-            <li>Фото: скриншот GPS-трека с видимой датой тренировки</li>
-        </ul>
-        <p><strong>Ограничения:</strong></p>
-        <ul>
-            <li>Только 1 тренировка в сутки</li>
-            <li>Сутки считаются с 00:00 до 23:59 по времени Екатеринбурга</li>
-            <li>Нельзя добавить тренировку задним числом</li>
-        </ul>
-        <p><strong>Что считается тренировкой:</strong> только бег на улице с GPS-треком (Strava, Nike Run Club, Garmin, Adidas Running и др.)</p>
-        <p><strong>Что НЕ считается:</strong> бег на дорожке, спортивная ходьба, шаги из шагомера, велосипед, плавание, силовые тренировки.</p>
+        <!-- 3. ТРЕНИРОВКИ -->
+        <h2>3. ТРЕНИРОВКИ И ОТЧЕТЫ</h2>
+        <h3>3.1. Требования к зачетной тренировке</h3>
+        <ul><li><strong>Дистанция:</strong> Минимум 3 км (целое число).</li><li><strong>Тип активности:</strong> Только бег на улице с GPS-треком.</li><li><strong>Ограничение:</strong> Не более 1 тренировки в сутки.</li></ul>
+        <h3>3.2. Как добавить отчет</h3>
+        <ol><li>В боте нажать «➕ Добавить тренировку».</li><li>Ввести дистанцию (км).</li><li>Ввести время (минут).</li><li>Прикрепить скриншот GPS-трека с датой.</li></ol>
+        <h3>3.3. Награда ромашками</h3>
+        <ul><li><strong>Дневная (до 22:00):</strong> 50 🌼</li><li><strong>Ночная (после 22:00):</strong> 30 🌼</li></ul>
 
-        <h3>3.2. Процесс добавления тренировки</h3>
-        <ol>
-            <li>Нажать кнопку «Добавить тренировку» в личке с ботом</li>
-            <li>Ввести дистанцию в километрах (целое число, минимум 3)</li>
-            <li>Ввести время в минутах (целое число)</li>
-            <li>Отправить фото скриншота GPS-трека с датой тренировки</li>
-        </ol>
-        <p>Бот проверит: что сегодня ещё не было тренировки, дистанция ≥ 3 км, фото прикреплено.</p>
+        <!-- 4. РОМАШКИ -->
+        <h2>4. ВАЛЮТА: РОМАШКИ (🌼)</h2>
+        <p>Ромашки — тактический ресурс, <strong>не влияют на Очки</strong>. Нужны только для покупки способностей.</p>
+        <ul><li><strong>Заработать:</strong> Тренировки, Достижения, Рулетка.</li><li><strong>Потратить:</strong> Покупка способностей.</li></ul>
 
-        <h3>3.3. Награда за тренировку</h3>
-        <p><strong>Базовая награда:</strong> 30 ромашек<br>
-        <strong>Дневной бонус:</strong> +20 ромашек (до 22:00 YEKT)<br>
-        <strong>Ночная тренировка:</strong> 30 ромашек (после 22:00 YEKT)</p>
-        <div class="example-box">
-            <div class="example-title">📌 Примеры</div>
-            <p>Тренировка в 10:00 → 30 + 20 = 50 🌼<br>
-            Тренировка в 21:59 → 30 + 20 = 50 🌼<br>
-            Тренировка в 22:00 → 30 🌼<br>
-            Тренировка в 23:30 → 30 🌼</p>
+        <!-- 5. СПОСОБНОСТИ -->
+        <h2>5. СПОСОБНОСТИ (ТАКТИКА)</h2>
+        <div class="table-wrapper"><table>
+            <tr><th>Способность</th><th>Цена</th><th>Цель</th><th>Эффект</th></tr>
+            <tr><td>⚡ Удвоение</td><td>150 🌼</td><td>Своя</td><td>×2 км</td></tr>
+            <tr><td>🛡️ Щит</td><td>100 🌼</td><td>Своя</td><td>Защита</td></tr>
+            <tr><td>✂️ Разделение</td><td>150 🌼</td><td>Соперник</td><td>÷2 км</td></tr>
+            <tr><td>🌊 Потоп</td><td>150 🌼</td><td>Топ-5</td><td>−20% км</td></tr>
+            <tr><td>💀 Обнуление</td><td>200 🌼</td><td>Соперник</td><td>→ 0 км</td></tr>
+        </table></div>
+        <div class="example-box"><div class="example-title">📌 Примеры работы способностей</div>
+            <p><strong>Удвоение:</strong> Иван пробежал 10 км → применил Удвоение → 20 км.</p>
+            <p><strong>Щит + Разделение:</strong> Мария пробежала 10 км и поставила Щит. Анна пытается применить Разделение — <strong>ромашки не списываются</strong>, атака отклонена.</p>
+            <p><strong>Потоп:</strong> Михаил (5 место среди мужчин) использует Потоп. Атакованы 1, 2, 3, 4 и 6 места. Каждый теряет 20% от последней тренировки.</p>
+            <p><strong>Обнуление:</strong> Ольга пробежала 21 км. Елена применяет Обнуление → 0 км.</p>
         </div>
 
-        <h2>4. РОМАШКИ</h2>
-        <p>Ромашки — внутренняя валюта челленджа. Используются для покупки способностей.</p>
-        <div class="table-wrapper">
-            <table>
-                <tr><th>Источник</th><th>Количество</th></tr>
-                <tr><td>Тренировка (днём)</td><td>50 ромашек</td></tr>
-                <tr><td>Тренировка (ночью)</td><td>30 ромашек</td></tr>
-                <tr><td>Рулетка</td><td>случайно, до 250 ромашек</td></tr>
-                <tr><td>Достижения</td><td>от 50 до 300 ромашек</td></tr>
-            </table>
-        </div>
-        <p><strong>На что тратятся:</strong> Удвоение, Щит, Разделение, Потоп, Обнуление.</p>
-        <div class="note">
-            <div class="note-title">⚠️ Важно</div>
-            <p>Ромашки нельзя передать другому участнику, обменять на реальные деньги. Баланс ромашек не влияет на итоговый рейтинг.</p>
-        </div>
-
-        <h2>5. СПОСОБНОСТИ</h2>
-        <p>Способности покупаются за ромашки в личном чате с ботом.</p>
-
-        <h3>5.1. Удвоение</h3>
-        <ul>
-            <li><strong>Цена:</strong> 150 🌼</li>
-            <li><strong>Цель:</strong> своя последняя тренировка</li>
-            <li><strong>Эффект:</strong> километраж ×2</li>
-            <li><strong>Ограничения:</strong> нельзя дважды, только без других позитивных способностей</li>
-        </ul>
-
-        <h3>5.2. Щит</h3>
-        <ul>
-            <li><strong>Цена:</strong> 100 🌼</li>
-            <li><strong>Цель:</strong> своя последняя тренировка</li>
-            <li><strong>Эффект:</strong> защита от негативных способностей</li>
-            <li><strong>Ограничения:</strong> нельзя на уже атакованную/защищённую тренировку</li>
-        </ul>
-
-        <h3>5.3. Разделение</h3>
-        <ul>
-            <li><strong>Цена:</strong> 150 🌼</li>
-            <li><strong>Цель:</strong> последняя тренировка соперника</li>
-            <li><strong>Эффект:</strong> километраж ÷2</li>
-            <li><strong>Ограничения:</strong> цель должна быть без щита и без других атак</li>
-        </ul>
-
-        <h3>5.4. Потоп</h3>
-        <ul>
-            <li><strong>Цена:</strong> 150 🌼</li>
-            <li><strong>Цель:</strong> топ-5 лидеров твоего пола</li>
-            <li><strong>Эффект:</strong> километраж −20% у каждой цели</li>
-            <li><strong>Механика выбора:</strong> топ-5 рейтинга того же пола (исключая себя), с доступными тренировками без защиты</li>
-        </ul>
-
-        <h3>5.5. Обнуление</h3>
-        <ul>
-            <li><strong>Цена:</strong> 200 🌼</li>
-            <li><strong>Цель:</strong> последняя тренировка соперника</li>
-            <li><strong>Эффект:</strong> километраж → 0</li>
-            <li><strong>Ограничения:</strong> цель должна быть без щита и без других атак</li>
-        </ul>
-
-        <h3>5.6. Общие правила</h3>
-        <ul>
-            <li>На 1 тренировку — 1 позитивная (Удвоение) и 1 негативная способность</li>
-            <li>Щит считается негативной способностью (занимает слот, но не меняет км)</li>
-            <li>При попытке атаковать защищённую тренировку — ромашки НЕ списываются</li>
-        </ul>
-
+        <!-- 6. РУЛЕТКА -->
         <h2>6. РУЛЕТКА</h2>
-        <ul>
-            <li><strong>Цена:</strong> бесплатно</li>
-            <li><strong>Доступность:</strong> 1 раз в сутки (сброс в 00:00 YEKT)</li>
-        </ul>
-        <div class="table-wrapper">
-            <table>
-                <tr><th>Результат</th><th>Эффект</th></tr>
-                <tr><td>+100 🌼</td><td>Ромашки на баланс</td></tr>
-                <tr><td>+250 🌼</td><td>Джекпот</td></tr>
-                <tr><td>Удача +50%</td><td>Тренировка ×1.5</td></tr>
-                <tr><td>Большая удача ×2</td><td>Тренировка ×2</td></tr>
-                <tr><td>Неудача /2</td><td>Тренировка ÷2</td></tr>
-                <tr><td>Обнуление</td><td>Тренировка → 0</td></tr>
-                <tr><td>Щит</td><td>Бесплатный щит</td></tr>
-                <tr><td>Пусто</td><td>Ничего</td></tr>
-                <tr><td>КОМБО</td><td>×2 + 200 🌼</td></tr>
-            </table>
+        <p>Бесплатная попытка <strong>1 раз в сутки</strong> (сброс в 00:00 YEKT). Случайный эффект: от +250 🌼 до полного обнуления тренировки.</p>
+
+        <!-- 7. ДОСТИЖЕНИЯ (под спойлерами) -->
+        <h2>7. ДОСТИЖЕНИЯ (38 штук)</h2>
+        <p>За каждое достижение вы получаете единоразовую награду ромашками.</p>
+        
+        <details><summary>🚀 По количеству тренировок (5)</summary><div class="content"><div class="table-wrapper"><table>
+            <tr><th>Эмодзи</th><th>Название</th><th>Условие</th><th>🌼</th></tr>
+            <tr><td>🚀</td><td>Первый шаг</td><td>1</td><td>50</td></tr>
+            <tr><td>💪</td><td>Разминка</td><td>3</td><td>100</td></tr>
+            <tr><td>🏃</td><td>На скорости</td><td>7</td><td>150</td></tr>
+            <tr><td>🏔️</td><td>Стальной характер</td><td>14</td><td>200</td></tr>
+            <tr><td>🦾</td><td>Железная воля</td><td>21</td><td>300</td></tr>
+        </table></div></div></details>
+        
+        <details><summary>🔥 Серии (4)</summary><div class="content"><div class="table-wrapper"><table>
+            <tr><th>Эмодзи</th><th>Название</th><th>Условие</th><th>🌼</th></tr>
+            <tr><td>🔥</td><td>Фанат</td><td>3 дня</td><td>50</td></tr>
+            <tr><td>🌪️</td><td>Ураган</td><td>7 дней</td><td>150</td></tr>
+            <tr><td>🐅</td><td>Тигр</td><td>14 дней</td><td>300</td></tr>
+            <tr><td>🦁</td><td>Лев</td><td>21 день</td><td>500</td></tr>
+        </table></div></div></details>
+        
+        <details><summary>⚡ Темп (6)</summary><div class="content"><div class="table-wrapper"><table>
+            <tr><th>Эмодзи</th><th>Название</th><th>Условие</th><th>🌼</th></tr>
+            <tr><td>🐌</td><td>Улитка</td><td>Средний ≥7:00</td><td>50</td></tr>
+            <tr><td>⚡</td><td>Спринтер</td><td>Средний ≤4:00</td><td>100</td></tr>
+            <tr><td>🔥</td><td>Огненный</td><td>5× ≤4:00</td><td>500</td></tr>
+            <tr><td>🌩️</td><td>Молния</td><td>10× ≤4:00</td><td>1000</td></tr>
+            <tr><td>🐢</td><td>Черепаха</td><td>5× ≥7:00</td><td>250</td></tr>
+            <tr><td>🦥</td><td>Ленивец</td><td>10× ≥7:00</td><td>500</td></tr>
+        </table></div></div></details>
+        
+        <details><summary>📏 Дистанции (6)</summary><div class="content"><div class="table-wrapper"><table>
+            <tr><th>Эмодзи</th><th>Название</th><th>Условие</th><th>🌼</th></tr>
+            <tr><td>📏</td><td>Полумарафонец</td><td>1× ≥21 км</td><td>100</td></tr>
+            <tr><td>🏃‍♂️</td><td>Мастер полумарафона</td><td>3× ≥21 км</td><td>300</td></tr>
+            <tr><td>💪</td><td>Железный полумарафонец</td><td>6× ≥21 км</td><td>600</td></tr>
+            <tr><td>🏆</td><td>Марафонец</td><td>1× ≥42 км</td><td>300</td></tr>
+            <tr><td>🎖️</td><td>Двойной марафонец</td><td>2× ≥42 км</td><td>600</td></tr>
+            <tr><td>👑</td><td>Король марафона</td><td>3× ≥42 км</td><td>900</td></tr>
+        </table></div></div></details>
+        
+        <details><summary>🌙 Время суток (4)</summary><div class="content"><div class="table-wrapper"><table>
+            <tr><th>Эмодзи</th><th>Название</th><th>Условие</th><th>🌼</th></tr>
+            <tr><td>🌙</td><td>Ночной дозор</td><td>00-05</td><td>100</td></tr>
+            <tr><td>🌅</td><td>Жаворонок</td><td>05-08</td><td>100</td></tr>
+            <tr><td>🦉</td><td>Ночной охотник</td><td>5 ночных</td><td>500</td></tr>
+            <tr><td>☀️</td><td>Ранняя пташка</td><td>5 утренних</td><td>500</td></tr>
+        </table></div></div></details>
+        
+        <details><summary>⚔️ Боевые (9)</summary><div class="content"><div class="table-wrapper"><table>
+            <tr><th>Эмодзи</th><th>Название</th><th>Условие</th><th>🌼</th></tr>
+            <tr><td>💀</td><td>Цареубийца</td><td>Обнулить топ-1</td><td>300</td></tr>
+            <tr><td>✂️</td><td>Свергнуть короля</td><td>Разделить топ-1</td><td>200</td></tr>
+            <tr><td>🎯</td><td>Снайпер</td><td>Обнулить топ-3</td><td>200</td></tr>
+            <tr><td>✂️</td><td>Подрывник</td><td>Разделить топ-3</td><td>200</td></tr>
+            <tr><td>⚔️</td><td>Мститель</td><td>Ответная атака 24ч</td><td>100</td></tr>
+            <tr><td>🛡️</td><td>Стенка</td><td>Защита от 3 атак</td><td>100</td></tr>
+            <tr><td>⚡</td><td>Аннигилятор</td><td>Обнуление 3+ раз</td><td>300</td></tr>
+            <tr><td>❄️</td><td>Ледяной воин</td><td>Разделение 5+ раз</td><td>300</td></tr>
+            <tr><td>🛡️</td><td>Непробиваемый</td><td>Защита от 10 атак</td><td>300</td></tr>
+        </table></div></div></details>
+        
+        <details><summary>🎲 Рулетка (4)</summary><div class="content"><div class="table-wrapper"><table>
+            <tr><th>Эмодзи</th><th>Название</th><th>Условие</th><th>🌼</th></tr>
+            <tr><td>💔</td><td>Lucky Loser</td><td>×0 в рулетке</td><td>100</td></tr>
+            <tr><td>🔥</td><td>Везунчик</td><td>Комбо</td><td>100</td></tr>
+            <tr><td>🎰</td><td>Игроман</td><td>Рулетка 5 раз</td><td>100</td></tr>
+            <tr><td>🎲</td><td>Лудоман</td><td>Рулетка 10 раз</td><td>250</td></tr>
+        </table></div></div></details>
+
+        <!-- 8. ОЧКИ -->
+        <h2>8. СИСТЕМА НАЧИСЛЕНИЯ ОЧКОВ (САМОЕ ВАЖНОЕ)</h2>
+        <p>Каждый <strong>понедельник в 00:01 (по ЕКБ)</strong> бот подводит итоги прошлой недели и начисляет Очки.</p>
+        <h3>8.1. Очки за место в недельном зачете</h3>
+        <div class="table-wrapper"><table>
+            <tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th></tr>
+            <tr><td>50</td><td>45</td><td>41</td><td>38</td><td>36</td><td>34</td><td>32</td><td>30</td><td>28</td><td>26</td></tr>
+        </table></div>
+        <h3>8.2. Бонусные Очки (+10 за каждый)</h3>
+        <ul><li>🏆 Максимальный км</li><li>📏 Лучшая дистанция</li><li>⚡ Лучший темп</li><li>🎮 Стратег (больше всех способностей)</li></ul>
+        <div class="example-box"><div class="example-title">📌 Пример начисления очков</div>
+            <p><strong>Анна (женщины):</strong><br>• За неделю: 45 км (2 место) → 45 очков<br>• Бонус за лучший темп → +10 очков<br>• Бонус за больше всех способностей → +10 очков<br><strong>Итого за неделю: 65 очков</strong></p>
+            <p><strong>Елена (женщины):</strong><br>• За неделю: 50 км (1 место) → 50 очков<br>• Бонус за максимальный км → +10 очков<br>• Бонус за длиннейшую тренировку → +10 очков<br><strong>Итого за неделю: 70 очков</strong></p>
         </div>
-        <p>Если нет тренировок — эффекты на тренировку не сработают (выпадут ромашки или пусто).</p>
+        <h3>8.3. Итоговый рейтинг</h3>
+        <p>Побеждает тот, кто наберет <strong>наибольшую сумму Очков за все 3 недели</strong> в своей группе.</p>
 
-        <h2>7. ДОСТИЖЕНИЯ</h2>
-        <p>Всего 30 достижений. Каждое даёт ромашки.</p>
-
-        <h3>7.1. По количеству тренировок (6)</h3>
-        <div class="table-wrapper"><table><tr><th>Эмодзи</th><th>Название</th><th>Условие</th><th>🌼</th></tr><tr><td>🚀</td><td>Первый шаг</td><td>1</td><td>50</td></tr><tr><td>💪</td><td>Разминка</td><td>3</td><td>50</td></tr><tr><td>🏃</td><td>На скорости</td><td>7</td><td>100</td></tr><tr><td>🏔️</td><td>Альпинист</td><td>14</td><td>100</td></tr><tr><td>🦾</td><td>Железная воля</td><td>21</td><td>150</td></tr><tr><td>⭐</td><td>Ветеран</td><td>28</td><td>200</td></tr></table></div>
-
-        <h3>7.2. Серии (4)</h3>
-        <div class="table-wrapper"><table><tr><th>Эмодзи</th><th>Название</th><th>Условие</th><th>🌼</th></tr><tr><td>🔥</td><td>Фанат</td><td>3 дня</td><td>50</td></tr><tr><td>🌪️</td><td>Ураган</td><td>7 дней</td><td>100</td></tr><tr><td>❄️</td><td>Снежный ком</td><td>14 дней</td><td>150</td></tr><tr><td>👑</td><td>Король</td><td>21 день</td><td>200</td></tr></table></div>
-
-        <h3>7.3. Темп (3)</h3>
-        <div class="table-wrapper"><table><tr><th>Эмодзи</th><th>Название</th><th>Условие</th><th>🌼</th></tr><tr><td>🐌</td><td>Улитка</td><td>≥7:00/км</td><td>50</td></tr><tr><td>⚡</td><td>Спринтер</td><td>≤4:00/км</td><td>50</td></tr><tr><td>🐢</td><td>Черепаха</td><td>5×>7:00</td><td>100</td></tr></table></div>
-
-        <h3>7.4. Дистанции (3)</h3>
-        <div class="table-wrapper"><table><tr><th>Эмодзи</th><th>Название</th><th>Условие</th><th>🌼</th></tr><tr><td>📏</td><td>Полумарафонец</td><td>≥21 км</td><td>100</td></tr><tr><td>🏆</td><td>Марафонец</td><td>≥42 км</td><td>200</td></tr><tr><td>💪</td><td>Герой</td><td>≥70 км</td><td>300</td></tr></table></div>
-
-        <h3>7.5. Время суток (4)</h3>
-        <div class="table-wrapper"><table><tr><th>Эмодзи</th><th>Название</th><th>Условие</th><th>🌼</th></tr><tr><td>🌙</td><td>Ночной дозор</td><td>00-05</td><td>50</td></tr><tr><td>🌅</td><td>Жаворонок</td><td>05-08</td><td>50</td></tr><tr><td>🌙</td><td>Ночной охотник</td><td>5 ночных</td><td>100</td></tr><tr><td>🌅</td><td>Ранняя пташка</td><td>5 утренних</td><td>100</td></tr></table></div>
-
-        <h3>7.6. Боевые (7)</h3>
-        <div class="table-wrapper"><table><tr><th>Эмодзи</th><th>Название</th><th>Условие</th><th>🌼</th></tr><tr><td>🎯</td><td>Снайпер</td><td>Обнулить топ-3</td><td>200</td></tr><tr><td>🎯</td><td>Сабзиро</td><td>Заморозить топ-3</td><td>200</td></tr><tr><td>⚔️</td><td>Мститель</td><td>Ответная атака 24ч</td><td>100</td></tr><tr><td>🛡️</td><td>Стенка</td><td>Защита от 3 атак</td><td>100</td></tr><tr><td>⚡</td><td>Аннигилятор</td><td>Обнуление 3+ раз</td><td>300</td></tr><tr><td>⛄</td><td>Subzero</td><td>Заморозка 5+ раз</td><td>300</td></tr><tr><td>🛡️</td><td>Непробиваемый</td><td>Защита от 10 атак</td><td>300</td></tr></table></div>
-
-        <h3>7.7. Рулетка (3)</h3>
-        <div class="table-wrapper"><table><tr><th>Эмодзи</th><th>Название</th><th>Условие</th><th>🌼</th></tr><tr><td>🎲</td><td>Lucky Loser</td><td>×0 в рулетке</td><td>50</td></tr><tr><td>🔥</td><td>Везунчик</td><td>Комбо</td><td>50</td></tr><tr><td>🎲</td><td>Игроман</td><td>Рулетка 5 раз</td><td>100</td></tr></table></div>
-
-        <h2>8. РЕЙТИНГ И ОЧКИ</h2>
-        <h3>8.1. Текущий рейтинг</h3>
-        <p>Обновляется в реальном времени, учитывает все модификаторы. Раздельный для мужчин и женщин.</p>
-
-        <h3>8.2. Еженедельные очки</h3>
-        <p><strong>Когда:</strong> каждый понедельник в 00:01 YEKT за предыдущую неделю (пн-вс).</p>
-        <p><strong>Как:</strong> сумма км → место → очки + бонусы.</p>
-        <div class="table-wrapper">
-            <table>
-                <tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th></tr>
-                <tr><td>50</td><td>45</td><td>41</td><td>38</td><td>36</td><td>34</td><td>32</td><td>30</td><td>28</td><td>26</td></tr>
-            </table>
-        </div>
-        <p><strong>Бонусы (+10):</strong> макс. км, длиннейшая тренировка, лучший темп, больше всех способностей.</p>
-        <p>Очки суммируются за 3 недели.</p>
-
+        <!-- 9. ПРИЗОВОЙ ФОНД -->
         <h2>9. ПРИЗОВОЙ ФОНД</h2>
-        <ul>
-            <li>Взнос: <strong>990 ₽</strong></li>
-            <li>В фонд: <strong>70%</strong></li>
-            <li>Делится пропорционально количеству М/Ж</li>
-            <li>Топ-10 в каждом зачёте</li>
-        </ul>
-        <h3>Распределение мест</h3>
-        <div class="table-wrapper"><table><tr><th>Место</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th></tr><tr><td>%</td><td>25</td><td>18</td><td>14</td><td>11</td><td>9</td><td>7</td><td>5</td><td>4</td><td>4</td><td>3</td></tr></table></div>
-        <div class="example-box">
-            <div class="example-title">📌 Пример (100♂ + 50♀)</div>
-            <p>Фонд: 103 950 ₽<br>Мужчины: 69 300 ₽<br>Женщины: 34 650 ₽</p>
+        <ul><li><strong>Взнос:</strong> 990 ₽</li><li><strong>Формирование:</strong> 70% от всех взносов</li><li><strong>Распределение:</strong> пропорционально количеству М/Ж</li><li><strong>Призеры:</strong> Топ-10 в каждой группе</li></ul>
+        <div class="table-wrapper"><table>
+            <tr><th>Место</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th></tr>
+            <tr><td>%</td><td>25</td><td>18</td><td>14</td><td>11</td><td>9</td><td>7</td><td>5</td><td>4</td><td>4</td><td>3</td></tr>
+        </table></div>
+        <div class="example-box"><div class="example-title">📌 Пример расчета (100♂ + 50♀)</div>
+            <p>Всего взносов: 150 × 990₽ = 148 500 ₽<br>Призовой фонд (70%): 103 950 ₽</p>
+            <p><strong>Мужчины (100 чел = 66.7%):</strong> 69 300 ₽<br>1 место (25%): 17 325 ₽<br>10 место (3%): 2 079 ₽</p>
+            <p><strong>Женщины (50 чел = 33.3%):</strong> 34 650 ₽<br>1 место (25%): 8 662 ₽<br>10 место (3%): 1 039 ₽</p>
         </div>
 
+        <!-- 10. ДИСКВАЛИФИКАЦИЯ -->
         <h2>10. ДИСКВАЛИФИКАЦИЯ</h2>
-        <p>Подделка скриншотов, фейки, передача аккаунта, оскорбления, обман системы → исключение, взнос не возвращается.</p>
+        <p>Подделка скриншотов, фейки, передача аккаунта, оскорбления, обман системы → исключение без возврата взноса.</p>
 
-        <h2>11. ПОДДЕРЖКА</h2>
-        <p>📧 <a href="https://vk.com/bodya1">vk.com/bodya1</a> • /help в боте</p>
+        <!-- 11. КОНТАКТЫ -->
+        <h2>11. КОНТАКТЫ И ПОДДЕРЖКА</h2>
+        <p>📧 <a href="https://vk.com/bodya1">vk.com/bodya1</a> • Бот: <a href="https://vk.me/club114046577">@club114046577</a> • /help в боте</p>
 
-        <h2>12. ВАЖНЫЕ ПРАВИЛА</h2>
-        <ul>
-            <li>1 тренировка в день</li>
-            <li>Только бег на улице с GPS</li>
-            <li>Честность</li>
-            <li>Время ЕКБ (UTC+5)</li>
-            <li>Способности невозвратны</li>
-            <li>Ромашки — только для способностей</li>
-            <li>Победитель по очкам за 3 недели</li>
-            <li>Сроки: 27.04 — 17.05.2026</li>
-        </ul>
-
-        <div class="footer">
-            🏔️ Королевская Битва<br>
-            <a href="index.html">← На главную</a>
-        </div>
+        <div class="footer">🏔️ Королевская Битва 2026<br><a href="index.html">← На главную</a></div>
     </div>
 </body>
 </html>
