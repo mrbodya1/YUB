@@ -6,7 +6,6 @@
     <meta name="theme-color" content="#f5af19">
     <title>Рейтинг — Королевская Битва</title>
     
-    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <style>
@@ -83,14 +82,23 @@
         .clickable-row { cursor: pointer; transition: background 0.15s; }
         .clickable-row:hover { background: var(--primary-light); }
         .clickable-row.active { background: var(--primary-light); }
-        .detail-row { background: var(--bg-secondary); font-size: 0.75rem; color: var(--text-secondary); }
-        .detail-row td { padding: 0 6px 10px 6px; border-bottom: 1px solid var(--border-light); }
-        .detail-content { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px; max-width: 500px; }
-        .detail-label { color: var(--text-tertiary); font-size: 0.7rem; }
-        .detail-value { font-weight: 500; }
-        .detail-mod { display: inline-block; padding: 1px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; }
-        .mod-pos { background: #d1fae5; color: #065f46; }
-        .mod-neg { background: #fee2e2; color: #991b1b; }
+        .detail-row td { padding: 8px 6px; border-bottom: 1px solid var(--border-light); }
+        .detail-inline {
+            display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+            font-size: 0.78rem; color: var(--text-secondary);
+        }
+        .detail-date { font-weight: 500; color: var(--text-primary); white-space: nowrap; }
+        .detail-separator { color: var(--text-tertiary); opacity: 0.5; }
+        .detail-km { font-weight: 600; color: var(--text-primary); }
+        .detail-pill {
+            display: inline-flex; align-items: center; gap: 3px;
+            padding: 2px 8px; border-radius: 12px; font-size: 0.72rem; font-weight: 600;
+            white-space: nowrap;
+        }
+        .pill-pos { background: #d1fae5; color: #065f46; }
+        .pill-pos-none { background: #f1f5f9; color: #94a3b8; }
+        .pill-neg { background: #fee2e2; color: #991b1b; }
+        .pill-neg-none { background: #f1f5f9; color: #94a3b8; }
     </style>
 </head>
 <body>
@@ -253,7 +261,7 @@
                     </tr>
                     <tr class="detail-row" id="detail-${p.id}" style="display: none;">
                         <td colspan="10">
-                            <div class="detail-content" id="detail-content-${p.id}">
+                            <div id="detail-content-${p.id}">
                                 <span style="color: var(--text-tertiary);">Загрузка...</span>
                             </div>
                         </td>
@@ -293,22 +301,51 @@
                 }
                 
                 const w = lastWorkout[0];
-                let modInfo = '';
-                if (w.mod_pos) modInfo += `<span class="detail-mod mod-pos">ПОЗ ${w.mod_pos == 2.0 ? '×2' : '×' + w.mod_pos}</span> `;
-                if (w.mod_neg !== null && w.mod_neg !== undefined) {
-                    if (w.mod_neg == 1.0) modInfo += '<span class="detail-mod mod-neg">🛡️ ЩИТ</span> ';
-                    else if (w.mod_neg == 0) modInfo += '<span class="detail-mod mod-neg">💀 ×0</span> ';
-                    else if (w.mod_neg == 0.5) modInfo += '<span class="detail-mod mod-neg">НЕГ ÷2</span> ';
-                    else if (w.mod_neg == 0.8) modInfo += '<span class="detail-mod mod-neg">НЕГ -20%</span> ';
+                
+                // Позитивная плашка
+                let posPill = '';
+                if (w.mod_pos) {
+                    const label = w.mod_pos == 2.0 ? '⚡ ×2' : w.mod_pos == 1.5 ? '✨ ×1.5' : `×${w.mod_pos}`;
+                    posPill = `<span class="detail-pill pill-pos">${label}</span>`;
+                } else {
+                    posPill = '<span class="detail-pill pill-pos-none">—</span>';
                 }
-                if (!modInfo) modInfo = '<span style="color: var(--text-tertiary);">нет</span>';
+                
+                // Негативная плашка
+                let negPill = '';
+                if (w.mod_neg !== null && w.mod_neg !== undefined) {
+                    if (w.mod_neg == 1.0) {
+                        negPill = '<span class="detail-pill pill-neg">🛡️ Щит</span>';
+                    } else if (w.mod_neg == 0) {
+                        negPill = '<span class="detail-pill pill-neg">💀 ×0</span>';
+                    } else if (w.mod_neg == 0.5) {
+                        negPill = '<span class="detail-pill pill-neg">✂️ ÷2</span>';
+                    } else if (w.mod_neg == 0.8) {
+                        negPill = '<span class="detail-pill pill-neg">🌊 -20%</span>';
+                    } else {
+                        negPill = `<span class="detail-pill pill-neg">⚠️ ×${w.mod_neg}</span>`;
+                    }
+                } else {
+                    negPill = '<span class="detail-pill pill-neg-none">—</span>';
+                }
+                
+                // Финальные км (если изменились)
+                const finalKm = w.final_km !== w.original_km ? ` → <span class="detail-km">${w.final_km} км</span>` : '';
                 
                 detailContent.innerHTML = `
-                    <div><span class="detail-label">📅 День ${w.day}</span><span class="detail-value">${w.workout_date}</span></div>
-                    <div><span class="detail-label">⚡ Модификаторы</span><span class="detail-value">${modInfo}</span></div>
-                    <div><span class="detail-label">📏 Оригинал</span><span class="detail-value">${w.original_km} км / ${w.original_min} мин</span></div>
-                    <div><span class="detail-label">🏁 Финал</span><span class="detail-value">${w.final_km} км / ${w.final_min} мин</span></div>
+                    <div class="detail-inline">
+                        <span class="detail-date">📅 День ${w.day}</span>
+                        <span class="detail-separator">·</span>
+                        <span class="detail-km">${w.original_km} км</span>
+                        <span class="detail-separator">·</span>
+                        <span class="detail-km">${w.original_min} мин</span>
+                        <span class="detail-separator">·</span>
+                        ${posPill}
+                        ${negPill}
+                        ${finalKm}
+                    </div>
                 `;
+                
             } catch (error) {
                 console.error('Ошибка загрузки:', error);
                 detailContent.innerHTML = '<span style="color: #ef4444;">Ошибка загрузки</span>';
