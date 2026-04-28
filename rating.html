@@ -10,268 +10,93 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --primary: #f5af19;
-            --primary-dark: #d97706;
-            --primary-light: #fef3c7;
-            --bg-primary: #ffffff;
-            --bg-secondary: #f8fafc;
-            --bg-tertiary: #f1f5f9;
-            --text-primary: #0f172a;
-            --text-secondary: #334155;
-            --text-tertiary: #64748b;
-            --border-light: #e2e8f0;
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --primary: #f5af19; --primary-dark: #d97706; --primary-light: #fef3c7;
+            --bg-primary: #ffffff; --bg-secondary: #f8fafc; --bg-tertiary: #f1f5f9;
+            --text-primary: #0f172a; --text-secondary: #334155; --text-tertiary: #64748b;
+            --border-light: #e2e8f0; --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
             --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
+            --radius-sm: 8px; --radius-md: 12px; --radius-lg: 16px;
         }
-        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: var(--bg-tertiary);
-            min-height: 100vh;
-            color: var(--text-primary);
-            line-height: 1.4;
-            font-size: 14px;
-            padding: 12px 8px;
-            -webkit-font-smoothing: antialiased;
+            background: var(--bg-tertiary); min-height: 100vh; color: var(--text-primary);
+            line-height: 1.4; font-size: 14px; padding: 12px 8px; -webkit-font-smoothing: antialiased;
         }
-        
         .container {
-            max-width: 100%;
-            margin: 0 auto;
-            background: var(--bg-primary);
-            border-radius: var(--radius-lg);
-            padding: 16px 12px;
-            box-shadow: var(--shadow-md);
+            max-width: 100%; margin: 0 auto; background: var(--bg-primary);
+            border-radius: var(--radius-lg); padding: 16px 12px; box-shadow: var(--shadow-md);
             border: 1px solid var(--border-light);
         }
-        
-        h1 {
-            font-size: 1.6rem;
-            font-weight: 800;
-            text-align: center;
-            margin-bottom: 4px;
-            color: var(--text-primary);
-        }
-        
-        .subtitle {
-            text-align: center;
-            color: var(--text-tertiary);
-            font-size: 0.8rem;
-            margin-bottom: 16px;
-            border-bottom: 1px solid var(--border-light);
-            padding-bottom: 12px;
-        }
-        
-        .filters {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 16px;
-        }
-        
-        .search-box {
-            flex: 1;
-        }
-        
+        h1 { font-size: 1.6rem; font-weight: 800; text-align: center; margin-bottom: 4px; color: var(--text-primary); }
+        .subtitle { text-align: center; color: var(--text-tertiary); font-size: 0.8rem; margin-bottom: 16px; border-bottom: 1px solid var(--border-light); padding-bottom: 12px; }
+        .filters { display: flex; gap: 8px; margin-bottom: 16px; }
+        .search-box { flex: 1; }
         .search-box input {
-            width: 100%;
-            padding: 10px 14px;
-            border: 2px solid var(--border-light);
-            border-radius: var(--radius-md);
-            font-size: 0.9rem;
-            background: var(--bg-secondary);
+            width: 100%; padding: 10px 14px; border: 2px solid var(--border-light);
+            border-radius: var(--radius-md); font-size: 0.9rem; background: var(--bg-secondary);
             transition: border-color 0.2s;
         }
-        
-        .search-box input:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-        
-        .tabs {
-            display: flex;
-            gap: 4px;
-            margin-bottom: 12px;
-            border-bottom: 2px solid var(--border-light);
-        }
-        
+        .search-box input:focus { outline: none; border-color: var(--primary); }
+        .tabs { display: flex; gap: 4px; margin-bottom: 12px; border-bottom: 2px solid var(--border-light); }
         .tab {
-            flex: 1;
-            padding: 8px 0;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-tertiary);
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s;
-            border-radius: var(--radius-sm) var(--radius-sm) 0 0;
-            text-align: center;
+            flex: 1; padding: 8px 0; font-size: 0.9rem; font-weight: 600; color: var(--text-tertiary);
+            background: transparent; border: none; cursor: pointer; transition: all 0.2s;
+            border-radius: var(--radius-sm) var(--radius-sm) 0 0; text-align: center;
         }
-        
-        .tab:hover {
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-        }
-        
-        .tab.active {
-            color: var(--primary-dark);
-            border-bottom: 3px solid var(--primary);
-            margin-bottom: -2px;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-bottom: 16px;
-        }
-        
+        .tab:hover { background: var(--bg-secondary); color: var(--text-primary); }
+        .tab.active { color: var(--primary-dark); border-bottom: 3px solid var(--primary); margin-bottom: -2px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
         .stat-card {
-            background: var(--primary-light);
-            border-radius: var(--radius-sm);
-            padding: 8px 6px;
-            text-align: center;
-            border: 1px solid var(--primary);
+            background: var(--primary-light); border-radius: var(--radius-sm); padding: 8px 6px;
+            text-align: center; border: 1px solid var(--primary);
         }
-        
-        .stat-value {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: var(--primary-dark);
-            line-height: 1.2;
-        }
-        
-        .stat-label {
-            font-size: 0.65rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-        
-        .table-wrapper {
-            overflow-x: auto;
-            margin-bottom: 16px;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border-light);
-        }
-        
-        table {
-            width: auto;
-            min-width: 100%;
-            border-collapse: collapse;
-            font-size: 0.8rem;
-            white-space: nowrap;
-        }
-        
+        .stat-value { font-size: 1.3rem; font-weight: 800; color: var(--primary-dark); line-height: 1.2; }
+        .stat-label { font-size: 0.65rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.3px; }
+        .table-wrapper { overflow-x: auto; margin-bottom: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-light); }
+        table { width: auto; min-width: 100%; border-collapse: collapse; font-size: 0.8rem; white-space: nowrap; }
         th {
-            background: var(--primary);
-            color: white;
-            padding: 8px 6px;
-            text-align: center;
-            font-weight: 600;
-            cursor: pointer;
-            user-select: none;
-            transition: background 0.2s;
+            background: var(--primary); color: white; padding: 8px 6px; text-align: center;
+            font-weight: 600; cursor: pointer; user-select: none; transition: background 0.2s;
         }
-        
-        th:first-child, th:nth-child(2) {
-            text-align: left;
-        }
-        
-        th:hover {
-            background: var(--primary-dark);
-        }
-        
-        th.sort-asc::after {
-            content: ' ▲';
-            font-size: 0.6rem;
-            opacity: 0.8;
-        }
-        
-        th.sort-desc::after {
-            content: ' ▼';
-            font-size: 0.6rem;
-            opacity: 0.8;
-        }
-        
-        td {
-            padding: 6px 6px;
-            border-bottom: 1px solid var(--border-light);
-            text-align: center;
-        }
-        
-        td:first-child, td:nth-child(2) {
-            text-align: left;
-        }
-        
-        tr:hover {
-            background: var(--bg-secondary);
-        }
-        
-        .footer {
-            text-align: center;
-            padding-top: 16px;
-            border-top: 1px solid var(--border-light);
-            color: var(--text-tertiary);
-            font-size: 0.8rem;
-        }
-        
-        .footer a {
-            color: var(--primary-dark);
-            text-decoration: none;
-            font-weight: 500;
-            margin: 0 6px;
-        }
-        
-        .loading {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-tertiary);
-            font-size: 1rem;
-        }
-        
+        th:first-child, th:nth-child(2) { text-align: left; }
+        th:hover { background: var(--primary-dark); }
+        th.sort-asc::after { content: ' ▲'; font-size: 0.6rem; opacity: 0.8; }
+        th.sort-desc::after { content: ' ▼'; font-size: 0.6rem; opacity: 0.8; }
+        td { padding: 6px 6px; border-bottom: 1px solid var(--border-light); text-align: center; }
+        td:first-child, td:nth-child(2) { text-align: left; }
+        tr:hover { background: var(--bg-secondary); }
+        .footer { text-align: center; padding-top: 16px; border-top: 1px solid var(--border-light); color: var(--text-tertiary); font-size: 0.8rem; }
+        .footer a { color: var(--primary-dark); text-decoration: none; font-weight: 500; margin: 0 6px; }
+        .loading { text-align: center; padding: 40px 20px; color: var(--text-tertiary); font-size: 1rem; }
         .loading::after {
-            content: '';
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            margin-left: 8px;
-            border: 2px solid var(--border-light);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            vertical-align: middle;
+            content: ''; display: inline-block; width: 16px; height: 16px; margin-left: 8px;
+            border: 2px solid var(--border-light); border-top-color: var(--primary);
+            border-radius: 50%; animation: spin 1s linear infinite; vertical-align: middle;
         }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .points-week { font-weight: 500; color: var(--text-secondary); }
+        .points-total { font-weight: 700; color: var(--primary-dark); }
         
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        .points-week {
-            font-weight: 500;
-            color: var(--text-secondary);
-        }
-        
-        .points-total {
-            font-weight: 700;
-            color: var(--primary-dark);
-        }
+        /* Стили для раскрывающихся строк */
+        .clickable-row { cursor: pointer; transition: background 0.15s; }
+        .clickable-row:hover { background: var(--primary-light); }
+        .clickable-row.active { background: var(--primary-light); }
+        .detail-row { background: var(--bg-secondary); font-size: 0.75rem; color: var(--text-secondary); }
+        .detail-row td { padding: 0 6px 10px 6px; border-bottom: 1px solid var(--border-light); }
+        .detail-content { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px; max-width: 500px; }
+        .detail-label { color: var(--text-tertiary); font-size: 0.7rem; }
+        .detail-value { font-weight: 500; }
+        .detail-mod { display: inline-block; padding: 1px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; }
+        .mod-pos { background: #d1fae5; color: #065f46; }
+        .mod-neg { background: #fee2e2; color: #991b1b; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🏆 РЕЙТИНГ</h1>
-        <div class="subtitle">Королевская Битва • 4 мая — 24 мая 2026</div>
+        <div class="subtitle">Королевская Битва • 27 апреля — 17 мая 2026</div>
         
         <div class="tabs">
             <button class="tab active" data-tab="overall">🏔️ Общий</button>
@@ -286,18 +111,9 @@
         </div>
         
         <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-value" id="totalParticipants">0</div>
-                <div class="stat-label">Участников</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="totalKm">0</div>
-                <div class="stat-label">Всего км</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="totalWorkouts">0</div>
-                <div class="stat-label">Тренировок</div>
-            </div>
+            <div class="stat-card"><div class="stat-value" id="totalParticipants">0</div><div class="stat-label">Участников</div></div>
+            <div class="stat-card"><div class="stat-value" id="totalKm">0</div><div class="stat-label">Всего км</div></div>
+            <div class="stat-card"><div class="stat-value" id="totalWorkouts">0</div><div class="stat-label">Тренировок</div></div>
         </div>
         
         <div class="table-wrapper">
@@ -330,10 +146,8 @@
     </div>
     
     <script>
-        // Конфигурация Supabase
         const SUPABASE_URL = 'https://ohaspovkdvtihosvzpli.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9oYXNwb3ZrZHZ0aWhvc3Z6cGxpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1NjI1ODEsImV4cCI6MjA5MDEzODU4MX0.5OvphjjVlBP8hXvLMIALsD6pZn5453mkSEpCeOl8280';
-        
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         
         let participants = [];
@@ -346,30 +160,21 @@
         async function loadData() {
             try {
                 const { data: participantsData, error: participantsError } = await supabaseClient
-                    .from('participants')
-                    .select('*')
-                    .eq('status', 'active');
-                
+                    .from('participants').select('*').eq('status', 'active');
                 if (participantsError) throw participantsError;
                 participants = participantsData || [];
                 
                 const { data: scoresData, error: scoresError } = await supabaseClient
-                    .from('weekly_scores')
-                    .select('*');
-                
+                    .from('weekly_scores').select('*');
                 if (scoresError) throw scoresError;
                 weeklyScores = scoresData || [];
                 
                 const { data: workoutsData } = await supabaseClient
-                    .from('workouts')
-                    .select('participant_id, original_km, original_min')
-                    .eq('status', 'accepted');
+                    .from('workouts').select('participant_id, original_km, original_min').eq('status', 'accepted');
                 
                 const workoutsByParticipant = {};
                 workoutsData?.forEach(w => {
-                    if (!workoutsByParticipant[w.participant_id]) {
-                        workoutsByParticipant[w.participant_id] = { km: 0, min: 0 };
-                    }
+                    if (!workoutsByParticipant[w.participant_id]) workoutsByParticipant[w.participant_id] = { km: 0, min: 0 };
                     workoutsByParticipant[w.participant_id].km += w.original_km || 0;
                     workoutsByParticipant[w.participant_id].min += w.original_min || 0;
                 });
@@ -377,7 +182,6 @@
                 participants.forEach(p => {
                     const w = workoutsByParticipant[p.id] || { km: 0, min: 0 };
                     p.avg_pace = w.km > 0 ? w.min / w.km : 0;
-                    
                     const scores = weeklyScores.filter(s => s.participant_id === p.id);
                     p.week1_points = scores.find(s => s.week_number === 1)?.total_points || 0;
                     p.week2_points = scores.find(s => s.week_number === 2)?.total_points || 0;
@@ -388,81 +192,54 @@
                 applyFilters();
             } catch (error) {
                 console.error('Ошибка загрузки:', error);
-                document.getElementById('tableBody').innerHTML = 
-                    '<tr><td colspan="10" style="text-align: center; padding: 40px;">Ошибка загрузки данных</td></tr>';
+                document.getElementById('tableBody').innerHTML = '<tr><td colspan="10" style="text-align: center; padding: 40px;">Ошибка загрузки данных</td></tr>';
             }
         }
 
         function applyFilters() {
-            const searchInput = document.getElementById('searchInput');
-            const searchTerm = searchInput.value.toLowerCase();
-            
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             filteredParticipants = participants.filter(p => {
                 if (currentTab === 'men' && p.gender !== 'М') return false;
                 if (currentTab === 'women' && p.gender !== 'Ж') return false;
                 return true;
             });
-            
             if (searchTerm) {
                 filteredParticipants = filteredParticipants.filter(p => 
-                    p.first_name.toLowerCase().includes(searchTerm) || 
-                    p.last_name.toLowerCase().includes(searchTerm)
-                );
+                    p.first_name.toLowerCase().includes(searchTerm) || p.last_name.toLowerCase().includes(searchTerm));
             }
-            
             updateStats();
             sortAndRender();
         }
 
         function updateStats() {
-            const total = filteredParticipants.length;
-            const totalKm = filteredParticipants.reduce((sum, p) => sum + (p.total_km || 0), 0);
-            const totalWorkouts = filteredParticipants.reduce((sum, p) => sum + (p.total_workouts || 0), 0);
-            
-            document.getElementById('totalParticipants').textContent = total;
-            document.getElementById('totalKm').textContent = Math.round(totalKm);
-            document.getElementById('totalWorkouts').textContent = totalWorkouts;
+            document.getElementById('totalParticipants').textContent = filteredParticipants.length;
+            document.getElementById('totalKm').textContent = Math.round(filteredParticipants.reduce((s, p) => s + (p.total_km || 0), 0));
+            document.getElementById('totalWorkouts').textContent = filteredParticipants.reduce((s, p) => s + (p.total_workouts || 0), 0);
         }
 
         function sortAndRender() {
             filteredParticipants.sort((a, b) => {
-                let aVal = a[sortColumn];
-                let bVal = b[sortColumn];
-                
-                if (['total_km', 'total_workouts', 'avg_pace', 'snowflake_balance', 'total_points', 'week1_points', 'week2_points', 'week3_points'].includes(sortColumn)) {
-                    aVal = parseFloat(aVal) || 0;
-                    bVal = parseFloat(bVal) || 0;
-                } else if (sortColumn === 'place') {
-                    return 0;
-                } else {
-                    aVal = String(aVal || '').toLowerCase();
-                    bVal = String(bVal || '').toLowerCase();
-                }
-                
-                if (sortDirection === 'asc') {
-                    return aVal > bVal ? 1 : aVal < bVal ? -1 : 0;
-                } else {
-                    return aVal < bVal ? 1 : aVal > bVal ? -1 : 0;
-                }
+                let aVal = a[sortColumn], bVal = b[sortColumn];
+                if (['total_km','total_workouts','avg_pace','snowflake_balance','total_points','week1_points','week2_points','week3_points'].includes(sortColumn)) {
+                    aVal = parseFloat(aVal) || 0; bVal = parseFloat(bVal) || 0;
+                } else if (sortColumn === 'place') { return 0; }
+                else { aVal = String(aVal || '').toLowerCase(); bVal = String(bVal || '').toLowerCase(); }
+                return sortDirection === 'asc' ? (aVal > bVal ? 1 : aVal < bVal ? -1 : 0) : (aVal < bVal ? 1 : aVal > bVal ? -1 : 0);
             });
-            
             renderTable();
         }
 
         function renderTable() {
             const tbody = document.getElementById('tableBody');
-            
             if (filteredParticipants.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; padding: 40px;">Участники не найдены</td></tr>';
                 return;
             }
-            
             tbody.innerHTML = filteredParticipants.map((p, index) => {
                 const place = index + 1;
                 const pace = p.avg_pace > 0 ? p.avg_pace.toFixed(2) : '—';
-                
                 return `
-                    <tr>
+                    <tr class="clickable-row" data-participant-id="${p.id}" onclick="toggleWorkoutDetail(this, ${p.id})">
                         <td style="font-weight: 600;">${place}</td>
                         <td>${p.first_name} ${p.last_name}</td>
                         <td>${p.total_km || 0}</td>
@@ -474,39 +251,80 @@
                         <td class="points-week">${p.week3_points || 0}</td>
                         <td class="points-total">${p.total_points || 0}</td>
                     </tr>
+                    <tr class="detail-row" id="detail-${p.id}" style="display: none;">
+                        <td colspan="10">
+                            <div class="detail-content" id="detail-content-${p.id}">
+                                <span style="color: var(--text-tertiary);">Загрузка...</span>
+                            </div>
+                        </td>
+                    </tr>
                 `;
             }).join('');
             
             document.querySelectorAll('th[data-sort]').forEach(th => {
-                const field = th.dataset.sort;
                 th.classList.remove('sort-asc', 'sort-desc');
-                if (field === sortColumn) {
-                    th.classList.add(sortDirection === 'asc' ? 'sort-asc' : 'sort-desc');
-                }
+                if (th.dataset.sort === sortColumn) th.classList.add(sortDirection === 'asc' ? 'sort-asc' : 'sort-desc');
             });
+        }
+
+        async function toggleWorkoutDetail(row, participantId) {
+            const detailRow = document.getElementById(`detail-${participantId}`);
+            const detailContent = document.getElementById(`detail-content-${participantId}`);
+            
+            if (detailRow.style.display !== 'none') {
+                detailRow.style.display = 'none';
+                row.classList.remove('active');
+                return;
+            }
+            
+            detailRow.style.display = 'table-row';
+            row.classList.add('active');
+            detailContent.innerHTML = '<span style="color: var(--text-tertiary);">Загрузка...</span>';
+            
+            try {
+                const { data: lastWorkout } = await supabaseClient
+                    .from('workouts').select('*')
+                    .eq('participant_id', participantId).eq('status', 'accepted')
+                    .order('day', { ascending: false }).limit(1);
+                
+                if (!lastWorkout || lastWorkout.length === 0) {
+                    detailContent.innerHTML = '<span style="color: var(--text-tertiary);">Нет тренировок</span>';
+                    return;
+                }
+                
+                const w = lastWorkout[0];
+                let modInfo = '';
+                if (w.mod_pos) modInfo += `<span class="detail-mod mod-pos">ПОЗ ${w.mod_pos == 2.0 ? '×2' : '×' + w.mod_pos}</span> `;
+                if (w.mod_neg !== null && w.mod_neg !== undefined) {
+                    if (w.mod_neg == 1.0) modInfo += '<span class="detail-mod mod-neg">🛡️ ЩИТ</span> ';
+                    else if (w.mod_neg == 0) modInfo += '<span class="detail-mod mod-neg">💀 ×0</span> ';
+                    else if (w.mod_neg == 0.5) modInfo += '<span class="detail-mod mod-neg">НЕГ ÷2</span> ';
+                    else if (w.mod_neg == 0.8) modInfo += '<span class="detail-mod mod-neg">НЕГ -20%</span> ';
+                }
+                if (!modInfo) modInfo = '<span style="color: var(--text-tertiary);">нет</span>';
+                
+                detailContent.innerHTML = `
+                    <div><span class="detail-label">📅 День ${w.day}</span><span class="detail-value">${w.workout_date}</span></div>
+                    <div><span class="detail-label">⚡ Модификаторы</span><span class="detail-value">${modInfo}</span></div>
+                    <div><span class="detail-label">📏 Оригинал</span><span class="detail-value">${w.original_km} км / ${w.original_min} мин</span></div>
+                    <div><span class="detail-label">🏁 Финал</span><span class="detail-value">${w.final_km} км / ${w.final_min} мин</span></div>
+                `;
+            } catch (error) {
+                console.error('Ошибка загрузки:', error);
+                detailContent.innerHTML = '<span style="color: #ef4444;">Ошибка загрузки</span>';
+            }
         }
 
         document.querySelectorAll('th[data-sort]').forEach(th => {
             th.addEventListener('click', () => {
                 const field = th.dataset.sort;
-                if (field === 'place') {
-                    sortColumn = 'total_km';
-                } else {
-                    sortColumn = field;
-                }
-                
-                if (sortColumn === field && sortColumn !== 'place') {
-                    sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
-                } else {
-                    sortDirection = field === 'first_name' ? 'asc' : 'desc';
-                }
-                
+                sortColumn = field === 'place' ? 'total_km' : field;
+                sortDirection = (sortColumn === field && sortColumn !== 'place') ? (sortDirection === 'asc' ? 'desc' : 'asc') : (field === 'first_name' ? 'asc' : 'desc');
                 sortAndRender();
             });
         });
 
         document.getElementById('searchInput').addEventListener('input', applyFilters);
-        
         document.querySelectorAll('.tab').forEach(tab => {
             tab.addEventListener('click', () => {
                 document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
