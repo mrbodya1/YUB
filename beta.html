@@ -34,8 +34,7 @@
         .search-box { flex: 1; }
         .search-box input {
             width: 100%; padding: 10px 14px; border: 2px solid var(--border-light);
-            border-radius: var(--radius-md); font-size: 0.9rem; background: var(--bg-secondary);
-            transition: border-color 0.2s;
+            border-radius: var(--radius-md); font-size: 0.9rem; background: var(--bg-secondary); transition: border-color 0.2s;
         }
         .search-box input:focus { outline: none; border-color: var(--primary); }
         .tabs { display: flex; gap: 4px; margin-bottom: 12px; border-bottom: 2px solid var(--border-light); }
@@ -47,43 +46,25 @@
         .tab:hover { background: var(--bg-secondary); color: var(--text-primary); }
         .tab.active { color: var(--primary-dark); border-bottom: 3px solid var(--primary); margin-bottom: -2px; }
 
-        /* Номинации */
         .nominations-section { margin-bottom: 20px; }
-        .nominations-title {
-            font-size: 0.95rem; font-weight: 700; color: var(--text-primary);
-            margin-bottom: 10px; text-align: center;
-        }
-        .nominations-grid {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
-        }
-        .nomination-card {
-            background: var(--bg-secondary); border-radius: var(--radius-sm);
-            padding: 8px 6px; text-align: center; border: 1px solid var(--border-light);
-        }
+        .nominations-title { font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin-bottom: 10px; text-align: center; }
+        .nominations-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+        .nomination-card { background: var(--bg-secondary); border-radius: var(--radius-sm); padding: 8px 6px; text-align: center; border: 1px solid var(--border-light); }
         .nomination-emoji { font-size: 1rem; margin-bottom: 2px; }
         .nomination-label { font-size: 0.6rem; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 6px; }
-        .nomination-winner {
-            display: flex; align-items: center; justify-content: center; gap: 3px;
-            padding: 2px 0; font-size: 0.7rem;
-        }
+        .nomination-winner { display: flex; align-items: center; justify-content: center; gap: 3px; padding: 2px 0; font-size: 0.7rem; }
         .nomination-medal { font-size: 0.8rem; }
         .nomination-name { font-weight: 500; color: var(--text-primary); }
         .nomination-value { font-size: 0.68rem; color: var(--text-secondary); margin-left: 4px; }
         .nomination-divider { border-top: 1px solid var(--border-light); margin: 4px 0; }
 
         .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
-        .stat-card {
-            background: var(--primary-light); border-radius: var(--radius-sm); padding: 8px 6px;
-            text-align: center; border: 1px solid var(--primary);
-        }
+        .stat-card { background: var(--primary-light); border-radius: var(--radius-sm); padding: 8px 6px; text-align: center; border: 1px solid var(--primary); }
         .stat-value { font-size: 1.3rem; font-weight: 800; color: var(--primary-dark); line-height: 1.2; }
         .stat-label { font-size: 0.65rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.3px; }
         .table-wrapper { overflow-x: auto; margin-bottom: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-light); }
         table { width: auto; min-width: 100%; border-collapse: collapse; font-size: 0.78rem; white-space: nowrap; }
-        th {
-            background: var(--primary); color: white; padding: 8px 5px; text-align: center;
-            font-weight: 600; cursor: pointer; user-select: none; transition: background 0.2s;
-        }
+        th { background: var(--primary); color: white; padding: 8px 5px; text-align: center; font-weight: 600; cursor: pointer; user-select: none; transition: background 0.2s; }
         th:first-child, th:nth-child(2) { text-align: left; }
         th:hover { background: var(--primary-dark); }
         th.sort-asc::after { content: ' ▲'; font-size: 0.6rem; opacity: 0.8; }
@@ -94,32 +75,20 @@
         .footer { text-align: center; padding-top: 16px; border-top: 1px solid var(--border-light); color: var(--text-tertiary); font-size: 0.8rem; }
         .footer a { color: var(--primary-dark); text-decoration: none; font-weight: 500; margin: 0 6px; }
         .loading { text-align: center; padding: 40px 20px; color: var(--text-tertiary); font-size: 1rem; }
-        .loading::after {
-            content: ''; display: inline-block; width: 16px; height: 16px; margin-left: 8px;
-            border: 2px solid var(--border-light); border-top-color: var(--primary);
-            border-radius: 50%; animation: spin 1s linear infinite; vertical-align: middle;
-        }
+        .loading::after { content: ''; display: inline-block; width: 16px; height: 16px; margin-left: 8px; border: 2px solid var(--border-light); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; vertical-align: middle; }
         @keyframes spin { to { transform: rotate(360deg); } }
         .points-week { font-weight: 500; color: var(--text-secondary); }
         .points-total { font-weight: 700; color: var(--primary-dark); }
 
-        /* Раскрытие строк */
         .clickable-row { cursor: pointer; transition: background 0.15s; }
         .clickable-row:hover { background: var(--primary-light); }
         .clickable-row.active { background: var(--primary-light); }
         .detail-row td { padding: 6px 5px; border-bottom: 1px solid var(--border-light); }
-        .detail-inline {
-            display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
-            font-size: 0.75rem; color: var(--text-secondary);
-        }
+        .detail-inline { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: 0.75rem; color: var(--text-secondary); }
         .detail-date { font-weight: 500; color: var(--text-primary); white-space: nowrap; }
         .detail-separator { color: var(--text-tertiary); opacity: 0.5; }
         .detail-km { font-weight: 600; color: var(--text-primary); }
-        .detail-pill {
-            display: inline-flex; align-items: center; gap: 3px;
-            padding: 2px 7px; border-radius: 12px; font-size: 0.7rem; font-weight: 600;
-            white-space: nowrap;
-        }
+        .detail-pill { display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; white-space: nowrap; }
         .pill-pos { background: #d1fae5; color: #065f46; }
         .pill-pos-none { background: #f1f5f9; color: #94a3b8; }
         .pill-neg { background: #fee2e2; color: #991b1b; }
@@ -144,14 +113,12 @@
         </div>
         
         <div class="filters">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="🔍 Поиск по имени...">
-            </div>
+            <div class="search-box"><input type="text" id="searchInput" placeholder="🔍 Поиск по имени..."></div>
         </div>
         
         <div class="stats-grid">
             <div class="stat-card"><div class="stat-value" id="totalParticipants">0</div><div class="stat-label">Участников</div></div>
-            <div class="stat-card"><div class="stat-value" id="totalKm">0</div><div class="stat-label">Всего км (ориг)</div></div>
+            <div class="stat-card"><div class="stat-value" id="totalKm">0</div><div class="stat-label">Всего ориг. км</div></div>
             <div class="stat-card"><div class="stat-value" id="totalWorkouts">0</div><div class="stat-label">Тренировок</div></div>
         </div>
         
@@ -196,10 +163,9 @@
         let sortColumn = 'total_points';
         let sortDirection = 'desc';
         let currentTab = 'overall';
-        let currentWeekNumber = 1; // неделя 1: 04.05-10.05, неделя 2: 11.05-17.05, неделя 3: 18.05-24.05
+        let currentWeekNumber = 1;
 
-        // Даты челленджа
-        const CHALLENGE_START = new Date(2026, 4, 4); // 4 мая 2026
+        const CHALLENGE_START = new Date(2026, 4, 4);
 
         function getWeekDates(weekNumber) {
             const start = new Date(CHALLENGE_START);
@@ -233,21 +199,27 @@
                 if (scoresError) throw scoresError;
                 weeklyScores = scoresData || [];
                 
+                // Загружаем ВСЕ тренировки с original_km и final_km
                 const { data: workoutsData } = await supabaseClient
                     .from('workouts').select('participant_id, original_km, original_min, final_km').eq('status', 'accepted');
                 
-                const workoutsByParticipant = {};
+                // Суммируем отдельно оригинальные и финальные км
+                const totalsByParticipant = {};
                 workoutsData?.forEach(w => {
-                    if (!workoutsByParticipant[w.participant_id]) workoutsByParticipant[w.participant_id] = { km: 0, min: 0, final: 0 };
-                    workoutsByParticipant[w.participant_id].km += w.original_km || 0;
-                    workoutsByParticipant[w.participant_id].min += w.original_min || 0;
-                    workoutsByParticipant[w.participant_id].final += w.final_km || 0;
+                    if (!totalsByParticipant[w.participant_id]) {
+                        totalsByParticipant[w.participant_id] = { orig: 0, final: 0, min: 0 };
+                    }
+                    totalsByParticipant[w.participant_id].orig += w.original_km || 0;
+                    totalsByParticipant[w.participant_id].final += w.final_km || 0;
+                    totalsByParticipant[w.participant_id].min += w.original_min || 0;
                 });
                 
                 participants.forEach(p => {
-                    const w = workoutsByParticipant[p.id] || { km: 0, min: 0, final: 0 };
-                    p.avg_pace = w.km > 0 ? w.min / w.km : 0;
-                    p.final_km = w.final;
+                    const t = totalsByParticipant[p.id] || { orig: 0, final: 0, min: 0 };
+                    p.total_km = t.orig;    // оригинальные км
+                    p.final_km = t.final;   // финальные км
+                    p.avg_pace = t.orig > 0 ? t.min / t.orig : 0;
+                    
                     const scores = weeklyScores.filter(s => s.participant_id === p.id);
                     p.week1_points = scores.find(s => s.week_number === 1)?.total_points || 0;
                     p.week2_points = scores.find(s => s.week_number === 2)?.total_points || 0;
@@ -267,74 +239,46 @@
             const container = document.getElementById('nominationsContainer');
             const pastWeek = currentWeekNumber - 1;
             const currentWeek = currentWeekNumber;
-            
             let html = '';
-            
-            // Номинации прошлой недели
             if (pastWeek >= 1) {
                 const pastDates = getWeekDates(pastWeek);
                 html += renderNominationBlock(`🏆 Номинации недели ${pastWeek} (завершена)`, pastDates.label, pastWeek);
             }
-            
-            // Номинации текущей недели
             const currentDates = getWeekDates(currentWeek);
             html += renderNominationBlock(`🔥 Текущая неделя ${currentWeek} (промежуточные)`, currentDates.label, currentWeek, true);
-            
             container.innerHTML = html;
         }
 
         function renderNominationBlock(title, dates, weekNumber, isLive = false) {
-            // Для завершённой недели берём данные из weekly_scores
-            // Для текущей — считаем из тренировок
             let maxKm = [], bestDist = [], bestPace = [], mostAbilities = [];
             
             if (isLive) {
-                // Текущая неделя — считаем из participants
-                const sorted = [...participants]
-                    .filter(p => p.total_km > 0)
-                    .sort((a, b) => b.total_km - a.total_km);
+                const sorted = [...participants].filter(p => p.total_km > 0).sort((a, b) => b.total_km - a.total_km);
                 maxKm = sorted.slice(0, 3).map(p => ({ name: p.first_name + ' ' + p.last_name, value: p.total_km + ' км' }));
-                
-                // Лучшая дистанция — нужны отдельные тренировки за период
-                // Пока берём из participants (упрощённо)
                 bestDist = sorted.slice(0, 3).map(p => ({ name: p.first_name + ' ' + p.last_name, value: p.total_km + ' км' }));
-                
-                // Лучший темп
-                const byPace = [...participants]
-                    .filter(p => p.avg_pace > 0)
-                    .sort((a, b) => a.avg_pace - b.avg_pace);
+                const byPace = [...participants].filter(p => p.avg_pace > 0).sort((a, b) => a.avg_pace - b.avg_pace);
                 bestPace = byPace.slice(0, 3).map(p => ({ name: p.first_name + ' ' + p.last_name, value: p.avg_pace.toFixed(2) + '/км' }));
-                
-                // Стратег
-                const byAbilities = [...participants]
-                    .sort((a, b) => (b.total_workouts || 0) - (a.total_workouts || 0));
+                const byAbilities = [...participants].sort((a, b) => (b.total_workouts || 0) - (a.total_workouts || 0));
                 mostAbilities = byAbilities.slice(0, 3).map(p => ({ name: p.first_name + ' ' + p.last_name, value: (p.total_workouts || 0) + ' трен.' }));
             } else {
-                // Прошлая неделя — из weekly_scores
                 const weekScores = weeklyScores.filter(s => s.week_number === weekNumber);
-                
-                // Макс. км
                 const byKm = [...weekScores].sort((a, b) => b.total_points - a.total_points);
                 maxKm = byKm.slice(0, 3).map(s => {
                     const p = participants.find(pp => pp.id === s.participant_id);
                     return { name: p ? p.first_name + ' ' + p.last_name : '—', value: s.total_points + ' очк.' };
                 });
-                
-                // Эти данные уже агрегированы, показываем топ-3 по очкам в каждой номинации
                 const withBonus = weekScores.filter(s => s.bonus_longest_km);
                 bestDist = withBonus.slice(0, 3).map(s => {
                     const p = participants.find(pp => pp.id === s.participant_id);
                     return { name: p ? p.first_name + ' ' + p.last_name : '—', value: s.total_points + ' очк.' };
                 });
                 if (bestDist.length === 0) bestDist = [{ name: '—', value: '—' }];
-                
                 const withPace = weekScores.filter(s => s.bonus_best_pace);
                 bestPace = withPace.slice(0, 3).map(s => {
                     const p = participants.find(pp => pp.id === s.participant_id);
                     return { name: p ? p.first_name + ' ' + p.last_name : '—', value: s.total_points + ' очк.' };
                 });
                 if (bestPace.length === 0) bestPace = [{ name: '—', value: '—' }];
-                
                 const withAbilities = weekScores.filter(s => s.bonus_most_abilities);
                 mostAbilities = withAbilities.slice(0, 3).map(s => {
                     const p = participants.find(pp => pp.id === s.participant_id);
@@ -344,60 +288,27 @@
             }
             
             const medals = ['🥇', '🥈', '🥉'];
+            const renderTop3 = (data) => {
+                if (data.length === 0) return '<div class="nomination-winner"><span class="nomination-name">—</span></div>';
+                return data.map((w, i) => `
+                    <div class="nomination-winner">
+                        <span class="nomination-medal">${medals[i] || ''}</span>
+                        <span class="nomination-name">${w.name}</span>
+                        <span class="nomination-value">${w.value}</span>
+                    </div>
+                    ${i < 2 && data.length > 1 ? '<div class="nomination-divider"></div>' : ''}
+                `).join('');
+            };
             
             return `
                 <div class="nominations-section">
                     <div class="nominations-title">${title}</div>
                     <div style="text-align: center; font-size: 0.7rem; color: var(--text-tertiary); margin-bottom: 8px;">📅 ${dates}</div>
                     <div class="nominations-grid">
-                        <div class="nomination-card">
-                            <div class="nomination-label">🏆 Макс. км</div>
-                            ${maxKm.map((w, i) => `
-                                <div class="nomination-winner">
-                                    <span class="nomination-medal">${medals[i] || ''}</span>
-                                    <span class="nomination-name">${w.name}</span>
-                                    <span class="nomination-value">${w.value}</span>
-                                </div>
-                                ${i < 2 ? '<div class="nomination-divider"></div>' : ''}
-                            `).join('')}
-                            ${maxKm.length === 0 ? '<div class="nomination-winner"><span class="nomination-name">—</span></div>' : ''}
-                        </div>
-                        <div class="nomination-card">
-                            <div class="nomination-label">📏 Лучшая дист.</div>
-                            ${bestDist.map((w, i) => `
-                                <div class="nomination-winner">
-                                    <span class="nomination-medal">${medals[i] || ''}</span>
-                                    <span class="nomination-name">${w.name}</span>
-                                    <span class="nomination-value">${w.value}</span>
-                                </div>
-                                ${i < 2 ? '<div class="nomination-divider"></div>' : ''}
-                            `).join('')}
-                            ${bestDist.length === 0 ? '<div class="nomination-winner"><span class="nomination-name">—</span></div>' : ''}
-                        </div>
-                        <div class="nomination-card">
-                            <div class="nomination-label">⚡ Лучший темп</div>
-                            ${bestPace.map((w, i) => `
-                                <div class="nomination-winner">
-                                    <span class="nomination-medal">${medals[i] || ''}</span>
-                                    <span class="nomination-name">${w.name}</span>
-                                    <span class="nomination-value">${w.value}</span>
-                                </div>
-                                ${i < 2 ? '<div class="nomination-divider"></div>' : ''}
-                            `).join('')}
-                            ${bestPace.length === 0 ? '<div class="nomination-winner"><span class="nomination-name">—</span></div>' : ''}
-                        </div>
-                        <div class="nomination-card">
-                            <div class="nomination-label">🎮 Стратег</div>
-                            ${mostAbilities.map((w, i) => `
-                                <div class="nomination-winner">
-                                    <span class="nomination-medal">${medals[i] || ''}</span>
-                                    <span class="nomination-name">${w.name}</span>
-                                    <span class="nomination-value">${w.value}</span>
-                                </div>
-                                ${i < 2 ? '<div class="nomination-divider"></div>' : ''}
-                            `).join('')}
-                            ${mostAbilities.length === 0 ? '<div class="nomination-winner"><span class="nomination-name">—</span></div>' : ''}
-                        </div>
+                        <div class="nomination-card"><div class="nomination-label">🏆 Макс. км</div>${renderTop3(maxKm)}</div>
+                        <div class="nomination-card"><div class="nomination-label">📏 Лучшая дист.</div>${renderTop3(bestDist)}</div>
+                        <div class="nomination-card"><div class="nomination-label">⚡ Лучший темп</div>${renderTop3(bestPace)}</div>
+                        <div class="nomination-card"><div class="nomination-label">🎮 Стратег</div>${renderTop3(mostAbilities)}</div>
                     </div>
                 </div>
             `;
@@ -461,9 +372,7 @@
                     </tr>
                     <tr class="detail-row" id="detail-${p.id}" style="display: none;">
                         <td colspan="11">
-                            <div id="detail-content-${p.id}">
-                                <span style="color: var(--text-tertiary);">Загрузка...</span>
-                            </div>
+                            <div id="detail-content-${p.id}"><span style="color: var(--text-tertiary);">Загрузка...</span></div>
                         </td>
                     </tr>
                 `;
@@ -480,24 +389,19 @@
             const detailContent = document.getElementById(`detail-content-${participantId}`);
             
             if (detailRow.style.display !== 'none') {
-                detailRow.style.display = 'none';
-                row.classList.remove('active');
-                return;
+                detailRow.style.display = 'none'; row.classList.remove('active'); return;
             }
             
-            detailRow.style.display = 'table-row';
-            row.classList.add('active');
+            detailRow.style.display = 'table-row'; row.classList.add('active');
             detailContent.innerHTML = '<span style="color: var(--text-tertiary);">Загрузка...</span>';
             
             try {
                 const { data: lastWorkout } = await supabaseClient
-                    .from('workouts').select('*')
-                    .eq('participant_id', participantId).eq('status', 'accepted')
-                    .order('day', { ascending: false }).limit(1);
+                    .from('workouts').select('*').eq('participant_id', participantId)
+                    .eq('status', 'accepted').order('day', { ascending: false }).limit(1);
                 
                 if (!lastWorkout || lastWorkout.length === 0) {
-                    detailContent.innerHTML = '<span style="color: var(--text-tertiary);">Нет тренировок</span>';
-                    return;
+                    detailContent.innerHTML = '<span style="color: var(--text-tertiary);">Нет тренировок</span>'; return;
                 }
                 
                 const w = lastWorkout[0];
@@ -544,9 +448,7 @@
         document.querySelectorAll('.tab').forEach(tab => {
             tab.addEventListener('click', () => {
                 document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                currentTab = tab.dataset.tab;
-                applyFilters();
+                tab.classList.add('active'); currentTab = tab.dataset.tab; applyFilters();
             });
         });
         
