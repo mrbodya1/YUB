@@ -46,31 +46,6 @@
         }
         .tab:hover { background: var(--bg-secondary); color: var(--text-primary); }
         .tab.active { color: var(--primary-dark); border-bottom: 3px solid var(--primary); margin-bottom: -2px; }
-
-        /* Номинации */
-        .nominations-section { margin-bottom: 20px; }
-        .nominations-title {
-            font-size: 0.95rem; font-weight: 700; color: var(--text-primary);
-            margin-bottom: 10px; text-align: center;
-        }
-        .nominations-grid {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
-        }
-        .nomination-card {
-            background: var(--bg-secondary); border-radius: var(--radius-sm);
-            padding: 8px 6px; text-align: center; border: 1px solid var(--border-light);
-        }
-        .nomination-emoji { font-size: 1rem; margin-bottom: 2px; }
-        .nomination-label { font-size: 0.6rem; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 6px; }
-        .nomination-winner {
-            display: flex; align-items: center; justify-content: center; gap: 3px;
-            padding: 2px 0; font-size: 0.7rem;
-        }
-        .nomination-medal { font-size: 0.8rem; }
-        .nomination-name { font-weight: 500; color: var(--text-primary); }
-        .nomination-value { font-size: 0.68rem; color: var(--text-secondary); margin-left: 4px; }
-        .nomination-divider { border-top: 1px solid var(--border-light); margin: 4px 0; }
-
         .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
         .stat-card {
             background: var(--primary-light); border-radius: var(--radius-sm); padding: 8px 6px;
@@ -79,16 +54,16 @@
         .stat-value { font-size: 1.3rem; font-weight: 800; color: var(--primary-dark); line-height: 1.2; }
         .stat-label { font-size: 0.65rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.3px; }
         .table-wrapper { overflow-x: auto; margin-bottom: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-light); }
-        table { width: auto; min-width: 100%; border-collapse: collapse; font-size: 0.78rem; white-space: nowrap; }
+        table { width: auto; min-width: 100%; border-collapse: collapse; font-size: 0.8rem; white-space: nowrap; }
         th {
-            background: var(--primary); color: white; padding: 8px 5px; text-align: center;
+            background: var(--primary); color: white; padding: 8px 6px; text-align: center;
             font-weight: 600; cursor: pointer; user-select: none; transition: background 0.2s;
         }
         th:first-child, th:nth-child(2) { text-align: left; }
         th:hover { background: var(--primary-dark); }
         th.sort-asc::after { content: ' ▲'; font-size: 0.6rem; opacity: 0.8; }
         th.sort-desc::after { content: ' ▼'; font-size: 0.6rem; opacity: 0.8; }
-        td { padding: 5px 5px; border-bottom: 1px solid var(--border-light); text-align: center; }
+        td { padding: 6px 6px; border-bottom: 1px solid var(--border-light); text-align: center; }
         td:first-child, td:nth-child(2) { text-align: left; }
         tr:hover { background: var(--bg-secondary); }
         .footer { text-align: center; padding-top: 16px; border-top: 1px solid var(--border-light); color: var(--text-tertiary); font-size: 0.8rem; }
@@ -102,40 +77,34 @@
         @keyframes spin { to { transform: rotate(360deg); } }
         .points-week { font-weight: 500; color: var(--text-secondary); }
         .points-total { font-weight: 700; color: var(--primary-dark); }
-
-        /* Раскрытие строк */
+        
+        /* Стили для раскрывающихся строк */
         .clickable-row { cursor: pointer; transition: background 0.15s; }
         .clickable-row:hover { background: var(--primary-light); }
         .clickable-row.active { background: var(--primary-light); }
-        .detail-row td { padding: 6px 5px; border-bottom: 1px solid var(--border-light); }
+        .detail-row td { padding: 8px 6px; border-bottom: 1px solid var(--border-light); }
         .detail-inline {
-            display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
-            font-size: 0.75rem; color: var(--text-secondary);
+            display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+            font-size: 0.78rem; color: var(--text-secondary);
         }
         .detail-date { font-weight: 500; color: var(--text-primary); white-space: nowrap; }
         .detail-separator { color: var(--text-tertiary); opacity: 0.5; }
         .detail-km { font-weight: 600; color: var(--text-primary); }
         .detail-pill {
             display: inline-flex; align-items: center; gap: 3px;
-            padding: 2px 7px; border-radius: 12px; font-size: 0.7rem; font-weight: 600;
+            padding: 2px 8px; border-radius: 12px; font-size: 0.72rem; font-weight: 600;
             white-space: nowrap;
         }
         .pill-pos { background: #d1fae5; color: #065f46; }
         .pill-pos-none { background: #f1f5f9; color: #94a3b8; }
         .pill-neg { background: #fee2e2; color: #991b1b; }
         .pill-neg-none { background: #f1f5f9; color: #94a3b8; }
-
-        @media (max-width: 500px) {
-            .nominations-grid { grid-template-columns: repeat(2, 1fr); }
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🏆 РЕЙТИНГ</h1>
         <div class="subtitle">Королевская Битва • 4 мая — 24 мая 2026</div>
-        
-        <div id="nominationsContainer"></div>
         
         <div class="tabs">
             <button class="tab active" data-tab="overall">🏔️ Общий</button>
@@ -151,7 +120,7 @@
         
         <div class="stats-grid">
             <div class="stat-card"><div class="stat-value" id="totalParticipants">0</div><div class="stat-label">Участников</div></div>
-            <div class="stat-card"><div class="stat-value" id="totalKm">0</div><div class="stat-label">Всего км (ориг)</div></div>
+            <div class="stat-card"><div class="stat-value" id="totalKm">0</div><div class="stat-label">Всего км</div></div>
             <div class="stat-card"><div class="stat-value" id="totalWorkouts">0</div><div class="stat-label">Тренировок</div></div>
         </div>
         
@@ -161,8 +130,7 @@
                     <tr>
                         <th data-sort="place">#</th>
                         <th data-sort="first_name">Участник</th>
-                        <th data-sort="total_km">Ориг. км</th>
-                        <th data-sort="final_km">Финал. км</th>
+                        <th data-sort="total_km">Км</th>
                         <th data-sort="total_workouts">Трен</th>
                         <th data-sort="avg_pace">Темп</th>
                         <th data-sort="snowflake_balance">🌼</th>
@@ -173,7 +141,7 @@
                     </tr>
                 </thead>
                 <tbody id="tableBody">
-                    <tr><td colspan="11" class="loading">Загрузка...</td></tr>
+                    <tr><td colspan="10" class="loading">Загрузка...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -193,36 +161,12 @@
         let participants = [];
         let weeklyScores = [];
         let filteredParticipants = [];
-        let sortColumn = 'total_points';
+        let sortColumn = 'total_km';
         let sortDirection = 'desc';
         let currentTab = 'overall';
-        let currentWeekNumber = 1; // неделя 1: 04.05-10.05, неделя 2: 11.05-17.05, неделя 3: 18.05-24.05
-
-        // Даты челленджа
-        const CHALLENGE_START = new Date(2026, 4, 4); // 4 мая 2026
-
-        function getWeekDates(weekNumber) {
-            const start = new Date(CHALLENGE_START);
-            start.setDate(start.getDate() + (weekNumber - 1) * 7);
-            const end = new Date(start);
-            end.setDate(end.getDate() + 6);
-            return {
-                start: start.toISOString().split('T')[0],
-                end: end.toISOString().split('T')[0],
-                label: `${start.getDate()}.${String(start.getMonth() + 1).padStart(2, '0')} — ${end.getDate()}.${String(end.getMonth() + 1).padStart(2, '0')}`
-            };
-        }
-
-        function getCurrentWeekNumber() {
-            const now = new Date();
-            const diff = Math.floor((now - CHALLENGE_START) / (7 * 24 * 60 * 60 * 1000)) + 1;
-            return Math.max(1, Math.min(3, diff));
-        }
 
         async function loadData() {
             try {
-                currentWeekNumber = getCurrentWeekNumber();
-                
                 const { data: participantsData, error: participantsError } = await supabaseClient
                     .from('participants').select('*').eq('status', 'active');
                 if (participantsError) throw participantsError;
@@ -234,20 +178,18 @@
                 weeklyScores = scoresData || [];
                 
                 const { data: workoutsData } = await supabaseClient
-                    .from('workouts').select('participant_id, original_km, original_min, final_km').eq('status', 'accepted');
+                    .from('workouts').select('participant_id, original_km, original_min').eq('status', 'accepted');
                 
                 const workoutsByParticipant = {};
                 workoutsData?.forEach(w => {
-                    if (!workoutsByParticipant[w.participant_id]) workoutsByParticipant[w.participant_id] = { km: 0, min: 0, final: 0 };
+                    if (!workoutsByParticipant[w.participant_id]) workoutsByParticipant[w.participant_id] = { km: 0, min: 0 };
                     workoutsByParticipant[w.participant_id].km += w.original_km || 0;
                     workoutsByParticipant[w.participant_id].min += w.original_min || 0;
-                    workoutsByParticipant[w.participant_id].final += w.final_km || 0;
                 });
                 
                 participants.forEach(p => {
-                    const w = workoutsByParticipant[p.id] || { km: 0, min: 0, final: 0 };
+                    const w = workoutsByParticipant[p.id] || { km: 0, min: 0 };
                     p.avg_pace = w.km > 0 ? w.min / w.km : 0;
-                    p.final_km = w.final;
                     const scores = weeklyScores.filter(s => s.participant_id === p.id);
                     p.week1_points = scores.find(s => s.week_number === 1)?.total_points || 0;
                     p.week2_points = scores.find(s => s.week_number === 2)?.total_points || 0;
@@ -255,152 +197,11 @@
                     p.total_points = p.week1_points + p.week2_points + p.week3_points;
                 });
                 
-                renderNominations();
                 applyFilters();
             } catch (error) {
                 console.error('Ошибка загрузки:', error);
-                document.getElementById('tableBody').innerHTML = '<tr><td colspan="11" style="text-align: center; padding: 40px;">Ошибка загрузки данных</td></tr>';
+                document.getElementById('tableBody').innerHTML = '<tr><td colspan="10" style="text-align: center; padding: 40px;">Ошибка загрузки данных</td></tr>';
             }
-        }
-
-        function renderNominations() {
-            const container = document.getElementById('nominationsContainer');
-            const pastWeek = currentWeekNumber - 1;
-            const currentWeek = currentWeekNumber;
-            
-            let html = '';
-            
-            // Номинации прошлой недели
-            if (pastWeek >= 1) {
-                const pastDates = getWeekDates(pastWeek);
-                html += renderNominationBlock(`🏆 Номинации недели ${pastWeek} (завершена)`, pastDates.label, pastWeek);
-            }
-            
-            // Номинации текущей недели
-            const currentDates = getWeekDates(currentWeek);
-            html += renderNominationBlock(`🔥 Текущая неделя ${currentWeek} (промежуточные)`, currentDates.label, currentWeek, true);
-            
-            container.innerHTML = html;
-        }
-
-        function renderNominationBlock(title, dates, weekNumber, isLive = false) {
-            // Для завершённой недели берём данные из weekly_scores
-            // Для текущей — считаем из тренировок
-            let maxKm = [], bestDist = [], bestPace = [], mostAbilities = [];
-            
-            if (isLive) {
-                // Текущая неделя — считаем из participants
-                const sorted = [...participants]
-                    .filter(p => p.total_km > 0)
-                    .sort((a, b) => b.total_km - a.total_km);
-                maxKm = sorted.slice(0, 3).map(p => ({ name: p.first_name + ' ' + p.last_name, value: p.total_km + ' км' }));
-                
-                // Лучшая дистанция — нужны отдельные тренировки за период
-                // Пока берём из participants (упрощённо)
-                bestDist = sorted.slice(0, 3).map(p => ({ name: p.first_name + ' ' + p.last_name, value: p.total_km + ' км' }));
-                
-                // Лучший темп
-                const byPace = [...participants]
-                    .filter(p => p.avg_pace > 0)
-                    .sort((a, b) => a.avg_pace - b.avg_pace);
-                bestPace = byPace.slice(0, 3).map(p => ({ name: p.first_name + ' ' + p.last_name, value: p.avg_pace.toFixed(2) + '/км' }));
-                
-                // Стратег
-                const byAbilities = [...participants]
-                    .sort((a, b) => (b.total_workouts || 0) - (a.total_workouts || 0));
-                mostAbilities = byAbilities.slice(0, 3).map(p => ({ name: p.first_name + ' ' + p.last_name, value: (p.total_workouts || 0) + ' трен.' }));
-            } else {
-                // Прошлая неделя — из weekly_scores
-                const weekScores = weeklyScores.filter(s => s.week_number === weekNumber);
-                
-                // Макс. км
-                const byKm = [...weekScores].sort((a, b) => b.total_points - a.total_points);
-                maxKm = byKm.slice(0, 3).map(s => {
-                    const p = participants.find(pp => pp.id === s.participant_id);
-                    return { name: p ? p.first_name + ' ' + p.last_name : '—', value: s.total_points + ' очк.' };
-                });
-                
-                // Эти данные уже агрегированы, показываем топ-3 по очкам в каждой номинации
-                const withBonus = weekScores.filter(s => s.bonus_longest_km);
-                bestDist = withBonus.slice(0, 3).map(s => {
-                    const p = participants.find(pp => pp.id === s.participant_id);
-                    return { name: p ? p.first_name + ' ' + p.last_name : '—', value: s.total_points + ' очк.' };
-                });
-                if (bestDist.length === 0) bestDist = [{ name: '—', value: '—' }];
-                
-                const withPace = weekScores.filter(s => s.bonus_best_pace);
-                bestPace = withPace.slice(0, 3).map(s => {
-                    const p = participants.find(pp => pp.id === s.participant_id);
-                    return { name: p ? p.first_name + ' ' + p.last_name : '—', value: s.total_points + ' очк.' };
-                });
-                if (bestPace.length === 0) bestPace = [{ name: '—', value: '—' }];
-                
-                const withAbilities = weekScores.filter(s => s.bonus_most_abilities);
-                mostAbilities = withAbilities.slice(0, 3).map(s => {
-                    const p = participants.find(pp => pp.id === s.participant_id);
-                    return { name: p ? p.first_name + ' ' + p.last_name : '—', value: s.total_points + ' очк.' };
-                });
-                if (mostAbilities.length === 0) mostAbilities = [{ name: '—', value: '—' }];
-            }
-            
-            const medals = ['🥇', '🥈', '🥉'];
-            
-            return `
-                <div class="nominations-section">
-                    <div class="nominations-title">${title}</div>
-                    <div style="text-align: center; font-size: 0.7rem; color: var(--text-tertiary); margin-bottom: 8px;">📅 ${dates}</div>
-                    <div class="nominations-grid">
-                        <div class="nomination-card">
-                            <div class="nomination-label">🏆 Макс. км</div>
-                            ${maxKm.map((w, i) => `
-                                <div class="nomination-winner">
-                                    <span class="nomination-medal">${medals[i] || ''}</span>
-                                    <span class="nomination-name">${w.name}</span>
-                                    <span class="nomination-value">${w.value}</span>
-                                </div>
-                                ${i < 2 ? '<div class="nomination-divider"></div>' : ''}
-                            `).join('')}
-                            ${maxKm.length === 0 ? '<div class="nomination-winner"><span class="nomination-name">—</span></div>' : ''}
-                        </div>
-                        <div class="nomination-card">
-                            <div class="nomination-label">📏 Лучшая дист.</div>
-                            ${bestDist.map((w, i) => `
-                                <div class="nomination-winner">
-                                    <span class="nomination-medal">${medals[i] || ''}</span>
-                                    <span class="nomination-name">${w.name}</span>
-                                    <span class="nomination-value">${w.value}</span>
-                                </div>
-                                ${i < 2 ? '<div class="nomination-divider"></div>' : ''}
-                            `).join('')}
-                            ${bestDist.length === 0 ? '<div class="nomination-winner"><span class="nomination-name">—</span></div>' : ''}
-                        </div>
-                        <div class="nomination-card">
-                            <div class="nomination-label">⚡ Лучший темп</div>
-                            ${bestPace.map((w, i) => `
-                                <div class="nomination-winner">
-                                    <span class="nomination-medal">${medals[i] || ''}</span>
-                                    <span class="nomination-name">${w.name}</span>
-                                    <span class="nomination-value">${w.value}</span>
-                                </div>
-                                ${i < 2 ? '<div class="nomination-divider"></div>' : ''}
-                            `).join('')}
-                            ${bestPace.length === 0 ? '<div class="nomination-winner"><span class="nomination-name">—</span></div>' : ''}
-                        </div>
-                        <div class="nomination-card">
-                            <div class="nomination-label">🎮 Стратег</div>
-                            ${mostAbilities.map((w, i) => `
-                                <div class="nomination-winner">
-                                    <span class="nomination-medal">${medals[i] || ''}</span>
-                                    <span class="nomination-name">${w.name}</span>
-                                    <span class="nomination-value">${w.value}</span>
-                                </div>
-                                ${i < 2 ? '<div class="nomination-divider"></div>' : ''}
-                            `).join('')}
-                            ${mostAbilities.length === 0 ? '<div class="nomination-winner"><span class="nomination-name">—</span></div>' : ''}
-                        </div>
-                    </div>
-                </div>
-            `;
         }
 
         function applyFilters() {
@@ -427,7 +228,7 @@
         function sortAndRender() {
             filteredParticipants.sort((a, b) => {
                 let aVal = a[sortColumn], bVal = b[sortColumn];
-                if (['total_km','final_km','total_workouts','avg_pace','snowflake_balance','total_points','week1_points','week2_points','week3_points'].includes(sortColumn)) {
+                if (['total_km','total_workouts','avg_pace','snowflake_balance','total_points','week1_points','week2_points','week3_points'].includes(sortColumn)) {
                     aVal = parseFloat(aVal) || 0; bVal = parseFloat(bVal) || 0;
                 } else if (sortColumn === 'place') { return 0; }
                 else { aVal = String(aVal || '').toLowerCase(); bVal = String(bVal || '').toLowerCase(); }
@@ -439,7 +240,7 @@
         function renderTable() {
             const tbody = document.getElementById('tableBody');
             if (filteredParticipants.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="11" style="text-align: center; padding: 40px;">Участники не найдены</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; padding: 40px;">Участники не найдены</td></tr>';
                 return;
             }
             tbody.innerHTML = filteredParticipants.map((p, index) => {
@@ -450,7 +251,6 @@
                         <td style="font-weight: 600;">${place}</td>
                         <td>${p.first_name} ${p.last_name}</td>
                         <td>${p.total_km || 0}</td>
-                        <td>${p.final_km || 0}</td>
                         <td>${p.total_workouts || 0}</td>
                         <td>${pace}</td>
                         <td>${p.snowflake_balance || 0}</td>
@@ -460,7 +260,7 @@
                         <td class="points-total">${p.total_points || 0}</td>
                     </tr>
                     <tr class="detail-row" id="detail-${p.id}" style="display: none;">
-                        <td colspan="11">
+                        <td colspan="10">
                             <div id="detail-content-${p.id}">
                                 <span style="color: var(--text-tertiary);">Загрузка...</span>
                             </div>
@@ -501,17 +301,35 @@
                 }
                 
                 const w = lastWorkout[0];
-                let posPill = w.mod_pos 
-                    ? `<span class="detail-pill pill-pos">${w.mod_pos == 2.0 ? '⚡ ×2' : w.mod_pos == 1.5 ? '✨ ×1.5' : '×' + w.mod_pos}</span>` 
-                    : '<span class="detail-pill pill-pos-none">—</span>';
+                
+                // Позитивная плашка
+                let posPill = '';
+                if (w.mod_pos) {
+                    const label = w.mod_pos == 2.0 ? '⚡ ×2' : w.mod_pos == 1.5 ? '✨ ×1.5' : `×${w.mod_pos}`;
+                    posPill = `<span class="detail-pill pill-pos">${label}</span>`;
+                } else {
+                    posPill = '<span class="detail-pill pill-pos-none">—</span>';
+                }
+                
+                // Негативная плашка
                 let negPill = '';
                 if (w.mod_neg !== null && w.mod_neg !== undefined) {
-                    if (w.mod_neg == 1.0) negPill = '<span class="detail-pill pill-neg">🛡️ Щит</span>';
-                    else if (w.mod_neg == 0) negPill = '<span class="detail-pill pill-neg">💀 ×0</span>';
-                    else if (w.mod_neg == 0.5) negPill = '<span class="detail-pill pill-neg">✂️ ÷2</span>';
-                    else if (w.mod_neg == 0.8) negPill = '<span class="detail-pill pill-neg">🌊 -20%</span>';
-                } else { negPill = '<span class="detail-pill pill-neg-none">—</span>'; }
+                    if (w.mod_neg == 1.0) {
+                        negPill = '<span class="detail-pill pill-neg">🛡️ Щит</span>';
+                    } else if (w.mod_neg == 0) {
+                        negPill = '<span class="detail-pill pill-neg">💀 ×0</span>';
+                    } else if (w.mod_neg == 0.5) {
+                        negPill = '<span class="detail-pill pill-neg">✂️ ÷2</span>';
+                    } else if (w.mod_neg == 0.8) {
+                        negPill = '<span class="detail-pill pill-neg">🌊 -20%</span>';
+                    } else {
+                        negPill = `<span class="detail-pill pill-neg">⚠️ ×${w.mod_neg}</span>`;
+                    }
+                } else {
+                    negPill = '<span class="detail-pill pill-neg-none">—</span>';
+                }
                 
+                // Финальные км (если изменились)
                 const finalKm = w.final_km !== w.original_km ? ` → <span class="detail-km">${w.final_km} км</span>` : '';
                 
                 detailContent.innerHTML = `
@@ -522,9 +340,12 @@
                         <span class="detail-separator">·</span>
                         <span class="detail-km">${w.original_min} мин</span>
                         <span class="detail-separator">·</span>
-                        ${posPill} ${negPill} ${finalKm}
+                        ${posPill}
+                        ${negPill}
+                        ${finalKm}
                     </div>
                 `;
+                
             } catch (error) {
                 console.error('Ошибка загрузки:', error);
                 detailContent.innerHTML = '<span style="color: #ef4444;">Ошибка загрузки</span>';
@@ -534,7 +355,7 @@
         document.querySelectorAll('th[data-sort]').forEach(th => {
             th.addEventListener('click', () => {
                 const field = th.dataset.sort;
-                sortColumn = field === 'place' ? 'total_points' : field;
+                sortColumn = field === 'place' ? 'total_km' : field;
                 sortDirection = (sortColumn === field && sortColumn !== 'place') ? (sortDirection === 'asc' ? 'desc' : 'asc') : (field === 'first_name' ? 'asc' : 'desc');
                 sortAndRender();
             });
