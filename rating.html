@@ -34,18 +34,26 @@
         .search-box { flex: 1; }
         .search-box input {
             width: 100%; padding: 10px 14px; border: 2px solid var(--border-light);
-            border-radius: var(--radius-md); font-size: 0.9rem; background: var(--bg-secondary);
-            transition: border-color 0.2s;
+            border-radius: var(--radius-md); font-size: 0.9rem; background: var(--bg-secondary); transition: border-color 0.2s;
         }
         .search-box input:focus { outline: none; border-color: var(--primary); }
         .tabs { display: flex; gap: 4px; margin-bottom: 12px; border-bottom: 2px solid var(--border-light); }
         .tab {
-            flex: 1; padding: 8px 0; font-size: 0.9rem; font-weight: 600; color: var(--text-tertiary);
+            flex: 1; padding: 8px 0; font-size: 0.85rem; font-weight: 600; color: var(--text-tertiary);
             background: transparent; border: none; cursor: pointer; transition: all 0.2s;
             border-radius: var(--radius-sm) var(--radius-sm) 0 0; text-align: center;
         }
         .tab:hover { background: var(--bg-secondary); color: var(--text-primary); }
         .tab.active { color: var(--primary-dark); border-bottom: 3px solid var(--primary); margin-bottom: -2px; }
+        .sub-tabs { display: flex; gap: 4px; margin-bottom: 16px; }
+        .sub-tab {
+            flex: 1; padding: 6px 10px; font-size: 0.8rem; font-weight: 500; color: var(--text-tertiary);
+            background: var(--bg-secondary); border: 1px solid var(--border-light); cursor: pointer;
+            border-radius: var(--radius-sm); text-align: center; transition: all 0.2s;
+        }
+        .sub-tab:hover { background: var(--bg-tertiary); }
+        .sub-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
+
         .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
         .stat-card {
             background: var(--primary-light); border-radius: var(--radius-sm); padding: 8px 6px;
@@ -54,16 +62,16 @@
         .stat-value { font-size: 1.3rem; font-weight: 800; color: var(--primary-dark); line-height: 1.2; }
         .stat-label { font-size: 0.65rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.3px; }
         .table-wrapper { overflow-x: auto; margin-bottom: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-light); }
-        table { width: auto; min-width: 100%; border-collapse: collapse; font-size: 0.8rem; white-space: nowrap; }
+        table { width: auto; min-width: 100%; border-collapse: collapse; font-size: 0.78rem; white-space: nowrap; }
         th {
-            background: var(--primary); color: white; padding: 8px 6px; text-align: center;
+            background: var(--primary); color: white; padding: 8px 5px; text-align: center;
             font-weight: 600; cursor: pointer; user-select: none; transition: background 0.2s;
         }
         th:first-child, th:nth-child(2) { text-align: left; }
         th:hover { background: var(--primary-dark); }
         th.sort-asc::after { content: ' ▲'; font-size: 0.6rem; opacity: 0.8; }
         th.sort-desc::after { content: ' ▼'; font-size: 0.6rem; opacity: 0.8; }
-        td { padding: 6px 6px; border-bottom: 1px solid var(--border-light); text-align: center; }
+        td { padding: 5px 5px; border-bottom: 1px solid var(--border-light); text-align: center; }
         td:first-child, td:nth-child(2) { text-align: left; }
         tr:hover { background: var(--bg-secondary); }
         .footer { text-align: center; padding-top: 16px; border-top: 1px solid var(--border-light); color: var(--text-tertiary); font-size: 0.8rem; }
@@ -75,26 +83,20 @@
             border-radius: 50%; animation: spin 1s linear infinite; vertical-align: middle;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .points-week { font-weight: 500; color: var(--text-secondary); }
         .points-total { font-weight: 700; color: var(--primary-dark); }
-        
-        /* Стили для раскрывающихся строк */
+        .bonus-text { font-size: 0.7rem; color: var(--text-secondary); }
+        .bonus-empty { color: var(--text-tertiary); font-size: 0.7rem; }
+        .week-total { font-weight: 600; }
+
         .clickable-row { cursor: pointer; transition: background 0.15s; }
         .clickable-row:hover { background: var(--primary-light); }
         .clickable-row.active { background: var(--primary-light); }
-        .detail-row td { padding: 8px 6px; border-bottom: 1px solid var(--border-light); }
-        .detail-inline {
-            display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-            font-size: 0.78rem; color: var(--text-secondary);
-        }
+        .detail-row td { padding: 6px 5px; border-bottom: 1px solid var(--border-light); }
+        .detail-inline { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: 0.75rem; color: var(--text-secondary); }
         .detail-date { font-weight: 500; color: var(--text-primary); white-space: nowrap; }
         .detail-separator { color: var(--text-tertiary); opacity: 0.5; }
         .detail-km { font-weight: 600; color: var(--text-primary); }
-        .detail-pill {
-            display: inline-flex; align-items: center; gap: 3px;
-            padding: 2px 8px; border-radius: 12px; font-size: 0.72rem; font-weight: 600;
-            white-space: nowrap;
-        }
+        .detail-pill { display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; white-space: nowrap; }
         .pill-pos { background: #d1fae5; color: #065f46; }
         .pill-pos-none { background: #f1f5f9; color: #94a3b8; }
         .pill-neg { background: #fee2e2; color: #991b1b; }
@@ -106,42 +108,74 @@
         <h1>🏆 РЕЙТИНГ</h1>
         <div class="subtitle">Королевская Битва • 4 мая — 24 мая 2026</div>
         
-        <div class="tabs">
-            <button class="tab active" data-tab="overall">🏔️ Общий</button>
-            <button class="tab" data-tab="men">👨 Мужчины</button>
-            <button class="tab" data-tab="women">👩 Женщины</button>
+        <!-- Вкладки: Общий рейтинг / Очки по неделям -->
+        <div class="tabs" id="mainTabs">
+            <button class="tab active" data-tab="rating">📊 Общий рейтинг</button>
+            <button class="tab" data-tab="points">📋 Очки по неделям</button>
+        </div>
+        
+        <!-- Суб-вкладки для фильтрации -->
+        <div class="sub-tabs">
+            <button class="sub-tab active" data-filter="overall">🏔️ Общий</button>
+            <button class="sub-tab" data-filter="men">👨 Мужчины</button>
+            <button class="sub-tab" data-filter="women">👩 Женщины</button>
         </div>
         
         <div class="filters">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="🔍 Поиск по имени...">
-            </div>
+            <div class="search-box"><input type="text" id="searchInput" placeholder="🔍 Поиск по имени..."></div>
         </div>
         
-        <div class="stats-grid">
+        <div class="stats-grid" id="statsGrid">
             <div class="stat-card"><div class="stat-value" id="totalParticipants">0</div><div class="stat-label">Участников</div></div>
-            <div class="stat-card"><div class="stat-value" id="totalKm">0</div><div class="stat-label">Всего км</div></div>
+            <div class="stat-card"><div class="stat-value" id="totalKm">0</div><div class="stat-label">Всего ориг. км</div></div>
             <div class="stat-card"><div class="stat-value" id="totalWorkouts">0</div><div class="stat-label">Тренировок</div></div>
         </div>
         
-        <div class="table-wrapper">
+        <!-- Таблица общего рейтинга -->
+        <div class="table-wrapper" id="tableRating">
             <table>
                 <thead>
                     <tr>
                         <th data-sort="place">#</th>
                         <th data-sort="first_name">Участник</th>
-                        <th data-sort="total_km">Км</th>
+                        <th data-sort="total_km">Ориг. км</th>
+                        <th data-sort="final_km">Финал. км</th>
                         <th data-sort="total_workouts">Трен</th>
                         <th data-sort="avg_pace">Темп</th>
                         <th data-sort="snowflake_balance">🌼</th>
-                        <th data-sort="week1_points">Н1</th>
-                        <th data-sort="week2_points">Н2</th>
-                        <th data-sort="week3_points">Н3</th>
                         <th data-sort="total_points">Очки</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody">
-                    <tr><td colspan="10" class="loading">Загрузка...</td></tr>
+                <tbody id="tableBodyRating">
+                    <tr><td colspan="8" class="loading">Загрузка...</td></tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Таблица очков по неделям (скрыта по умолчанию) -->
+        <div class="table-wrapper" id="tablePoints" style="display: none;">
+            <table>
+                <thead>
+                    <tr>
+                        <th data-sort="place">#</th>
+                        <th data-sort="first_name">Участник</th>
+                        <th data-sort="total_points">Всего</th>
+                        <th data-sort="w1_place">Н1 Место</th>
+                        <th data-sort="w1_points">Н1 Очки</th>
+                        <th data-sort="w1_bonuses">Н1 Бонусы</th>
+                        <th data-sort="w1_total">Н1 Итог</th>
+                        <th data-sort="w2_place">Н2 Место</th>
+                        <th data-sort="w2_points">Н2 Очки</th>
+                        <th data-sort="w2_bonuses">Н2 Бонусы</th>
+                        <th data-sort="w2_total">Н2 Итог</th>
+                        <th data-sort="w3_place">Н3 Место</th>
+                        <th data-sort="w3_points">Н3 Очки</th>
+                        <th data-sort="w3_bonuses">Н3 Бонусы</th>
+                        <th data-sort="w3_total">Н3 Итог</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBodyPoints">
+                    <tr><td colspan="15" class="loading">Загрузка...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -161,9 +195,12 @@
         let participants = [];
         let weeklyScores = [];
         let filteredParticipants = [];
-        let sortColumn = 'total_km';
+        let sortColumn = 'total_points';
         let sortDirection = 'desc';
-        let currentTab = 'overall';
+        let currentFilter = 'overall';
+        let currentMainTab = 'rating';
+
+        const CHALLENGE_START = new Date(2026, 4, 4);
 
         async function loadData() {
             try {
@@ -178,37 +215,72 @@
                 weeklyScores = scoresData || [];
                 
                 const { data: workoutsData } = await supabaseClient
-                    .from('workouts').select('participant_id, original_km, original_min').eq('status', 'accepted');
+                    .from('workouts').select('participant_id, original_km, original_min, final_km').eq('status', 'accepted');
                 
-                const workoutsByParticipant = {};
+                const totalsByParticipant = {};
                 workoutsData?.forEach(w => {
-                    if (!workoutsByParticipant[w.participant_id]) workoutsByParticipant[w.participant_id] = { km: 0, min: 0 };
-                    workoutsByParticipant[w.participant_id].km += w.original_km || 0;
-                    workoutsByParticipant[w.participant_id].min += w.original_min || 0;
+                    if (!totalsByParticipant[w.participant_id]) totalsByParticipant[w.participant_id] = { orig: 0, final: 0, min: 0 };
+                    totalsByParticipant[w.participant_id].orig += w.original_km || 0;
+                    totalsByParticipant[w.participant_id].final += w.final_km || 0;
+                    totalsByParticipant[w.participant_id].min += w.original_min || 0;
                 });
                 
                 participants.forEach(p => {
-                    const w = workoutsByParticipant[p.id] || { km: 0, min: 0 };
-                    p.avg_pace = w.km > 0 ? w.min / w.km : 0;
+                    const t = totalsByParticipant[p.id] || { orig: 0, final: 0, min: 0 };
+                    p.total_km = t.orig;
+                    p.final_km = t.final;
+                    p.avg_pace = t.orig > 0 ? t.min / t.orig : 0;
+                    
                     const scores = weeklyScores.filter(s => s.participant_id === p.id);
-                    p.week1_points = scores.find(s => s.week_number === 1)?.total_points || 0;
-                    p.week2_points = scores.find(s => s.week_number === 2)?.total_points || 0;
-                    p.week3_points = scores.find(s => s.week_number === 3)?.total_points || 0;
+                    const w1 = scores.find(s => s.week_number === 1) || {};
+                    const w2 = scores.find(s => s.week_number === 2) || {};
+                    const w3 = scores.find(s => s.week_number === 3) || {};
+                    
+                    p.week1_points = w1.total_points || 0;
+                    p.week2_points = w2.total_points || 0;
+                    p.week3_points = w3.total_points || 0;
                     p.total_points = p.week1_points + p.week2_points + p.week3_points;
+                    
+                    // Данные для вкладки "Очки по неделям"
+                    p.w1_place = w1.km_place || 0;
+                    p.w1_km_points = w1.km_points || 0;
+                    p.w1_total = w1.total_points || 0;
+                    p.w2_place = w2.km_place || 0;
+                    p.w2_km_points = w2.km_points || 0;
+                    p.w2_total = w2.total_points || 0;
+                    p.w3_place = w3.km_place || 0;
+                    p.w3_km_points = w3.km_points || 0;
+                    p.w3_total = w3.total_points || 0;
+                    
+                    // Бонусы в читаемом виде
+                    p.w1_bonuses = formatBonuses(w1);
+                    p.w2_bonuses = formatBonuses(w2);
+                    p.w3_bonuses = formatBonuses(w3);
                 });
                 
                 applyFilters();
             } catch (error) {
                 console.error('Ошибка загрузки:', error);
-                document.getElementById('tableBody').innerHTML = '<tr><td colspan="10" style="text-align: center; padding: 40px;">Ошибка загрузки данных</td></tr>';
+                document.getElementById('tableBodyRating').innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 40px;">Ошибка загрузки данных</td></tr>';
+                document.getElementById('tableBodyPoints').innerHTML = '<tr><td colspan="15" style="text-align: center; padding: 40px;">Ошибка загрузки данных</td></tr>';
             }
+        }
+
+        function formatBonuses(weekData) {
+            if (!weekData) return '<span class="bonus-empty">—</span>';
+            const parts = [];
+            if (weekData.bonus_max_km) parts.push('🏆10');
+            if (weekData.bonus_longest_km) parts.push('📏10');
+            if (weekData.bonus_best_pace) parts.push('⚡10');
+            if (weekData.bonus_most_abilities) parts.push('🎮10');
+            return parts.length > 0 ? `<span class="bonus-text">${parts.join(' ')}</span>` : '<span class="bonus-empty">—</span>';
         }
 
         function applyFilters() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             filteredParticipants = participants.filter(p => {
-                if (currentTab === 'men' && p.gender !== 'М') return false;
-                if (currentTab === 'women' && p.gender !== 'Ж') return false;
+                if (currentFilter === 'men' && p.gender !== 'М') return false;
+                if (currentFilter === 'women' && p.gender !== 'Ж') return false;
                 return true;
             });
             if (searchTerm) {
@@ -228,19 +300,22 @@
         function sortAndRender() {
             filteredParticipants.sort((a, b) => {
                 let aVal = a[sortColumn], bVal = b[sortColumn];
-                if (['total_km','total_workouts','avg_pace','snowflake_balance','total_points','week1_points','week2_points','week3_points'].includes(sortColumn)) {
+                if (['total_km','final_km','total_workouts','avg_pace','snowflake_balance','total_points',
+                     'w1_place','w1_points','w1_total','w2_place','w2_points','w2_total','w3_place','w3_points','w3_total'].includes(sortColumn)) {
                     aVal = parseFloat(aVal) || 0; bVal = parseFloat(bVal) || 0;
                 } else if (sortColumn === 'place') { return 0; }
                 else { aVal = String(aVal || '').toLowerCase(); bVal = String(bVal || '').toLowerCase(); }
                 return sortDirection === 'asc' ? (aVal > bVal ? 1 : aVal < bVal ? -1 : 0) : (aVal < bVal ? 1 : aVal > bVal ? -1 : 0);
             });
-            renderTable();
+            
+            if (currentMainTab === 'rating') renderRatingTable();
+            else renderPointsTable();
         }
 
-        function renderTable() {
-            const tbody = document.getElementById('tableBody');
+        function renderRatingTable() {
+            const tbody = document.getElementById('tableBodyRating');
             if (filteredParticipants.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; padding: 40px;">Участники не найдены</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 40px;">Участники не найдены</td></tr>';
                 return;
             }
             tbody.innerHTML = filteredParticipants.map((p, index) => {
@@ -251,24 +326,61 @@
                         <td style="font-weight: 600;">${place}</td>
                         <td>${p.first_name} ${p.last_name}</td>
                         <td>${p.total_km || 0}</td>
+                        <td>${p.final_km || 0}</td>
                         <td>${p.total_workouts || 0}</td>
                         <td>${pace}</td>
                         <td>${p.snowflake_balance || 0}</td>
-                        <td class="points-week">${p.week1_points || 0}</td>
-                        <td class="points-week">${p.week2_points || 0}</td>
-                        <td class="points-week">${p.week3_points || 0}</td>
                         <td class="points-total">${p.total_points || 0}</td>
                     </tr>
                     <tr class="detail-row" id="detail-${p.id}" style="display: none;">
-                        <td colspan="10">
-                            <div id="detail-content-${p.id}">
-                                <span style="color: var(--text-tertiary);">Загрузка...</span>
-                            </div>
+                        <td colspan="8">
+                            <div id="detail-content-${p.id}"><span style="color: var(--text-tertiary);">Загрузка...</span></div>
                         </td>
                     </tr>
                 `;
             }).join('');
-            
+            updateSortIndicators();
+        }
+
+        function renderPointsTable() {
+            const tbody = document.getElementById('tableBodyPoints');
+            if (filteredParticipants.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="15" style="text-align: center; padding: 40px;">Участники не найдены</td></tr>';
+                return;
+            }
+            tbody.innerHTML = filteredParticipants.map((p, index) => {
+                const place = index + 1;
+                const formatPlace = (placeNum) => {
+                    if (!placeNum) return '—';
+                    if (placeNum == 1) return '🥇1';
+                    if (placeNum == 2) return '🥈2';
+                    if (placeNum == 3) return '🥉3';
+                    return placeNum;
+                };
+                return `
+                    <tr>
+                        <td style="font-weight: 600;">${place}</td>
+                        <td>${p.first_name} ${p.last_name}</td>
+                        <td class="points-total">${p.total_points || 0}</td>
+                        <td>${formatPlace(p.w1_place)}</td>
+                        <td>${p.w1_km_points || 0}</td>
+                        <td>${p.w1_bonuses}</td>
+                        <td class="week-total">${p.w1_total || '—'}</td>
+                        <td>${formatPlace(p.w2_place)}</td>
+                        <td>${p.w2_km_points || 0}</td>
+                        <td>${p.w2_bonuses}</td>
+                        <td class="week-total">${p.w2_total || '—'}</td>
+                        <td>${formatPlace(p.w3_place)}</td>
+                        <td>${p.w3_km_points || 0}</td>
+                        <td>${p.w3_bonuses}</td>
+                        <td class="week-total">${p.w3_total || '—'}</td>
+                    </tr>
+                `;
+            }).join('');
+            updateSortIndicators();
+        }
+
+        function updateSortIndicators() {
             document.querySelectorAll('th[data-sort]').forEach(th => {
                 th.classList.remove('sort-asc', 'sort-desc');
                 if (th.dataset.sort === sortColumn) th.classList.add(sortDirection === 'asc' ? 'sort-asc' : 'sort-desc');
@@ -280,56 +392,33 @@
             const detailContent = document.getElementById(`detail-content-${participantId}`);
             
             if (detailRow.style.display !== 'none') {
-                detailRow.style.display = 'none';
-                row.classList.remove('active');
-                return;
+                detailRow.style.display = 'none'; row.classList.remove('active'); return;
             }
             
-            detailRow.style.display = 'table-row';
-            row.classList.add('active');
+            detailRow.style.display = 'table-row'; row.classList.add('active');
             detailContent.innerHTML = '<span style="color: var(--text-tertiary);">Загрузка...</span>';
             
             try {
                 const { data: lastWorkout } = await supabaseClient
-                    .from('workouts').select('*')
-                    .eq('participant_id', participantId).eq('status', 'accepted')
-                    .order('day', { ascending: false }).limit(1);
+                    .from('workouts').select('*').eq('participant_id', participantId)
+                    .eq('status', 'accepted').order('day', { ascending: false }).limit(1);
                 
                 if (!lastWorkout || lastWorkout.length === 0) {
-                    detailContent.innerHTML = '<span style="color: var(--text-tertiary);">Нет тренировок</span>';
-                    return;
+                    detailContent.innerHTML = '<span style="color: var(--text-tertiary);">Нет тренировок</span>'; return;
                 }
                 
                 const w = lastWorkout[0];
-                
-                // Позитивная плашка
-                let posPill = '';
-                if (w.mod_pos) {
-                    const label = w.mod_pos == 2.0 ? '⚡ ×2' : w.mod_pos == 1.5 ? '✨ ×1.5' : `×${w.mod_pos}`;
-                    posPill = `<span class="detail-pill pill-pos">${label}</span>`;
-                } else {
-                    posPill = '<span class="detail-pill pill-pos-none">—</span>';
-                }
-                
-                // Негативная плашка
+                let posPill = w.mod_pos 
+                    ? `<span class="detail-pill pill-pos">${w.mod_pos == 2.0 ? '⚡ ×2' : w.mod_pos == 1.5 ? '✨ ×1.5' : '×' + w.mod_pos}</span>` 
+                    : '<span class="detail-pill pill-pos-none">—</span>';
                 let negPill = '';
                 if (w.mod_neg !== null && w.mod_neg !== undefined) {
-                    if (w.mod_neg == 1.0) {
-                        negPill = '<span class="detail-pill pill-neg">🛡️ Щит</span>';
-                    } else if (w.mod_neg == 0) {
-                        negPill = '<span class="detail-pill pill-neg">💀 ×0</span>';
-                    } else if (w.mod_neg == 0.5) {
-                        negPill = '<span class="detail-pill pill-neg">✂️ ÷2</span>';
-                    } else if (w.mod_neg == 0.8) {
-                        negPill = '<span class="detail-pill pill-neg">🌊 -20%</span>';
-                    } else {
-                        negPill = `<span class="detail-pill pill-neg">⚠️ ×${w.mod_neg}</span>`;
-                    }
-                } else {
-                    negPill = '<span class="detail-pill pill-neg-none">—</span>';
-                }
+                    if (w.mod_neg == 1.0) negPill = '<span class="detail-pill pill-neg">🛡️ Щит</span>';
+                    else if (w.mod_neg == 0) negPill = '<span class="detail-pill pill-neg">💀 ×0</span>';
+                    else if (w.mod_neg == 0.5) negPill = '<span class="detail-pill pill-neg">✂️ ÷2</span>';
+                    else if (w.mod_neg == 0.8) negPill = '<span class="detail-pill pill-neg">🌊 -20%</span>';
+                } else { negPill = '<span class="detail-pill pill-neg-none">—</span>'; }
                 
-                // Финальные км (если изменились)
                 const finalKm = w.final_km !== w.original_km ? ` → <span class="detail-km">${w.final_km} км</span>` : '';
                 
                 detailContent.innerHTML = `
@@ -340,34 +429,51 @@
                         <span class="detail-separator">·</span>
                         <span class="detail-km">${w.original_min} мин</span>
                         <span class="detail-separator">·</span>
-                        ${posPill}
-                        ${negPill}
-                        ${finalKm}
+                        ${posPill} ${negPill} ${finalKm}
                     </div>
                 `;
-                
             } catch (error) {
                 console.error('Ошибка загрузки:', error);
                 detailContent.innerHTML = '<span style="color: #ef4444;">Ошибка загрузки</span>';
             }
         }
 
+        // Обработчики сортировки
         document.querySelectorAll('th[data-sort]').forEach(th => {
             th.addEventListener('click', () => {
                 const field = th.dataset.sort;
-                sortColumn = field === 'place' ? 'total_km' : field;
+                sortColumn = field === 'place' ? 'total_points' : field;
                 sortDirection = (sortColumn === field && sortColumn !== 'place') ? (sortDirection === 'asc' ? 'desc' : 'asc') : (field === 'first_name' ? 'asc' : 'desc');
                 sortAndRender();
             });
         });
 
         document.getElementById('searchInput').addEventListener('input', applyFilters);
-        document.querySelectorAll('.tab').forEach(tab => {
+        
+        // Суб-вкладки (Общий / Мужчины / Женщины)
+        document.querySelectorAll('.sub-tab').forEach(tab => {
             tab.addEventListener('click', () => {
-                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
-                currentTab = tab.dataset.tab;
+                currentFilter = tab.dataset.filter;
                 applyFilters();
+            });
+        });
+        
+        // Главные вкладки (Общий рейтинг / Очки по неделям)
+        document.querySelectorAll('#mainTabs .tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('#mainTabs .tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                currentMainTab = tab.dataset.tab;
+                
+                document.getElementById('tableRating').style.display = currentMainTab === 'rating' ? '' : 'none';
+                document.getElementById('tablePoints').style.display = currentMainTab === 'points' ? '' : 'none';
+                document.getElementById('statsGrid').style.display = currentMainTab === 'rating' ? '' : 'none';
+                
+                sortColumn = 'total_points';
+                sortDirection = 'desc';
+                sortAndRender();
             });
         });
         
