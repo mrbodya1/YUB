@@ -250,66 +250,91 @@
         }
 
         function renderNominationBlock(title, dates, weekNumber, isLive = false) {
-            let maxKm = [], bestDist = [], bestPace = [], mostAbilities = [];
+            let html = '';
+            const genders = [
+                { key: 'М', label: '👨 Мужчины', emoji: '👨' },
+                { key: 'Ж', label: '👩 Женщины', emoji: '👩' }
+            ];
             
-            if (isLive) {
-                const sorted = [...participants].filter(p => p.total_km > 0).sort((a, b) => b.total_km - a.total_km);
-                maxKm = sorted.slice(0, 3).map(p => ({ name: p.first_name + ' ' + p.last_name, value: p.total_km + ' км' }));
-                bestDist = sorted.slice(0, 3).map(p => ({ name: p.first_name + ' ' + p.last_name, value: p.total_km + ' км' }));
-                const byPace = [...participants].filter(p => p.avg_pace > 0).sort((a, b) => a.avg_pace - b.avg_pace);
-                bestPace = byPace.slice(0, 3).map(p => ({ name: p.first_name + ' ' + p.last_name, value: p.avg_pace.toFixed(2) + '/км' }));
-                const byAbilities = [...participants].sort((a, b) => (b.total_workouts || 0) - (a.total_workouts || 0));
-                mostAbilities = byAbilities.slice(0, 3).map(p => ({ name: p.first_name + ' ' + p.last_name, value: (p.total_workouts || 0) + ' трен.' }));
-            } else {
-                const weekScores = weeklyScores.filter(s => s.week_number === weekNumber);
-                const byKm = [...weekScores].sort((a, b) => b.total_points - a.total_points);
-                maxKm = byKm.slice(0, 3).map(s => {
-                    const p = participants.find(pp => pp.id === s.participant_id);
-                    return { name: p ? p.first_name + ' ' + p.last_name : '—', value: s.total_points + ' очк.' };
-                });
-                const withBonus = weekScores.filter(s => s.bonus_longest_km);
-                bestDist = withBonus.slice(0, 3).map(s => {
-                    const p = participants.find(pp => pp.id === s.participant_id);
-                    return { name: p ? p.first_name + ' ' + p.last_name : '—', value: s.total_points + ' очк.' };
-                });
-                if (bestDist.length === 0) bestDist = [{ name: '—', value: '—' }];
-                const withPace = weekScores.filter(s => s.bonus_best_pace);
-                bestPace = withPace.slice(0, 3).map(s => {
-                    const p = participants.find(pp => pp.id === s.participant_id);
-                    return { name: p ? p.first_name + ' ' + p.last_name : '—', value: s.total_points + ' очк.' };
-                });
-                if (bestPace.length === 0) bestPace = [{ name: '—', value: '—' }];
-                const withAbilities = weekScores.filter(s => s.bonus_most_abilities);
-                mostAbilities = withAbilities.slice(0, 3).map(s => {
-                    const p = participants.find(pp => pp.id === s.participant_id);
-                    return { name: p ? p.first_name + ' ' + p.last_name : '—', value: s.total_points + ' очк.' };
-                });
-                if (mostAbilities.length === 0) mostAbilities = [{ name: '—', value: '—' }];
-            }
-            
-            const medals = ['🥇', '🥈', '🥉'];
-            const renderTop3 = (data) => {
-                if (data.length === 0) return '<div class="nomination-winner"><span class="nomination-name">—</span></div>';
-                return data.map((w, i) => `
-                    <div class="nomination-winner">
-                        <span class="nomination-medal">${medals[i] || ''}</span>
-                        <span class="nomination-name">${w.name}</span>
-                        <span class="nomination-value">${w.value}</span>
+            genders.forEach(g => {
+                const genderParticipants = participants.filter(p => p.gender === g.key);
+                
+                let maxKm = [], bestDist = [], bestPace = [], mostAbilities = [];
+                
+                if (isLive) {
+                    const sorted = [...genderParticipants].filter(p => p.total_km > 0).sort((a, b) => b.total_km - a.total_km);
+                    maxKm = sorted.slice(0, 3).map(p => ({ name: p.first_name + ' ' + p.last_name, value: p.total_km + ' км' }));
+                    bestDist = sorted.slice(0, 3).map(p => ({ name: p.first_name + ' ' + p.last_name, value: p.total_km + ' км' }));
+                    const byPace = [...genderParticipants].filter(p => p.avg_pace > 0).sort((a, b) => a.avg_pace - b.avg_pace);
+                    bestPace = byPace.slice(0, 3).map(p => ({ name: p.first_name + ' ' + p.last_name, value: p.avg_pace.toFixed(2) + '/км' }));
+                    const byAbilities = [...genderParticipants].sort((a, b) => (b.total_workouts || 0) - (a.total_workouts || 0));
+                    mostAbilities = byAbilities.slice(0, 3).map(p => ({ name: p.first_name + ' ' + p.last_name, value: (p.total_workouts || 0) + ' трен.' }));
+                } else {
+                    const weekScores = weeklyScores.filter(s => s.week_number === weekNumber);
+                    const genderScores = weekScores.filter(s => {
+                        const p = participants.find(pp => pp.id === s.participant_id);
+                        return p && p.gender === g.key;
+                    });
+                    
+                    const byKm = [...genderScores].sort((a, b) => b.total_points - a.total_points);
+                    maxKm = byKm.slice(0, 3).map(s => {
+                        const p = participants.find(pp => pp.id === s.participant_id);
+                        return { name: p ? p.first_name + ' ' + p.last_name : '—', value: s.total_points + ' очк.' };
+                    });
+                    
+                    const withBonus = genderScores.filter(s => s.bonus_longest_km);
+                    bestDist = withBonus.slice(0, 3).map(s => {
+                        const p = participants.find(pp => pp.id === s.participant_id);
+                        return { name: p ? p.first_name + ' ' + p.last_name : '—', value: s.total_points + ' очк.' };
+                    });
+                    if (bestDist.length === 0) bestDist = [{ name: '—', value: '—' }];
+                    
+                    const withPace = genderScores.filter(s => s.bonus_best_pace);
+                    bestPace = withPace.slice(0, 3).map(s => {
+                        const p = participants.find(pp => pp.id === s.participant_id);
+                        return { name: p ? p.first_name + ' ' + p.last_name : '—', value: s.total_points + ' очк.' };
+                    });
+                    if (bestPace.length === 0) bestPace = [{ name: '—', value: '—' }];
+                    
+                    const withAbilities = genderScores.filter(s => s.bonus_most_abilities);
+                    mostAbilities = withAbilities.slice(0, 3).map(s => {
+                        const p = participants.find(pp => pp.id === s.participant_id);
+                        return { name: p ? p.first_name + ' ' + p.last_name : '—', value: s.total_points + ' очк.' };
+                    });
+                    if (mostAbilities.length === 0) mostAbilities = [{ name: '—', value: '—' }];
+                }
+                
+                const medals = ['🥇', '🥈', '🥉'];
+                const renderTop3 = (data) => {
+                    if (data.length === 0) return '<div class="nomination-winner"><span class="nomination-name">—</span></div>';
+                    return data.map((w, i) => `
+                        <div class="nomination-winner">
+                            <span class="nomination-medal">${medals[i] || ''}</span>
+                            <span class="nomination-name">${w.name}</span>
+                            <span class="nomination-value">${w.value}</span>
+                        </div>
+                        ${i < 2 && data.length > 1 ? '<div class="nomination-divider"></div>' : ''}
+                    `).join('');
+                };
+                
+                html += `
+                    <div class="nominations-section">
+                        <div class="nominations-title">${g.emoji} ${g.label}</div>
+                        <div class="nominations-grid">
+                            <div class="nomination-card"><div class="nomination-label">🏆 Макс. км</div>${renderTop3(maxKm)}</div>
+                            <div class="nomination-card"><div class="nomination-label">📏 Лучшая дист.</div>${renderTop3(bestDist)}</div>
+                            <div class="nomination-card"><div class="nomination-label">⚡ Лучший темп</div>${renderTop3(bestPace)}</div>
+                            <div class="nomination-card"><div class="nomination-label">🎮 Стратег</div>${renderTop3(mostAbilities)}</div>
+                        </div>
                     </div>
-                    ${i < 2 && data.length > 1 ? '<div class="nomination-divider"></div>' : ''}
-                `).join('');
-            };
+                `;
+            });
             
             return `
                 <div class="nominations-section">
                     <div class="nominations-title">${title}</div>
                     <div style="text-align: center; font-size: 0.7rem; color: var(--text-tertiary); margin-bottom: 8px;">📅 ${dates}</div>
-                    <div class="nominations-grid">
-                        <div class="nomination-card"><div class="nomination-label">🏆 Макс. км</div>${renderTop3(maxKm)}</div>
-                        <div class="nomination-card"><div class="nomination-label">📏 Лучшая дист.</div>${renderTop3(bestDist)}</div>
-                        <div class="nomination-card"><div class="nomination-label">⚡ Лучший темп</div>${renderTop3(bestPace)}</div>
-                        <div class="nomination-card"><div class="nomination-label">🎮 Стратег</div>${renderTop3(mostAbilities)}</div>
-                    </div>
+                    ${html}
                 </div>
             `;
         }
