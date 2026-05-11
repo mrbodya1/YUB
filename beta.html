@@ -39,32 +39,34 @@
         .search-box input:focus { outline: none; border-color: var(--primary); }
         .tabs { display: flex; gap: 4px; margin-bottom: 12px; border-bottom: 2px solid var(--border-light); }
         .tab {
-            flex: 1; padding: 8px 0; font-size: 0.9rem; font-weight: 600; color: var(--text-tertiary);
+            flex: 1; padding: 8px 0; font-size: 0.85rem; font-weight: 600; color: var(--text-tertiary);
             background: transparent; border: none; cursor: pointer; transition: all 0.2s;
             border-radius: var(--radius-sm) var(--radius-sm) 0 0; text-align: center;
         }
         .tab:hover { background: var(--bg-secondary); color: var(--text-primary); }
         .tab.active { color: var(--primary-dark); border-bottom: 3px solid var(--primary); margin-bottom: -2px; }
-
-        .nominations-section { margin-bottom: 20px; }
-        .nominations-title { font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin-bottom: 10px; text-align: center; }
-        .nominations-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
-        .nomination-card { background: var(--bg-secondary); border-radius: var(--radius-sm); padding: 8px 6px; text-align: center; border: 1px solid var(--border-light); }
-        .nomination-emoji { font-size: 1rem; margin-bottom: 2px; }
-        .nomination-label { font-size: 0.6rem; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 6px; }
-        .nomination-winner { display: flex; align-items: center; justify-content: center; gap: 3px; padding: 2px 0; font-size: 0.7rem; }
-        .nomination-medal { font-size: 0.8rem; }
-        .nomination-name { font-weight: 500; color: var(--text-primary); }
-        .nomination-value { font-size: 0.68rem; color: var(--text-secondary); margin-left: 4px; }
-        .nomination-divider { border-top: 1px solid var(--border-light); margin: 4px 0; }
+        .sub-tabs { display: flex; gap: 4px; margin-bottom: 16px; }
+        .sub-tab {
+            flex: 1; padding: 6px 10px; font-size: 0.8rem; font-weight: 500; color: var(--text-tertiary);
+            background: var(--bg-secondary); border: 1px solid var(--border-light); cursor: pointer;
+            border-radius: var(--radius-sm); text-align: center; transition: all 0.2s;
+        }
+        .sub-tab:hover { background: var(--bg-tertiary); }
+        .sub-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
 
         .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
-        .stat-card { background: var(--primary-light); border-radius: var(--radius-sm); padding: 8px 6px; text-align: center; border: 1px solid var(--primary); }
+        .stat-card {
+            background: var(--primary-light); border-radius: var(--radius-sm); padding: 8px 6px;
+            text-align: center; border: 1px solid var(--primary);
+        }
         .stat-value { font-size: 1.3rem; font-weight: 800; color: var(--primary-dark); line-height: 1.2; }
         .stat-label { font-size: 0.65rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.3px; }
         .table-wrapper { overflow-x: auto; margin-bottom: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-light); }
         table { width: auto; min-width: 100%; border-collapse: collapse; font-size: 0.78rem; white-space: nowrap; }
-        th { background: var(--primary); color: white; padding: 8px 5px; text-align: center; font-weight: 600; cursor: pointer; user-select: none; transition: background 0.2s; }
+        th {
+            background: var(--primary); color: white; padding: 8px 5px; text-align: center;
+            font-weight: 600; cursor: pointer; user-select: none; transition: background 0.2s;
+        }
         th:first-child, th:nth-child(2) { text-align: left; }
         th:hover { background: var(--primary-dark); }
         th.sort-asc::after { content: ' ▲'; font-size: 0.6rem; opacity: 0.8; }
@@ -75,10 +77,16 @@
         .footer { text-align: center; padding-top: 16px; border-top: 1px solid var(--border-light); color: var(--text-tertiary); font-size: 0.8rem; }
         .footer a { color: var(--primary-dark); text-decoration: none; font-weight: 500; margin: 0 6px; }
         .loading { text-align: center; padding: 40px 20px; color: var(--text-tertiary); font-size: 1rem; }
-        .loading::after { content: ''; display: inline-block; width: 16px; height: 16px; margin-left: 8px; border: 2px solid var(--border-light); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; vertical-align: middle; }
+        .loading::after {
+            content: ''; display: inline-block; width: 16px; height: 16px; margin-left: 8px;
+            border: 2px solid var(--border-light); border-top-color: var(--primary);
+            border-radius: 50%; animation: spin 1s linear infinite; vertical-align: middle;
+        }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .points-week { font-weight: 500; color: var(--text-secondary); }
         .points-total { font-weight: 700; color: var(--primary-dark); }
+        .bonus-text { font-size: 0.7rem; color: var(--text-secondary); }
+        .bonus-empty { color: var(--text-tertiary); font-size: 0.7rem; }
+        .week-total { font-weight: 600; }
 
         .clickable-row { cursor: pointer; transition: background 0.15s; }
         .clickable-row:hover { background: var(--primary-light); }
@@ -93,10 +101,6 @@
         .pill-pos-none { background: #f1f5f9; color: #94a3b8; }
         .pill-neg { background: #fee2e2; color: #991b1b; }
         .pill-neg-none { background: #f1f5f9; color: #94a3b8; }
-
-        @media (max-width: 500px) {
-            .nominations-grid { grid-template-columns: repeat(2, 1fr); }
-        }
     </style>
 </head>
 <body>
@@ -104,25 +108,31 @@
         <h1>🏆 РЕЙТИНГ</h1>
         <div class="subtitle">Королевская Битва • 4 мая — 24 мая 2026</div>
         
-        <div id="nominationsContainer"></div>
+        <!-- Вкладки: Общий рейтинг / Очки по неделям -->
+        <div class="tabs" id="mainTabs">
+            <button class="tab active" data-tab="rating">📊 Общий рейтинг</button>
+            <button class="tab" data-tab="points">📋 Очки по неделям</button>
+        </div>
         
-        <div class="tabs">
-            <button class="tab active" data-tab="overall">🏔️ Общий</button>
-            <button class="tab" data-tab="men">👨 Мужчины</button>
-            <button class="tab" data-tab="women">👩 Женщины</button>
+        <!-- Суб-вкладки для фильтрации -->
+        <div class="sub-tabs">
+            <button class="sub-tab active" data-filter="overall">🏔️ Общий</button>
+            <button class="sub-tab" data-filter="men">👨 Мужчины</button>
+            <button class="sub-tab" data-filter="women">👩 Женщины</button>
         </div>
         
         <div class="filters">
             <div class="search-box"><input type="text" id="searchInput" placeholder="🔍 Поиск по имени..."></div>
         </div>
         
-        <div class="stats-grid">
+        <div class="stats-grid" id="statsGrid">
             <div class="stat-card"><div class="stat-value" id="totalParticipants">0</div><div class="stat-label">Участников</div></div>
             <div class="stat-card"><div class="stat-value" id="totalKm">0</div><div class="stat-label">Всего ориг. км</div></div>
             <div class="stat-card"><div class="stat-value" id="totalWorkouts">0</div><div class="stat-label">Тренировок</div></div>
         </div>
         
-        <div class="table-wrapper">
+        <!-- Таблица общего рейтинга -->
+        <div class="table-wrapper" id="tableRating">
             <table>
                 <thead>
                     <tr>
@@ -133,14 +143,39 @@
                         <th data-sort="total_workouts">Трен</th>
                         <th data-sort="avg_pace">Темп</th>
                         <th data-sort="snowflake_balance">🌼</th>
-                        <th data-sort="week1_points">Н1</th>
-                        <th data-sort="week2_points">Н2</th>
-                        <th data-sort="week3_points">Н3</th>
                         <th data-sort="total_points">Очки</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody">
-                    <tr><td colspan="11" class="loading">Загрузка...</td></tr>
+                <tbody id="tableBodyRating">
+                    <tr><td colspan="8" class="loading">Загрузка...</td></tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Таблица очков по неделям (скрыта по умолчанию) -->
+        <div class="table-wrapper" id="tablePoints" style="display: none;">
+            <table>
+                <thead>
+                    <tr>
+                        <th data-sort="place">#</th>
+                        <th data-sort="first_name">Участник</th>
+                        <th data-sort="total_points">Всего</th>
+                        <th data-sort="w1_place">Н1 Место</th>
+                        <th data-sort="w1_points">Н1 Очки</th>
+                        <th data-sort="w1_bonuses">Н1 Бонусы</th>
+                        <th data-sort="w1_total">Н1 Итог</th>
+                        <th data-sort="w2_place">Н2 Место</th>
+                        <th data-sort="w2_points">Н2 Очки</th>
+                        <th data-sort="w2_bonuses">Н2 Бонусы</th>
+                        <th data-sort="w2_total">Н2 Итог</th>
+                        <th data-sort="w3_place">Н3 Место</th>
+                        <th data-sort="w3_points">Н3 Очки</th>
+                        <th data-sort="w3_bonuses">Н3 Бонусы</th>
+                        <th data-sort="w3_total">Н3 Итог</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBodyPoints">
+                    <tr><td colspan="15" class="loading">Загрузка...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -162,164 +197,90 @@
         let filteredParticipants = [];
         let sortColumn = 'total_points';
         let sortDirection = 'desc';
-        let currentTab = 'overall';
-        let currentWeekNumber = 1;
+        let currentFilter = 'overall';
+        let currentMainTab = 'rating';
 
         const CHALLENGE_START = new Date(2026, 4, 4);
 
-        function getWeekDates(weekNumber) {
-            const start = new Date(CHALLENGE_START);
-            start.setDate(start.getDate() + (weekNumber - 1) * 7);
-            const end = new Date(start);
-            end.setDate(end.getDate() + 6);
-            return {
-                start: start.toISOString().split('T')[0],
-                end: end.toISOString().split('T')[0],
-                label: `${start.getDate()}.${String(start.getMonth() + 1).padStart(2, '0')} — ${end.getDate()}.${String(end.getMonth() + 1).padStart(2, '0')}`
-            };
-        }
-
-        function getCurrentWeekNumber() {
-            const now = new Date();
-            const diff = Math.floor((now - CHALLENGE_START) / (7 * 24 * 60 * 60 * 1000)) + 1;
-            return Math.max(1, Math.min(3, diff));
-        }
-
         async function loadData() {
             try {
-                currentWeekNumber = getCurrentWeekNumber();
+                const { data: participantsData, error: participantsError } = await supabaseClient
+                    .from('participants').select('*').eq('status', 'active');
+                if (participantsError) throw participantsError;
+                participants = participantsData || [];
                 
-                // ОДИН запрос вместо трёх!
-                const { data: ratingData, error: ratingError } = await supabaseClient
-                    .from('rating_view')
-                    .select('*');
-                
-                if (ratingError) throw ratingError;
-                participants = ratingData || [];
-                
-                // weekly_scores всё ещё нужен для номинаций
                 const { data: scoresData, error: scoresError } = await supabaseClient
                     .from('weekly_scores').select('*');
                 if (scoresError) throw scoresError;
                 weeklyScores = scoresData || [];
                 
-                renderNominations();
+                const { data: workoutsData } = await supabaseClient
+                    .from('workouts').select('participant_id, original_km, original_min, final_km').eq('status', 'accepted');
+                
+                const totalsByParticipant = {};
+                workoutsData?.forEach(w => {
+                    if (!totalsByParticipant[w.participant_id]) totalsByParticipant[w.participant_id] = { orig: 0, final: 0, min: 0 };
+                    totalsByParticipant[w.participant_id].orig += w.original_km || 0;
+                    totalsByParticipant[w.participant_id].final += w.final_km || 0;
+                    totalsByParticipant[w.participant_id].min += w.original_min || 0;
+                });
+                
+                participants.forEach(p => {
+                    const t = totalsByParticipant[p.id] || { orig: 0, final: 0, min: 0 };
+                    p.total_km = t.orig;
+                    p.final_km = t.final;
+                    p.avg_pace = t.orig > 0 ? t.min / t.orig : 0;
+                    
+                    const scores = weeklyScores.filter(s => s.participant_id === p.id);
+                    const w1 = scores.find(s => s.week_number === 1) || {};
+                    const w2 = scores.find(s => s.week_number === 2) || {};
+                    const w3 = scores.find(s => s.week_number === 3) || {};
+                    
+                    p.week1_points = w1.total_points || 0;
+                    p.week2_points = w2.total_points || 0;
+                    p.week3_points = w3.total_points || 0;
+                    p.total_points = p.week1_points + p.week2_points + p.week3_points;
+                    
+                    // Данные для вкладки "Очки по неделям"
+                    p.w1_place = w1.km_place || 0;
+                    p.w1_km_points = w1.km_points || 0;
+                    p.w1_total = w1.total_points || 0;
+                    p.w2_place = w2.km_place || 0;
+                    p.w2_km_points = w2.km_points || 0;
+                    p.w2_total = w2.total_points || 0;
+                    p.w3_place = w3.km_place || 0;
+                    p.w3_km_points = w3.km_points || 0;
+                    p.w3_total = w3.total_points || 0;
+                    
+                    // Бонусы в читаемом виде
+                    p.w1_bonuses = formatBonuses(w1);
+                    p.w2_bonuses = formatBonuses(w2);
+                    p.w3_bonuses = formatBonuses(w3);
+                });
+                
                 applyFilters();
             } catch (error) {
                 console.error('Ошибка загрузки:', error);
-                document.getElementById('tableBody').innerHTML = '<tr><td colspan="11" style="text-align: center; padding: 40px;">Ошибка загрузки данных</td></tr>';
+                document.getElementById('tableBodyRating').innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 40px;">Ошибка загрузки данных</td></tr>';
+                document.getElementById('tableBodyPoints').innerHTML = '<tr><td colspan="15" style="text-align: center; padding: 40px;">Ошибка загрузки данных</td></tr>';
             }
         }
 
-        function renderNominations() {
-            const container = document.getElementById('nominationsContainer');
-            const pastWeek = currentWeekNumber - 1;
-            const currentWeek = currentWeekNumber;
-            let html = '';
-            if (pastWeek >= 1) {
-                const pastDates = getWeekDates(pastWeek);
-                html += renderNominationBlock(`🏆 Номинации недели ${pastWeek} (завершена)`, pastDates.label, pastWeek);
-            }
-            const currentDates = getWeekDates(currentWeek);
-            html += renderNominationBlock(`🔥 Текущая неделя ${currentWeek} (промежуточные)`, currentDates.label, currentWeek, true);
-            container.innerHTML = html;
-        }
-
-        function renderNominationBlock(title, dates, weekNumber, isLive = false) {
-            let html = '';
-            const genders = [
-                { key: 'М', label: '👨 Мужчины', emoji: '👨' },
-                { key: 'Ж', label: '👩 Женщины', emoji: '👩' }
-            ];
-            
-            genders.forEach(g => {
-                const genderParticipants = participants.filter(p => p.gender === g.key);
-                
-                let maxKm = [], bestDist = [], bestPace = [], mostAbilities = [];
-                
-                if (isLive) {
-                    const sorted = [...genderParticipants].filter(p => p.total_km > 0).sort((a, b) => b.total_km - a.total_km);
-                    maxKm = sorted.slice(0, 3).map(p => ({ name: p.first_name + ' ' + p.last_name, value: p.total_km + ' км' }));
-                    bestDist = sorted.slice(0, 3).map(p => ({ name: p.first_name + ' ' + p.last_name, value: p.total_km + ' км' }));
-                    const byPace = [...genderParticipants].filter(p => p.avg_pace > 0).sort((a, b) => a.avg_pace - b.avg_pace);
-                    bestPace = byPace.slice(0, 3).map(p => ({ name: p.first_name + ' ' + p.last_name, value: p.avg_pace.toFixed(2) + '/км' }));
-                    const byAbilities = [...genderParticipants].sort((a, b) => (b.total_workouts || 0) - (a.total_workouts || 0));
-                    mostAbilities = byAbilities.slice(0, 3).map(p => ({ name: p.first_name + ' ' + p.last_name, value: (p.total_workouts || 0) + ' трен.' }));
-                } else {
-                    const weekScores = weeklyScores.filter(s => s.week_number === weekNumber);
-                    const genderScores = weekScores.filter(s => {
-                        const p = participants.find(pp => pp.id === s.participant_id);
-                        return p && p.gender === g.key;
-                    });
-                    
-                    const byKm = [...genderScores].sort((a, b) => b.total_points - a.total_points);
-                    maxKm = byKm.slice(0, 3).map(s => {
-                        const p = participants.find(pp => pp.id === s.participant_id);
-                        return { name: p ? p.first_name + ' ' + p.last_name : '—', value: s.total_points + ' очк.' };
-                    });
-                    
-                    const withBonus = genderScores.filter(s => s.bonus_longest_km);
-                    bestDist = withBonus.slice(0, 3).map(s => {
-                        const p = participants.find(pp => pp.id === s.participant_id);
-                        return { name: p ? p.first_name + ' ' + p.last_name : '—', value: s.total_points + ' очк.' };
-                    });
-                    if (bestDist.length === 0) bestDist = [{ name: '—', value: '—' }];
-                    
-                    const withPace = genderScores.filter(s => s.bonus_best_pace);
-                    bestPace = withPace.slice(0, 3).map(s => {
-                        const p = participants.find(pp => pp.id === s.participant_id);
-                        return { name: p ? p.first_name + ' ' + p.last_name : '—', value: s.total_points + ' очк.' };
-                    });
-                    if (bestPace.length === 0) bestPace = [{ name: '—', value: '—' }];
-                    
-                    const withAbilities = genderScores.filter(s => s.bonus_most_abilities);
-                    mostAbilities = withAbilities.slice(0, 3).map(s => {
-                        const p = participants.find(pp => pp.id === s.participant_id);
-                        return { name: p ? p.first_name + ' ' + p.last_name : '—', value: s.total_points + ' очк.' };
-                    });
-                    if (mostAbilities.length === 0) mostAbilities = [{ name: '—', value: '—' }];
-                }
-                
-                const medals = ['🥇', '🥈', '🥉'];
-                const renderTop3 = (data) => {
-                    if (data.length === 0) return '<div class="nomination-winner"><span class="nomination-name">—</span></div>';
-                    return data.map((w, i) => `
-                        <div class="nomination-winner">
-                            <span class="nomination-medal">${medals[i] || ''}</span>
-                            <span class="nomination-name">${w.name}</span>
-                            <span class="nomination-value">${w.value}</span>
-                        </div>
-                        ${i < 2 && data.length > 1 ? '<div class="nomination-divider"></div>' : ''}
-                    `).join('');
-                };
-                
-                html += `
-                    <div class="nominations-section">
-                        <div class="nominations-title">${g.emoji} ${g.label}</div>
-                        <div class="nominations-grid">
-                            <div class="nomination-card"><div class="nomination-label">🏆 Макс. км</div>${renderTop3(maxKm)}</div>
-                            <div class="nomination-card"><div class="nomination-label">📏 Лучшая дист.</div>${renderTop3(bestDist)}</div>
-                            <div class="nomination-card"><div class="nomination-label">⚡ Лучший темп</div>${renderTop3(bestPace)}</div>
-                            <div class="nomination-card"><div class="nomination-label">🎮 Стратег</div>${renderTop3(mostAbilities)}</div>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            return `
-                <div class="nominations-section">
-                    <div class="nominations-title">${title}</div>
-                    <div style="text-align: center; font-size: 0.7rem; color: var(--text-tertiary); margin-bottom: 8px;">📅 ${dates}</div>
-                    ${html}
-                </div>
-            `;
+        function formatBonuses(weekData) {
+            if (!weekData) return '<span class="bonus-empty">—</span>';
+            const parts = [];
+            if (weekData.bonus_max_km) parts.push('🏆10');
+            if (weekData.bonus_longest_km) parts.push('📏10');
+            if (weekData.bonus_best_pace) parts.push('⚡10');
+            if (weekData.bonus_most_abilities) parts.push('🎮10');
+            return parts.length > 0 ? `<span class="bonus-text">${parts.join(' ')}</span>` : '<span class="bonus-empty">—</span>';
         }
 
         function applyFilters() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             filteredParticipants = participants.filter(p => {
-                if (currentTab === 'men' && p.gender !== 'М') return false;
-                if (currentTab === 'women' && p.gender !== 'Ж') return false;
+                if (currentFilter === 'men' && p.gender !== 'М') return false;
+                if (currentFilter === 'women' && p.gender !== 'Ж') return false;
                 return true;
             });
             if (searchTerm) {
@@ -339,19 +300,22 @@
         function sortAndRender() {
             filteredParticipants.sort((a, b) => {
                 let aVal = a[sortColumn], bVal = b[sortColumn];
-                if (['total_km','final_km','total_workouts','avg_pace','snowflake_balance','total_points','week1_points','week2_points','week3_points'].includes(sortColumn)) {
+                if (['total_km','final_km','total_workouts','avg_pace','snowflake_balance','total_points',
+                     'w1_place','w1_points','w1_total','w2_place','w2_points','w2_total','w3_place','w3_points','w3_total'].includes(sortColumn)) {
                     aVal = parseFloat(aVal) || 0; bVal = parseFloat(bVal) || 0;
                 } else if (sortColumn === 'place') { return 0; }
                 else { aVal = String(aVal || '').toLowerCase(); bVal = String(bVal || '').toLowerCase(); }
                 return sortDirection === 'asc' ? (aVal > bVal ? 1 : aVal < bVal ? -1 : 0) : (aVal < bVal ? 1 : aVal > bVal ? -1 : 0);
             });
-            renderTable();
+            
+            if (currentMainTab === 'rating') renderRatingTable();
+            else renderPointsTable();
         }
 
-        function renderTable() {
-            const tbody = document.getElementById('tableBody');
+        function renderRatingTable() {
+            const tbody = document.getElementById('tableBodyRating');
             if (filteredParticipants.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="11" style="text-align: center; padding: 40px;">Участники не найдены</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 40px;">Участники не найдены</td></tr>';
                 return;
             }
             tbody.innerHTML = filteredParticipants.map((p, index) => {
@@ -366,19 +330,57 @@
                         <td>${p.total_workouts || 0}</td>
                         <td>${pace}</td>
                         <td>${p.snowflake_balance || 0}</td>
-                        <td class="points-week">${p.week1_points || 0}</td>
-                        <td class="points-week">${p.week2_points || 0}</td>
-                        <td class="points-week">${p.week3_points || 0}</td>
                         <td class="points-total">${p.total_points || 0}</td>
                     </tr>
                     <tr class="detail-row" id="detail-${p.id}" style="display: none;">
-                        <td colspan="11">
+                        <td colspan="8">
                             <div id="detail-content-${p.id}"><span style="color: var(--text-tertiary);">Загрузка...</span></div>
                         </td>
                     </tr>
                 `;
             }).join('');
-            
+            updateSortIndicators();
+        }
+
+        function renderPointsTable() {
+            const tbody = document.getElementById('tableBodyPoints');
+            if (filteredParticipants.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="15" style="text-align: center; padding: 40px;">Участники не найдены</td></tr>';
+                return;
+            }
+            tbody.innerHTML = filteredParticipants.map((p, index) => {
+                const place = index + 1;
+                const formatPlace = (placeNum) => {
+                    if (!placeNum) return '—';
+                    if (placeNum == 1) return '🥇1';
+                    if (placeNum == 2) return '🥈2';
+                    if (placeNum == 3) return '🥉3';
+                    return placeNum;
+                };
+                return `
+                    <tr>
+                        <td style="font-weight: 600;">${place}</td>
+                        <td>${p.first_name} ${p.last_name}</td>
+                        <td class="points-total">${p.total_points || 0}</td>
+                        <td>${formatPlace(p.w1_place)}</td>
+                        <td>${p.w1_km_points || 0}</td>
+                        <td>${p.w1_bonuses}</td>
+                        <td class="week-total">${p.w1_total || '—'}</td>
+                        <td>${formatPlace(p.w2_place)}</td>
+                        <td>${p.w2_km_points || 0}</td>
+                        <td>${p.w2_bonuses}</td>
+                        <td class="week-total">${p.w2_total || '—'}</td>
+                        <td>${formatPlace(p.w3_place)}</td>
+                        <td>${p.w3_km_points || 0}</td>
+                        <td>${p.w3_bonuses}</td>
+                        <td class="week-total">${p.w3_total || '—'}</td>
+                    </tr>
+                `;
+            }).join('');
+            updateSortIndicators();
+        }
+
+        function updateSortIndicators() {
             document.querySelectorAll('th[data-sort]').forEach(th => {
                 th.classList.remove('sort-asc', 'sort-desc');
                 if (th.dataset.sort === sortColumn) th.classList.add(sortDirection === 'asc' ? 'sort-asc' : 'sort-desc');
@@ -436,6 +438,7 @@
             }
         }
 
+        // Обработчики сортировки
         document.querySelectorAll('th[data-sort]').forEach(th => {
             th.addEventListener('click', () => {
                 const field = th.dataset.sort;
@@ -446,10 +449,31 @@
         });
 
         document.getElementById('searchInput').addEventListener('input', applyFilters);
-        document.querySelectorAll('.tab').forEach(tab => {
+        
+        // Суб-вкладки (Общий / Мужчины / Женщины)
+        document.querySelectorAll('.sub-tab').forEach(tab => {
             tab.addEventListener('click', () => {
-                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                tab.classList.add('active'); currentTab = tab.dataset.tab; applyFilters();
+                document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                currentFilter = tab.dataset.filter;
+                applyFilters();
+            });
+        });
+        
+        // Главные вкладки (Общий рейтинг / Очки по неделям)
+        document.querySelectorAll('#mainTabs .tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('#mainTabs .tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                currentMainTab = tab.dataset.tab;
+                
+                document.getElementById('tableRating').style.display = currentMainTab === 'rating' ? '' : 'none';
+                document.getElementById('tablePoints').style.display = currentMainTab === 'points' ? '' : 'none';
+                document.getElementById('statsGrid').style.display = currentMainTab === 'rating' ? '' : 'none';
+                
+                sortColumn = 'total_points';
+                sortDirection = 'desc';
+                sortAndRender();
             });
         });
         
